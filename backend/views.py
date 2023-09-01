@@ -13,7 +13,7 @@ def index(request):
 
 
 @csrf_exempt
-def uploadFile(request):
+def uploadFile(request, UploadType):
     """
     This method is used for uploading files
     @args: None
@@ -21,20 +21,25 @@ def uploadFile(request):
     """
     try:
         if request.method == 'POST':
-            shutil.rmtree("uploads")
+            if 'uploaded' not in request.session:
+                if os.path.exists("uploads"):
+                    shutil.rmtree("uploads")
             files = request.FILES.getlist('file')
-            if not os.path.exists('uploads'):
-                os.mkdir('uploads')
+            if len(files) < 1:
+                return HttpResponse('No files uploaded')
+            if not os.path.exists(os.path.join('uploads', UploadType)):
+                os.makedirs(os.path.join('uploads', UploadType))
             for f in files:
-                with default_storage.open(f'uploads/{f.name}', 'wb+') as destination:
+                with default_storage.open(os.path.join('uploads', UploadType, f'{f.name}'), 'wb+') as destination:
                     for chunk in f.chunks():
                         destination.write(chunk)
-        return HttpResponse('File Uploaded')
+            request.session['uploaded'] = True
+            return HttpResponse('File Uploaded')
     except Exception as e:
         return HttpResponse(str(e))
 
 
-def getData(request):
+def getData(request, DownoladType):
     """
     This method is get data from uploaded files.
     @args: None
@@ -42,11 +47,14 @@ def getData(request):
     """
     try:
         if request.method == 'GET':
-            files = os.listdir('uploads')
+            files = os.listdir(os.path.join('uploads', DownoladType))
             res = []
             for file in files:
-                df = pd.read_csv(os.path.join('uploads', file))
-                res.append({'name': file, 'data': df.to_json(orient='records')})
+                df = pd.read_csv(os.path.join('uploads', DownoladType, file))
+                temp = []
+                for col in df.columns[1:]:
+                    temp.append({'name': col, 'data': list(df.loc[:, col].values), 'label': list(df.loc[:, 'Month'].values)})
+                res.append({'name': file, 'data': temp})
             return HttpResponse(json.dumps({'result': res}), content_type="application/json")
     except Exception as e:
         return HttpResponse(str(e))
