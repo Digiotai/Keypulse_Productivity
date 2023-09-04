@@ -28,8 +28,8 @@ export const InnerProductivity = () => {
     const fetchData = async () => {
         try {
             await axios.get("http://localhost:8000/productivity/getData").then((response) => {
-                   const data = JSON.parse(response?.data?.replace(/\bNaN\b/g, "null"));
-                // const data = response?.data
+                //    const data = JSON.parse(response?.data?.replace(/\bNaN\b/g, "null"));
+                const data = response?.data
                 // console.log(JSON.parse(data))
                 setApiData(data.result);
             });
