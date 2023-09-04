@@ -2,10 +2,11 @@ import { ApexChart } from "../../components/ApexBarChart"
 import { options1, series1, options2, series2, dounut1, options3, series3, dounut2, seriesplantation, optionsplantation, data } from "./data"
 import PieChart from "../../components/PieChart"
 import { LineChart } from "../../components/LineChart"
-import { useState } from "react"
+import { useState, useEffect, useRef } from "react"
 import { getTitle, getData } from "../../utils"
 import { RxDotFilled } from 'react-icons/rx'
-
+import { altEnergyData, co2Data, energyData, namesSusSort, plantationData, wasteData, waterData } from "./apiData"
+import axios from 'axios'
 export const Sustainability = () => {
     const [show, setShow] = useState(false)
     const [show1, setShow1] = useState(false)
@@ -25,10 +26,78 @@ export const Sustainability = () => {
     const [hover3, setHover3] = useState("")
     const [hover4, setHover4] = useState("")
     const [hover5, setHover5] = useState("")
-    return (
-        <div className="bg-white">
-            <div className="row gx-1">
-                <div className="col-4">
+    const [apidata, setApiData] = useState([])
+
+    const fetchData = async () => {
+        try {
+            await axios.get("http://localhost:8000/sustainablity/getData").then((response) => {
+                // console.log(response.data)
+                // const data = JSON.parse(response?.data)
+                // const data = response?.data
+                // console.log(JSON.parse(data))
+                setApiData(response?.data.result);
+            });
+        } catch (err) {
+            console.log(err)
+        }
+    }
+
+    useEffect(() => {
+        fetchData()
+    }, [])
+
+
+
+
+    const fileInputRef = useRef(null); // Explicit type
+    const [file, setFile] = useState([])
+
+    const handleFileChange = (event) => {
+        // const selectedFile = event.target.files;
+        handleUpload(event.target.files)
+        // setFile(selectedFile)
+    };
+    const handleButtonClick = () => {
+        if (fileInputRef.current) {
+            fileInputRef.current.click();
+        }
+    };
+
+    const handleUpload = async (data) => {
+        var formData = new FormData();
+        const finalData = []
+        for (let i = 0; i < data.length; i++) {
+            finalData.push(data[i])
+        }
+        const uploadData = []
+        namesSusSort.map(sortingObj => {
+            finalData.filter((item) => {
+                if (item.name == sortingObj.file) {
+                    uploadData.push(item)
+                }
+            })
+        });
+
+        for (let i = 0; i < uploadData.length; i++) {
+            formData.append('file', uploadData[i]);
+        }
+        try {
+            await axios.post("http://localhost:8000/sustainablity/FileUpload", formData)
+                .then((response) => {
+                    fetchData()
+                });
+        } catch (err) {
+            console.log(err)
+        }
+    }
+
+
+
+
+    const handleGetData = (name, data5) => {
+        switch (name) {
+            case 'kpEnergy.csv':
+                return <div className="col-4">
                     <div style={{ border: '1px solid #E6E6E6', padding: '2px', margin: '5px 0px 5px 5px' }}>
                         <div className="d-flex justify-content-between">
                             <h6 style={{ fontFamily: "poppins", fontWeight: 500, fontSize: '18px', fontWeight: 600, display: 'flex', justifyContent: "start" }}>Energy {" (KWH)"}</h6>
@@ -64,11 +133,12 @@ export const Sustainability = () => {
                             </div>
                         </div>
                         <div style={{ minHeight: "265px", maxHeight: "265px", width: "100%" }}>
-                        <ApexChart series={series1} options={options1} height={"250px"} width={"100%"} />
+                            <ApexChart series={energyData(data5)} options={options1} height={"250px"} width={"100%"} />
                         </div>
                     </div>
                 </div>
-                <div className="col-4">
+            case 'kpWaste.csv':
+                return <div className="col-4">
                     <div style={{ border: '1px solid #E6E6E6', padding: '2px', margin: '5px 0px 5px 5px' }}>
                         <div className="d-flex justify-content-between">
                             <h6 style={{ fontFamily: "poppins", fontWeight: 500, fontSize: '18px', fontWeight: 600, display: 'flex', justifyContent: "start" }}>Waste {"(Tons)"}</h6>
@@ -104,11 +174,12 @@ export const Sustainability = () => {
                             </div>
                         </div>
                         <div style={{ minHeight: "265px", maxHeight: "265px", width: "100%" }}>
-                            <ApexChart series={series2} options={options2} height={"250px"} width={"100%"} />
+                            <ApexChart series={wasteData(data5)} options={options2} height={"250px"} width={"100%"} />
                         </div>
                     </div>
                 </div>
-                <div className="col-4">
+            case 'kpPlantation.csv':
+                return <div className="col-4">
                     <div style={{ border: '1px solid #E6E6E6', padding: '2px', margin: '5px 0px 5px 5px' }}>
                         <div className="d-flex justify-content-between">
                             <h6 style={{ fontFamily: "poppins", fontWeight: 500, fontSize: '18px', fontWeight: 600, display: 'flex', justifyContent: "start" }}>Plantation</h6>
@@ -144,13 +215,12 @@ export const Sustainability = () => {
                             </div>
                         </div>
                         <div style={{ minHeight: "265px", maxHeight: "265px", width: "100%" }}>
-                            <ApexChart series={seriesplantation} options={optionsplantation} height={"250px"} width={"100%"} />
+                            <ApexChart series={plantationData(data5)} options={optionsplantation} height={"250px"} width={"100%"} />
                         </div>
                     </div>
                 </div>
-            </div>
-            <div className="row gx-1">
-                <div className="col-4">
+            case 'kpWater.csv':
+                return <div className="col-4">
                     <div style={{ border: '1px solid #E6E6E6', padding: '2px', margin: '5px 0px 5px 5px' }}>
                         <div className="d-flex justify-content-between">
                             <h6 style={{ fontFamily: "poppins", fontWeight: 500, fontSize: '18px', fontWeight: 600, display: 'flex', justifyContent: "start" }}>Water {" (Kilolitres)"}</h6>
@@ -186,11 +256,12 @@ export const Sustainability = () => {
                             </div>
                         </div>
                         <div style={{ minHeight: "265px", maxHeight: "265px", width: "100%" }}>
-                            <ApexChart series={series3} options={options3} height={"250px"} width={"100%"} />
+                            <ApexChart series={waterData(data5)} options={options3} height={"250px"} width={"100%"} />
                         </div>
                     </div>
                 </div>
-                <div className="col-4">
+            case 'kpAltEnergy.csv':
+                return <div className="col-4">
                     <div style={{ border: '1px solid #E6E6E6', padding: '2px', margin: '5px 0px 5px 5px' }}>
                         <div className="d-flex justify-content-between">
                             <h6 style={{ fontFamily: "poppins", fontWeight: 500, fontSize: '18px', fontWeight: 600, display: 'flex', justifyContent: "start" }}>Alternate Energy</h6>
@@ -226,11 +297,12 @@ export const Sustainability = () => {
                             </div>
                         </div>
                         <div style={{ minHeight: "265px", maxHeight: "260px", width: "100%" }}>
-                            <PieChart options={dounut1} width={"100%"} height={"280px"} />
+                            <PieChart options={dounut1} series={altEnergyData(data5)} width={"100%"} height={"280px"} />
                         </div>
                     </div>
                 </div>
-                <div className="col-4">
+            case 'kpco2.csv':
+                return <div className="col-4">
                     <div style={{ border: '1px solid #E6E6E6', padding: '2px', margin: '5px 0px 5px 5px' }}>
                         <div className="d-flex justify-content-between">
                             <h6 style={{ fontFamily: "poppins", fontWeight: 500, fontSize: '18px', fontWeight: 600, display: 'flex', justifyContent: "start" }}>CO2 Emission</h6>
@@ -266,10 +338,93 @@ export const Sustainability = () => {
                             </div>
                         </div>
                         <div style={{ minHeight: "265px", maxHeight: "265px", width: "100%" }}>
-                            <LineChart height={"260px"} width={"100%"} />
+                            <LineChart height={"260px"} width={"100%"} data={co2Data(data5)}/>
                         </div>
                     </div>
                 </div>
+        }
+    }
+
+
+
+
+
+
+
+    return (
+        <div className="row ms-1">
+            <div
+                item
+                style={{
+                    display: 'flex',
+                    // padding: '12px 32px',
+                    justifyContent: 'end',
+                    alignItems: 'center',
+                    // gap: '8px',
+                    alignSelf: 'stretch',
+                    marginRight: '10px',
+                    marginTop: '5px'
+                }}
+            >
+                <button
+                    className="btn btn-primary"
+                    lineHeight={'24px'}
+                    height={'44px'}
+                    // startIcon={<image src={upload} />}
+                    children={'Upload CSV File'}
+                    onClick={() => handleButtonClick()}
+                />{' '}
+                <input
+                    type="file"
+                    ref={fileInputRef}
+                    style={{ display: 'none' }}
+                    onChange={handleFileChange}
+                    multiple={true}
+                    accept="*"
+                />
+            </div>
+            <div className="row gx-1 gy-1 p-2 pt-0">
+                {apidata?.map((item) => {
+                    if (item.name == "kpEnergy.csv") {
+                        console.log(item)
+                        return handleGetData(item.name, item.data)
+                    }
+                })}
+                {apidata?.map((item) => {
+                    if (item.name == "kpWaste.csv") {
+                        return handleGetData(item.name, item.data)
+                    }
+                })}
+                {apidata?.map((item) => {
+                    if (item.name == "kpPlantation.csv") {
+                        return handleGetData(item.name, item.data)
+                    }
+                })}
+                {apidata?.map((item) => {
+                    if (item.name == "kpWater.csv") {
+                        return handleGetData(item.name, item.data)
+                    }
+                })}
+                {apidata?.map((item) => {
+                    if (item.name == "kpAltEnergy.csv") {
+                        return handleGetData(item.name, item.data)
+                    }
+                })}
+                {apidata?.map((item) => {
+                    if (item.name == "kpUptime.csv") {
+                        return handleGetData(item.name, item.data)
+                    }
+                })}
+                {apidata?.map((item) => {
+                    if (item.name == "kpThroughput.csv") {
+                        return handleGetData(item.name, item.data)
+                    }
+                })}
+                {apidata?.map((item) => {
+                    if (item.name == "kpco2.csv") {
+                        return handleGetData(item.name, item.data)
+                    }
+                })}
             </div>
         </div>
     )
