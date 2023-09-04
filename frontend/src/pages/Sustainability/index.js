@@ -30,7 +30,7 @@ export const Sustainability = () => {
 
     const fetchData = async () => {
         try {
-            await axios.get("http://localhost:8000/sustainablity/getData").then((response) => {
+            await axios.get("http://localhost:8000/sustainability/getData").then((response) => {
                 // console.log(response.data)
                 // const data = JSON.parse(response?.data)
                 // const data = response?.data
@@ -82,7 +82,7 @@ export const Sustainability = () => {
             formData.append('file', uploadData[i]);
         }
         try {
-            await axios.post("http://localhost:8000/sustainablity/FileUpload", formData)
+            await axios.post("http://localhost:8000/sustainability/FileUpload", formData)
                 .then((response) => {
                     fetchData()
                 });
