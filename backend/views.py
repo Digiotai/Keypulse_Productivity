@@ -7,6 +7,10 @@ import shutil
 import json
 
 
+for UploadType in ["sustainability","productivity", "resilience"]:
+    if os.path.exists(os.path.join("uploads", UploadType)):
+        shutil.rmtree(os.path.join("uploads", UploadType))
+
 # Create your views here.
 def index(request):
     return HttpResponse('Testing')
@@ -21,9 +25,6 @@ def uploadFile(request, UploadType):
     """
     try:
         if request.method == 'POST':
-            if 'uploaded' not in request.session:
-                if os.path.exists("uploads"):
-                    shutil.rmtree("uploads")
             files = request.FILES.getlist('file')
             if len(files) < 1:
                 return HttpResponse('No files uploaded')
@@ -33,7 +34,7 @@ def uploadFile(request, UploadType):
                 with default_storage.open(os.path.join('uploads', UploadType, f'{f.name}'), 'wb+') as destination:
                     for chunk in f.chunks():
                         destination.write(chunk)
-            request.session['uploaded'] = True
+            request.session[UploadType] = True
             return HttpResponse('File Uploaded')
     except Exception as e:
         return HttpResponse(str(e))
@@ -51,9 +52,11 @@ def getData(request, DownoladType):
             res = []
             for file in files:
                 df = pd.read_csv(os.path.join('uploads', DownoladType, file))
+                df.fillna(0, inplace=True)
                 temp = []
                 for col in df.columns[1:]:
-                    temp.append({'name': col, 'data': list(df.loc[:7, col].values), 'label': list(df.loc[:7, 'Month'].values)})
+                    temp.append(
+                        {'name': col, 'data': list(df.loc[:7, col].values), 'label': list(df.loc[:7, 'Month'].values)})
                 res.append({'name': file, 'data': temp})
             return HttpResponse(json.dumps({'result': res}), content_type="application/json")
     except Exception as e:
