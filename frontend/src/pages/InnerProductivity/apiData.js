@@ -80,6 +80,7 @@ export const lostUnitsdata = (data) => {
         return (totalSum / (numbers.length * 100)) * 100;
     }
     let finalData = [calculatePercentages(data.filter((item) => item.name == "Tooling Error")[0].data), calculatePercentages(data.filter((item) => item.name == "Physical Damage")[0].data), calculatePercentages(data.filter((item) => item.name == "Opener Damage")[0].data), calculatePercentages(data.filter((item) => item.name == "Others")[0].data)]
+    console.log(finalData)
     return finalData
 }
 
