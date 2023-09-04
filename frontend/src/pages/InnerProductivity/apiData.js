@@ -1,81 +1,46 @@
 export const prodThroughputData = (data) => {
-    let data1 = []
-    let data2 = []
-    let data3 = []
-    let data4 = []
-
-    data.map((item, index) => {
-        if (index < 8) {
-            Object.keys(item).map((key) => {
-                if (key == "Robotic Arm") {
-                    data1.push(item[key])
-                } else if (key == "Roller Belts") {
-                    data2.push(item[key])
-                } else if (key == "Boilers") data3.push(item[key])
-                else if (key == "Chillers") data4.push(item[key])
-            })
-        }
-    })
     const finalData = [{
         name: 'Robotic Arm',
-        data: data1
+        data: data.filter((item) => item.name == "Robotic Arm")[0].data
     }, {
         name: 'Roller Belts',
-        data: data2
+        data: data.filter((item) => item.name == "Roller Belts")[0].data
     }, {
         name: 'Boilers',
-        data: data3
+        data: data.filter((item) => item.name == "Boilers")[0].data
     },
     {
         name: 'Chillers',
-        data: data4
+        data: data.filter((item) => item.name == "Chillers")[0].data
     }]
     return finalData
 }
 
 export const prodOpexData = (data) => {
-    let data1 = []
-    let data2 = []
-    let data3 = []
-    let data4 = []
-
-    data.map((item, index) => {
-        if (index < 8) {
-            Object.keys(item).map((key) => {
-                if (key == "Robotic Arm") {
-                    data1.push(item[key])
-                } else if (key == "Roller Belts") {
-                    data2.push(item[key])
-                } else if (key == "Boilers") data3.push(item[key])
-                else if (key == "Chillers") data4.push(item[key])
-            })
-        }
-    })
-
     let finalData = {
         labels: ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug"],
         datasets: [
             {
                 label: 'Robotic Arm',
-                data: data1,
+                data: data.filter((item) => item.name == "Robotic Arm")[0].data,
                 borderColor: '#1b3c7a',
                 backgroundColor: '#1b3c7a',
             },
             {
                 label: 'Roller Belts',
-                data: data2,
+                data: data.filter((item) => item.name == "Roller Belts")[0].data,
                 borderColor: '#427ae3',
                 backgroundColor: '#427ae3',
             },
             {
                 label: 'Boilers',
-                data: data3,
+                data: data.filter((item) => item.name == "Boilers")[0].data,
                 borderColor: '#3dc7d1',
                 backgroundColor: '#3dc7d1',
             },
             {
                 label: 'Chillers',
-                data: data4,
+                data: data.filter((item) => item.name == "Chillers")[0].data,
                 borderColor: '#faa93e',
                 backgroundColor: '#faa93e',
             },
@@ -85,22 +50,7 @@ export const prodOpexData = (data) => {
 }
 
 export const utilizationData = (data) => {
-    let data1 = []
-    let data2 = []
-    let data3 = []
-    let data4 = []
-    data.map((item, index) => {
-        if (index < 8) {
-            Object.keys(item).map((key) => {
-                if (key == "Robotic Arm") {
-                    data1.push(item[key])
-                } else if (key == "Roller Belts") {
-                    data2.push(item[key])
-                } else if (key == "Boilers") data3.push(item[key])
-                else if (key == "Chillers") data4.push(item[key])
-            })
-        }
-    })
+
     function calculatePercentages(numbers) {
         const totalSum = numbers.reduce((sum, num) => sum + num, 0);
         return (totalSum / (numbers.length * 100)) * 100;
@@ -108,92 +58,56 @@ export const utilizationData = (data) => {
 
     let series1 = [{
         name: 'Robotic Arm',
-        data: [calculatePercentages(data1)]
+        data: [calculatePercentages(data.filter((item) => item.name == "Robotic Arm")[0].data)]
     }, {
         name: 'Roller Belts',
-        data: [calculatePercentages(data2)]
+        data: [calculatePercentages(data.filter((item) => item.name == "Roller Belts")[0].data)]
     }, {
         name: 'Boilers',
-        data: [calculatePercentages(data3)]
+        data: [calculatePercentages(data.filter((item) => item.name == "Boilers")[0].data)]
     },
     {
         name: 'Chillers',
-        data: [calculatePercentages(data4)]
+        data: [calculatePercentages(data.filter((item) => item.name == "Chillers")[0].data)]
     }]
     return series1
 }
 
 
 export const lostUnitsdata = (data) => {
-    // series: [20, 30, 40, 10],
-    let data1 = []
-    let data2 = []
-    let data3 = []
-    let data4 = []
-    data.map((item, index) => {
-        if (index < 8) {
-            Object.keys(item).map((key) => {
-                if (key == "Tooling Error") {
-                    data1.push(item[key])
-                } else if (key == "Physical Damage") {
-                    data2.push(item[key])
-                } else if (key == "Opener Damage") data3.push(item[key])
-                else if (key == "Others") data4.push(item[key])
-            })
-        }
-    })
     function calculatePercentages(numbers) {
         const totalSum = numbers.reduce((sum, num) => sum + num, 0);
         return (totalSum / (numbers.length * 100)) * 100;
     }
-    let finalData = [calculatePercentages(data1), calculatePercentages(data2), calculatePercentages(data3), calculatePercentages(data4)]
+    let finalData = [calculatePercentages(data.filter((item) => item.name == "Tooling Error")[0].data), calculatePercentages(data.filter((item) => item.name == "Physical Damage")[0].data), calculatePercentages(data.filter((item) => item.name == "Opener Damage")[0].data), calculatePercentages(data.filter((item) => item.name == "Others")[0].data)]
     return finalData
 }
 
-
 export const upTimeData = (data) => {
-    // series: [20, 30, 40, 10],
-    let data1 = []
-    let data2 = []
-    let data3 = []
-    let data4 = []
-    data.map((item, index) => {
-        if (index < 8) {
-            Object.keys(item).map((key) => {
-                if (key == "Robotic Arm") {
-                    data1.push(item[key])
-                } else if (key == "Roller Belts") {
-                    data2.push(item[key])
-                } else if (key == "Boilers") data3.push(item[key])
-                else if (key == "Chillers") data4.push(item[key])
-            })
-        }
-    })
-
     let finalData = {
         labels: ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", 'Aug'],
         datasets: [
             {
                 label: 'Robotic Arm',
-                data: data1,
+                data: data.filter((item) => item.name == "Robotic Arm")[0].data,
                 borderColor: '#1b3c7a',
                 backgroundColor: '#1b3c7a',
             },
             {
                 label: 'Roller Belts',
-                data: data2,
+                data: data.filter((item) => item.name == "Roller Belts")[0].data,
                 borderColor: '#427ae3',
                 backgroundColor: '#427ae3',
             },
             {
                 label: 'Boilers',
-                data: data3,
+                data: data.filter((item) => item.name == "Boilers")[0].data,
                 borderColor: '#3dc7d1',
                 backgroundColor: '#3dc7d1',
             },
             {
                 label: 'Chillers',
-                data: data4,
+                data: data.filter((item) => item.name == "Chillers")[0].data,
                 borderColor: '#faa93e',
                 backgroundColor: '#faa93e',
             },
@@ -203,63 +117,38 @@ export const upTimeData = (data) => {
 }
 
 export const unitsYTDData = (data) => {
-    let data1 = []
-    data.map((item, index) => {
-        if (index < 8) {
-            Object.keys(item).map((key) => {
-                if (key == "Units") {
-                    data1.push(item[key])
-                }
-            })
-        }
-    })
     const aseries = [{
         type: 'area',
         name: 'series1',
-        data: data1
-    }
-    ]
-    return { total: data[12].Units, finalData: aseries }
+        data: data[0].data.map((item) => {
+            return (
+                parseInt(item.replace(/,/g, ""))
+            )
+        })
+    }]
+    let count = 0
+    data[0].data.filter((item) => {
+        count = count + parseInt(item.replace(/,/g, ""))
+    })
+    return { total: count, finalData: aseries }
 }
 
 export const unitsLostData = (data) => {
-    let data1 = []
-    data.map((item, index) => {
-        if (index < 8) {
-            Object.keys(item).map((key) => {
-                if (key == "Units") {
-                    data1.push(item[key])
-                }
-            })
-        }
-    })
     const aseries = [{
         type: 'area',
         name: 'series1',
-        data: data1
+        data: data[0].data
     }]
-    console.log( { totalprod: data[12].Units, finalDataprod: aseries })
-
-    return { totallost: data[12].Units, finalDatalost: aseries }
+    const tot = data[0].data.reduce((partialSum, a) => partialSum + a, 0) / (data[0].data.length * 100) * 100
+    return { totallost: tot.toFixed(1), finalDatalost: aseries }
 }
 
 export const unitsProdData = (data) => {
-    let data1 = []
-    data.map((item, index) => {
-        if (index < 8) {
-            Object.keys(item).map((key) => {
-                if (key == "Plant Productivity (%)") {
-                    data1.push(item[key])
-                }
-            })
-        }
-    })
-    console.log(data1)
     const aseries = [{
         type: 'area',
         name: 'series1',
-        data: data1
+        data: data[0].data
     }]
-    console.log( { totalprod: data[12].Units, finalDataprod: aseries })
-    return { totalprod: data[12]["Plant Productivity (%)"], finalDataprod: aseries }
+    const tot = data[0].data.reduce((partialSum, a) => partialSum + a, 0) / (data[0].data.length * 100) * 100
+    return { totalprod: tot.toFixed(1), finalDataprod: aseries }
 }

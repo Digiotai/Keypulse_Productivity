@@ -27,8 +27,11 @@ export const InnerProductivity = () => {
 
     const fetchData = async () => {
         try {
-            await axios.get("http://127.0.0.1:8000/getData").then((response) => {
-                setApiData(response.data?.result);
+            await axios.get("http://localhost:8000/productivity/getData").then((response) => {
+                   const data = JSON.parse(response?.data?.replace(/\bNaN\b/g, "null"));
+                // const data = response?.data
+                // console.log(JSON.parse(data))
+                setApiData(data.result);
             });
         } catch (err) {
             console.log(err)
@@ -38,8 +41,6 @@ export const InnerProductivity = () => {
     useEffect(() => {
         fetchData()
     }, [])
-
-
 
     const data = [
         {
@@ -58,8 +59,6 @@ export const InnerProductivity = () => {
             predictions: ["Productivity in next three months is expected to be 84%"]
         }
     ]
-
-
 
     const fileInputRef = useRef(null); // Explicit type
     const [file, setFile] = useState([])
@@ -94,7 +93,7 @@ export const InnerProductivity = () => {
             formData.append('file', uploadData[i]);
         }
         try {
-            await axios.post("http://127.0.0.1:8000/FileUpload", formData)
+            await axios.post("http://localhost:8000/productivity/FileUpload", formData)
                 .then((response) => {
                     fetchData()
                 });
@@ -103,14 +102,14 @@ export const InnerProductivity = () => {
         }
     }
 
-    const handleGetData = (name, data) => {
+    const handleGetData = (name, data5) => {
         switch (name) {
             case 'kpThroughput.csv':
                 return <div className="col-6">
                     <div style={{ border: '1px solid #E6E6E6' }}>
                         <h6 className="ps-2" style={{ fontFamily: "poppins", fontWeight: 500, fontSize: '18px', fontWeight: 600, display: 'flex', justifyContent: "start" }}>Productivity - Throughout</h6>
                         <div style={{ minHeight: "265px", maxHeight: "265px", width: "100%" }}>
-                            <ApexChart series={prodThroughputData(data)} options={options} height={"250px"} width={"100%"} />
+                            <ApexChart series={prodThroughputData(data5)} options={options} height={"250px"} width={"100%"} />
                         </div>
                     </div>
                 </div>
@@ -120,7 +119,7 @@ export const InnerProductivity = () => {
                         <h6 className="ps-2" style={{ fontFamily: "poppins", fontWeight: 500, fontSize: '18px', fontWeight: 600, display: 'flex', justifyContent: "start" }}>Productivity - OpEx</h6>
                         {/* <ApexChart series={options2.series1} options={options2} height={"250px"} width={"100%"} /> */}
                         <div style={{ minHeight: "265px", maxHeight: "265px", width: "100%" }}>
-                            <LineChart data={prodOpexData(data)} options={options2} height={"140px"} width={"100%"} />
+                            <LineChart data={prodOpexData(data5)} options={options2} height={"140px"} width={"100%"} />
                         </div>
                     </div>
                 </div>
@@ -129,7 +128,7 @@ export const InnerProductivity = () => {
                     <div style={{ border: '1px solid #E6E6E6' }}>
                         <h6 className="ps-2" style={{ fontFamily: "poppins", fontWeight: 500, fontSize: '18px', fontWeight: 600, display: 'flex', justifyContent: "start" }}>Overall Productivity - Utilization (YTD)</h6>
                         <div style={{ minHeight: "265px", maxHeight: "265px", width: "100%" }}>
-                            <ApexChart series={utilizationData(data)} options={options3} height={"200px"} width={"100%"} />
+                            <ApexChart series={utilizationData(data5)} options={options3} height={"200px"} width={"100%"} />
                         </div>
                     </div>
                 </div>
@@ -138,7 +137,7 @@ export const InnerProductivity = () => {
                     <div style={{ border: '1px solid #E6E6E6' }}>
                         <h6 className="ps-2" style={{ fontFamily: "poppins", fontWeight: 500, fontSize: '18px', fontWeight: 600, display: 'flex', justifyContent: "start" }}>Lost Units:Causes</h6>
                         <div style={{ minHeight: "265px", maxHeight: "255px", width: "100%" }}>
-                            <PieChart options={{ ...dounut1, series: lostUnitsdata(data) }} height="283px" width={445} />
+                            <PieChart options={{ ...dounut1, series: lostUnitsdata(data5) }} height="283px" width={445} />
                         </div>
                     </div>
                 </div>
@@ -148,12 +147,12 @@ export const InnerProductivity = () => {
                         <h6 className="ps-2" style={{ fontFamily: "poppins", fontWeight: 500, fontSize: '18px', fontWeight: 600, display: 'flex', justifyContent: "start" }}>Overall Productivity - Uptime (YTD)</h6>
                         {/* <ApexChart series={options4.series1} options={options4} height={"250px"} width={"100%"} /> */}
                         <div style={{ minHeight: "265px", maxHeight: "265px", width: "100%" }}>
-                            <LineChart data={upTimeData(data)} options={options4} height={"200px"} width={"100%"} />
+                            <LineChart data={upTimeData(data5)} options={options4} height={"200px"} width={"100%"} />
                         </div>
                     </div>
                 </div>
             case 'kpUnitsYTD.csv':
-                let { total, finalData } = unitsYTDData(data)
+                let { total, finalData } = unitsYTDData(data5)
                 return <div className="col-4">
                     <div style={{ border: '1px solid #E6E6E6' }} className="p-2">
                         <div className="d-flex justify-content-between">
@@ -214,7 +213,7 @@ export const InnerProductivity = () => {
                     </div>
                 </div>
             case 'kpUnitsLost.csv':
-                let { totallost, finalDatalost } = unitsLostData(data)
+                let { totallost, finalDatalost } = unitsLostData(data5)
                 return <div className="col-4">
                     <div style={{ border: '1px solid #E6E6E6' }} className="p-2">
                         <div className="d-flex justify-content-between">
@@ -264,7 +263,7 @@ export const InnerProductivity = () => {
                     </div>
                 </div>
             case 'kpPlantProd.csv':
-                let { totalprod, finalDataprod } = unitsProdData(data)
+                let { totalprod, finalDataprod } = unitsProdData(data5)
                 return <div className="col-4">
                     <div style={{ border: '1px solid #E6E6E6' }} className="p-2">
                         <div className="d-flex justify-content-between">
@@ -364,76 +363,47 @@ export const InnerProductivity = () => {
                 />
             </div>
             <div className="row gx-1 gy-1 p-2 pt-0">
-                {apidata.map((item) => {
+                {apidata?.map((item) => {
                     if (item.name == "kpUnitsYTD.csv") {
-                        return handleGetData(item.name, JSON.parse(item.data))
+                        return handleGetData(item.name, item.data)
                     }
                 })}
-                {apidata.map((item) => {
+                {apidata?.map((item) => {
                     if (item.name == "kpUnitsLost.csv") {
-                        return handleGetData(item.name, JSON.parse(item.data))
+                        return handleGetData(item.name, item.data)
                     }
                 })}
-                {apidata.map((item) => {
+                {apidata?.map((item) => {
                     if (item.name == "kpPlantProd.csv") {
-                        return handleGetData(item.name, JSON.parse(item.data))
+                        return handleGetData(item.name, item.data)
                     }
                 })}
-                {apidata.map((item) => {
+                {apidata?.map((item) => {
                     if (item.name == "kpUtilization.csv") {
-                        return handleGetData(item.name, JSON.parse(item.data))
+                        return handleGetData(item.name, item.data)
                     }
                 })}
-                {apidata.map((item) => {
+                {apidata?.map((item) => {
                     if (item.name == "kpLostCause.csv") {
-                        return handleGetData(item.name, JSON.parse(item.data))
+                        return handleGetData(item.name, item.data)
                     }
                 })}
-                {apidata.map((item) => {
+                {apidata?.map((item) => {
                     if (item.name == "kpUptime.csv") {
-                        return handleGetData(item.name, JSON.parse(item.data))
+                        return handleGetData(item.name, item.data)
                     }
                 })}
-                {apidata.map((item) => {
+                {apidata?.map((item) => {
                     if (item.name == "kpThroughput.csv") {
-                        return handleGetData(item.name, JSON.parse(item.data))
+                        return handleGetData(item.name, item.data)
                     }
                 })}
-                {apidata.map((item) => {
+                {apidata?.map((item) => {
                     if (item.name == "kpOpEx.csv") {
-                        return handleGetData(item.name, JSON.parse(item.data))
+                        return handleGetData(item.name, item.data)
                     }
                 })}
             </div>
-            {/* <div className="row gx-2 gy-2 p-2">
-                {apidata.map((item) => {
-                    if (item.name == "kpUtilization.csv") {
-                        return handleGetData(item.name)
-                    }
-                })}
-                {apidata.map((item) => {
-                    if (item.name == "kpLostCause.csv") {
-                        return handleGetData(item.name)
-                    }
-                })}
-                {apidata.map((item) => {
-                    if (item.name == "kpUptime.csv") {
-                        return handleGetData(item.name)
-                    }
-                })}
-            </div> */}
-            {/* <div className="row gx-2 gy-2 p-2">
-                {apidata.map((item) => {
-                    if (item.name == "kpThroughput.csv") {
-                        return handleGetData(item.name)
-                    }
-                })}
-                {apidata.map((item) => {
-                    if (item.name == "kpOpEx.csv") {
-                        return handleGetData(item.name)
-                    }
-                })}
-            </div> */}
         </div>
     )
 }

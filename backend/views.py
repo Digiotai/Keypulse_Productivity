@@ -53,7 +53,7 @@ def getData(request, DownoladType):
                 df = pd.read_csv(os.path.join('uploads', DownoladType, file))
                 temp = []
                 for col in df.columns[1:]:
-                    temp.append({'name': col, 'data': list(df.loc[:, col].values), 'label': list(df.loc[:, 'Month'].values)})
+                    temp.append({'name': col, 'data': list(df.loc[:7, col].values), 'label': list(df.loc[:7, 'Month'].values)})
                 res.append({'name': file, 'data': temp})
             return HttpResponse(json.dumps({'result': res}), content_type="application/json")
     except Exception as e:
