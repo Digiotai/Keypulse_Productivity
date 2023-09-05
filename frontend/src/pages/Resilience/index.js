@@ -1,8 +1,22 @@
-import { data, heading, roptions } from './data'
-import { useState } from 'react'
+import { heading, roptions } from './data'
+import { useState, useEffect, useRef } from 'react'
 import { ApexChart } from "../../components/ApexBarChart"
 import { getTitle, getData, getOdometer } from '../../utils'
 import { RxDotFilled } from 'react-icons/rx'
+import cyber from '../../assets/svg/cyber.png'
+import vulner from '../../assets/svg/vulnar.png'
+import inci from '../../assets/svg/incident.png'
+import config from '../../assets/svg/config.png'
+import risk from '../../assets/svg/risks.png'
+import train from '../../assets/svg/train.png'
+import cont from '../../assets/svg/conti.png'
+import com from '../../assets/svg/commun.png'
+import ser from '../../assets/svg/service.png'
+import build from '../../assets/svg/build.png'
+import axios from 'axios'
+import { namesResSort, getApiData } from './data'
+const ADAPTERS_BASE_URL = process.env.REACT_APP_BASE_URL;
+
 export const Resilience = () => {
     const Card = ({ img, text, series, data }) => {
         const [show, setShow] = useState(false)
@@ -11,7 +25,6 @@ export const Resilience = () => {
         const handleClose = () => {
             setShow(false)
         }
-
         return (
             <div className='ps-4 pe-4 pt-3' style={{ border: "2px solid #E6E6E6", borderRadius: '0px', alignItems: 'center' }}>
                 <div className='d-flex justify-content-between' >
@@ -56,8 +69,216 @@ export const Resilience = () => {
             </div>
         )
     }
+    const [apidata, setApiData] = useState([])
+    const fetchData = async () => {
+        try {
+            await axios.get(`${ADAPTERS_BASE_URL}/resilience/getData`).then((response) => {
+                setApiData(response?.data.result);
+            });
+        } catch (err) {
+            console.log(err)
+        }
+    }
+    useEffect(() => {
+        fetchData()
+    }, [])
+
+    const fileInputRef = useRef(null); // Explicit type
+    const handleFileChange = (event) => {
+        handleUpload(event.target.files)
+    };
+    const handleButtonClick = () => {
+        if (fileInputRef.current) {
+            fileInputRef.current.click();
+        }
+    };
+
+    const handleUpload = async (data) => {
+        var formData = new FormData();
+        const finalData = []
+        for (let i = 0; i < data.length; i++) {
+            finalData.push(data[i])
+        }
+        const uploadData = []
+        namesResSort.map(sortingObj => {
+            finalData.filter((item) => {
+                if (item.name == sortingObj.file) {
+                    uploadData.push(item)
+                }
+            })
+        });
+
+        for (let i = 0; i < uploadData.length; i++) {
+            formData.append('file', uploadData[i]);
+        }
+        try {
+            await axios.post(`${ADAPTERS_BASE_URL}/resilience/FileUpload`, formData)
+                .then((response) => {
+                    fetchData()
+                });
+        } catch (err) {
+            console.log(err)
+        }
+    }
+
+
+    let finalData = {
+        data1: getApiData(apidata?.filter((item) => item.name === "kpCSP.csv")) || [],
+        data2: getApiData(apidata?.filter((item) => item.name === "kpRMI.csv")) || [],
+        data3: getApiData(apidata?.filter((item) => item.name === "kpCST.csv")) || [],
+        data4: getApiData(apidata?.filter((item) => item.name === "kpVMR.csv")) || [],
+        data5: getApiData(apidata?.filter((item) => item.name === "kpCSM.csv")) || [],
+        data6: getApiData(apidata?.filter((item) => item.name === "kpBCP.csv")) || [],
+        data7: getApiData(apidata?.filter((item) => item.name === "kpIM.csv")) || [],
+        data8: getApiData(apidata?.filter((item) => item.name === "kpPF.csv")) || [],
+        data9: getApiData(apidata?.filter((item) => item.name === "kpCCM.csv")) || [],
+        data10: getApiData(apidata?.filter((item) => item.name === "kpCOMM.csv")) || []
+    }
+    const data = [
+        {
+            img: cyber,
+            name: "Cyber Security Policy Creation and Distribution",
+            series: [{
+                name: 'Planned',
+                data: finalData.data1
+            }],
+            inferences: [66],
+            recomondations: ["Adhere to planned activities"],
+            predictions: []
+        },
+        {
+            img: risk,
+            name: "Risk Management Initiatives",
+            series: [{
+                name: 'Planned',
+                data: finalData.data2
+            }],
+            inferences: [33],
+            recomondations: ["Make up missed/lost activities"],
+            predictions: []
+        },
+        {
+            img: train,
+            name: "Cyber Security Training",
+            series: [{
+                name: 'Planned',
+                data: finalData.data3
+            }],
+            inferences: [58],
+            recomondations: ["Adhere to planned activities"],
+            predictions: []
+        },
+        {
+            img: vulner,
+            name: "Vulnerability Management Reviews",
+            series: [{
+                name: 'Planned',
+                data: finalData.data4
+            }],
+            inferences: [25],
+            recomondations: ["Make up missed/lost activities"],
+            predictions: []
+        },
+        {
+            img: cont,
+            name: "Continuity Supervision Meetings",
+            series: [{
+                name: 'Planned',
+                data: finalData.data5
+            }],
+            inferences: [45],
+            recomondations: ["Adhere to planned activities"],
+            predictions: []
+        },
+        ({
+            img: build,
+            name: "Mock BCP Drills",
+            series: [{
+                name: 'Planned',
+                data: finalData.data6
+            }],
+            inferences: [33],
+            recomondations: ["Make up missed/lost activities"],
+            predictions: []
+        }),
+        ({
+            img: inci,
+            name: "Incident Management",
+            series: [{
+                name: 'Occurred',
+                data: finalData.data7
+            }],
+            inferences: [100],
+            recomondations: ["Keep up Good work"],
+            predictions: ["Incident forecast over next 3 months - 2, 0, 0"]
+        }),
+        ({
+            img: ser,
+            name: "Continuity of Service and Management (Post Facto)",
+            series: [{
+                name: 'Occurred',
+                data: finalData.data8
+            }],
+            inferences: [100],
+            recomondations: ["Keep up Good work"],
+            predictions: []
+        }),
+        ({
+            img: config,
+            name: "Configuration and Change Management",
+            series: [{
+                name: 'Planned',
+                data: finalData.data9
+            }],
+            inferences: [50],
+            recomondations: ["Adhere to planned activities"],
+            predictions: []
+        }),
+        ({
+            img: com,
+            name: "Communications",
+            series: [{
+                name: 'Planned',
+                data: finalData.data10
+            }],
+            inferences: [66],
+            recomondations: ["Adhere to planned activities"],
+            predictions: ["Expected communications over next 3 months - 5, 4, 4"]
+        })
+    ]
+
     return (
         <div className="p-1 m-1">
+            <div
+                item
+                style={{
+                    display: 'flex',
+                    // padding: '12px 32px',
+                    justifyContent: 'end',
+                    alignItems: 'center',
+                    // gap: '8px',
+                    alignSelf: 'stretch',
+                    marginRight: '10px',
+                    marginTop: '5px'
+                }}
+            >
+                <button
+                    className="btn btn-primary"
+                    lineHeight={'24px'}
+                    height={'44px'}
+                    // startIcon={<image src={upload} />}
+                    children={'Upload CSV File'}
+                    onClick={() => handleButtonClick()}
+                />{' '}
+                <input
+                    type="file"
+                    ref={fileInputRef}
+                    style={{ display: 'none' }}
+                    onChange={handleFileChange}
+                    multiple={true}
+                    accept="*"
+                />
+            </div>
             <div className='row gy-2 gx-3 mt-2 flex-wrap'>
                 {heading.map((item, index) => {
                     return (
@@ -72,8 +293,9 @@ export const Resilience = () => {
             </div>
             <div className="row gy-3 gx-3 mt-2">
                 {data.map((item, index) => {
+                    console.log(item.series[0].data)
                     return (
-                        <>{index < 6 && <div className='col-lg-6 col-md-6 col-sm-6'>
+                        <>{(item.series[0].data.length > 0 && index < 6) && <div className='col-lg-6 col-md-6 col-sm-6'>
                             <Card img={item.img} text={item.name} series={item.series} data={item} />
                         </div>}</>
                     )
@@ -94,7 +316,7 @@ export const Resilience = () => {
             <div className="row gy-3 gx-3 mt-2">
                 {data.map((item, index) => {
                     return (
-                        <>{index > 5 && <div className='col-lg-6 col-md-6 col-sm-6'>
+                        <>{(item.series[0].data.length  > 0 && index > 5) && <div className='col-lg-6 col-md-6 col-sm-6'>
                             <Card img={item.img} text={item.name} series={item.series} data={item} />
                         </div>}</>
                     )
