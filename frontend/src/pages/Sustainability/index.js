@@ -7,6 +7,8 @@ import { getTitle, getData } from "../../utils"
 import { RxDotFilled } from 'react-icons/rx'
 import { altEnergyData, co2Data, energyData, namesSusSort, plantationData, wasteData, waterData } from "./apiData"
 import axios from 'axios'
+const ADAPTERS_BASE_URL = process.env.REACT_APP_BASE_URL;
+
 export const Sustainability = () => {
     const [show, setShow] = useState(false)
     const [show1, setShow1] = useState(false)
@@ -30,7 +32,7 @@ export const Sustainability = () => {
 
     const fetchData = async () => {
         try {
-            await axios.get("http://localhost:8000/sustainability/getData").then((response) => {
+            await axios.get(`${ADAPTERS_BASE_URL}/sustainability/getData`).then((response) => {
                 // console.log(response.data)
                 // const data = JSON.parse(response?.data)
                 // const data = response?.data
@@ -82,7 +84,7 @@ export const Sustainability = () => {
             formData.append('file', uploadData[i]);
         }
         try {
-            await axios.post("http://localhost:8000/sustainability/FileUpload", formData)
+            await axios.post(`${ADAPTERS_BASE_URL}/sustainability/FileUpload`, formData)
                 .then((response) => {
                     fetchData()
                 });

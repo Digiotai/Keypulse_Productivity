@@ -15,6 +15,7 @@ import ser from '../../assets/svg/service.png'
 import build from '../../assets/svg/build.png'
 import axios from 'axios'
 import { namesResSort, getApiData } from './data'
+const ADAPTERS_BASE_URL = process.env.REACT_APP_BASE_URL;
 
 export const Resilience = () => {
     const Card = ({ img, text, series, data }) => {
@@ -71,16 +72,13 @@ export const Resilience = () => {
     const [apidata, setApiData] = useState([])
     const fetchData = async () => {
         try {
-            await axios.get("http://localhost:8000/resilience/getData").then((response) => {
+            await axios.get(`${ADAPTERS_BASE_URL}/resilience/getData`).then((response) => {
                 setApiData(response?.data.result);
             });
         } catch (err) {
             console.log(err)
         }
     }
-
-    console.log(apidata)
-
     useEffect(() => {
         fetchData()
     }, [])
@@ -114,7 +112,7 @@ export const Resilience = () => {
             formData.append('file', uploadData[i]);
         }
         try {
-            await axios.post("http://localhost:8000/resilience/FileUpload", formData)
+            await axios.post(`${ADAPTERS_BASE_URL}/resilience/FileUpload`, formData)
                 .then((response) => {
                     fetchData()
                 });

@@ -11,6 +11,8 @@ import { LineChart } from "../../components/LineChart"
 import axios from "axios";
 import { aseries, aoptions, aoptions2, aoptions3, aseries2, aseries3 } from "../../components/AreaChart/data"
 import { lostUnitsdata, prodOpexData, prodThroughputData, unitsLostData, unitsProdData, unitsYTDData, upTimeData, utilizationData } from "./apiData"
+const ADAPTERS_BASE_URL = process.env.REACT_APP_BASE_URL;
+
 export const InnerProductivity = () => {
     const [show, setShow] = useState(false)
     const [show1, setShow1] = useState(false)
@@ -27,7 +29,7 @@ export const InnerProductivity = () => {
 
     const fetchData = async () => {
         try {
-            await axios.get("http://localhost:8000/productivity/getData").then((response) => {
+            await axios.get(`${ADAPTERS_BASE_URL}/productivity/getData`).then((response) => {
                 //    const data = JSON.parse(response?.data?.replace(/\bNaN\b/g, "null"));
                 const data = response?.data
                 // console.log(JSON.parse(data))
@@ -93,7 +95,7 @@ export const InnerProductivity = () => {
             formData.append('file', uploadData[i]);
         }
         try {
-            await axios.post("http://localhost:8000/productivity/FileUpload", formData)
+            await axios.post(`${ADAPTERS_BASE_URL}/productivity/FileUpload`, formData)
                 .then((response) => {
                     fetchData()
                 });
