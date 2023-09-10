@@ -22,12 +22,12 @@ jobs:
         python -m pip install --upgrade pip
         pip install -r requirements.txt
     
-    - name: Install node
-      run: |
-        image: node:latest
-        wget -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.39.3/install.sh | bash
-        . ~/.nvm/nvm.sh
-        nvm install --lts
+    - name: Set up Node.js
+      uses: actions/setup-node@v2
+      with:
+        node-version: '14'
+    - name: Install dependencies
+      run: npm install
   
     - name: Run Tests
       run: |
