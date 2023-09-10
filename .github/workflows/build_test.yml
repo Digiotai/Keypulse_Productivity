@@ -1,12 +1,4 @@
 name: Build and Test
-default:
-  image: node:latest
-  cache:  # Cache modules 
-  paths:
-    - node_modules/
-    - public/
-    - vendor/
-
 
 on:
   push:
@@ -32,6 +24,7 @@ jobs:
     
     - name: Install node
       run: |
+        image: node:latest
         wget -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.39.3/install.sh | bash
         . ~/.nvm/nvm.sh
         nvm install --lts
