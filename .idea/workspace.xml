@@ -4,7 +4,13 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="8624a236-2b68-466d-89b6-fc665410d6a5" name="Changes" comment="" />
+    <list default="true" id="8624a236-2b68-466d-89b6-fc665410d6a5" name="Changes" comment="">
+      <change beforePath="$PROJECT_DIR$/.ebextensions/eb.config" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.github/workflows/build_test.yml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend/urls.py" beforeDir="false" afterPath="$PROJECT_DIR$/backend/urls.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend/views.py" beforeDir="false" afterPath="$PROJECT_DIR$/backend/views.py" afterDir="false" />
+    </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -69,7 +75,7 @@
       <option name="presentableId" value="Default" />
       <updated>1694278235906</updated>
       <workItem from="1694278240431" duration="1779000" />
-      <workItem from="1694322108537" duration="1657000" />
+      <workItem from="1694322108537" duration="2248000" />
     </task>
     <servers />
   </component>

@@ -61,3 +61,26 @@ def getData(request, DownoladType):
             return HttpResponse(json.dumps({'result': res}), content_type="application/json")
     except Exception as e:
         return HttpResponse(str(e))
+
+
+def getDefaultData(request, DownoladType):
+    """
+    This method is get data from uploaded files.
+    @args: None
+    returns: parsed json data
+    """
+    try:
+        if request.method == 'GET':
+            files = os.listdir(os.path.join('DefaultData', DownoladType))
+            res = []
+            for file in files:
+                df = pd.read_csv(os.path.join('DefaultData', DownoladType, file))
+                df.fillna(0, inplace=True)
+                temp = []
+                for col in df.columns[1:]:
+                    temp.append(
+                        {'name': col, 'data': list(df.loc[:7, col].values), 'label': list(df.loc[:7, 'Month'].values)})
+                res.append({'name': file, 'data': temp})
+            return HttpResponse(json.dumps({'result': res}), content_type="application/json")
+    except Exception as e:
+        return HttpResponse(str(e))
