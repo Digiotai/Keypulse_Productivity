@@ -18,6 +18,8 @@ import { namesResSort, getApiData } from './data'
 const ADAPTERS_BASE_URL = process.env.REACT_APP_BASE_URL;
 
 export const Resilience = () => {
+    const [second, setSecond] = useState(false)
+    const [first, setFirst] = useState(false)
     const Card = ({ img, text, series, data }) => {
         const [show, setShow] = useState(false)
         const [label, setLabel] = useState("")
@@ -280,7 +282,7 @@ export const Resilience = () => {
                 />
             </div>
             <div className='row gy-2 gx-3 mt-2 flex-wrap'>
-                {heading.map((item, index) => {
+                {first && heading.map((item, index) => {
                     return (
                         <>{index < 2 && <div className="col-lg-6 col-md-6 col-sm-6">
                             <div style={{ background: '#34b4eb', fontFamily: "Inter" }} className='pt-2 pb-2 text-center text-white'>
@@ -293,7 +295,9 @@ export const Resilience = () => {
             </div>
             <div className="row gy-3 gx-3 mt-2">
                 {data.map((item, index) => {
-                    console.log(item.series[0].data)
+                    if ((item.series[0].data.length > 0 && index < 6) && !first) {
+                        setFirst(true)
+                    }
                     return (
                         <>{(item.series[0].data.length > 0 && index < 6) && <div className='col-lg-6 col-md-6 col-sm-6'>
                             <Card img={item.img} text={item.name} series={item.series} data={item} />
@@ -302,7 +306,7 @@ export const Resilience = () => {
                 })}
             </div>
             <div className='row gy-2 gx-3 mt-2 flex-wrap'>
-                {heading.map((item, index) => {
+                {second && heading.map((item, index) => {
                     return (
                         <>{index >= 2 && <div className="col-lg-6 col-md-6 col-sm-6">
                             <div style={{ background: '#34b4eb', fontFamily: "Inter" }} className='pt-2 pb-2 text-center text-white'>
@@ -315,8 +319,11 @@ export const Resilience = () => {
             </div>
             <div className="row gy-3 gx-3 mt-2">
                 {data.map((item, index) => {
+                     if ((item.series[0].data.length > 0 && index > 5) && !second) {
+                        setSecond(true)
+                    }
                     return (
-                        <>{(item.series[0].data.length  > 0 && index > 5) && <div className='col-lg-6 col-md-6 col-sm-6'>
+                        <>{(item.series[0].data.length > 0 && index > 5) && <div className='col-lg-6 col-md-6 col-sm-6'>
                             <Card img={item.img} text={item.name} series={item.series} data={item} />
                         </div>}</>
                     )
