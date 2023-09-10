@@ -4,15 +4,7 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="8624a236-2b68-466d-89b6-fc665410d6a5" name="Changes" comment="">
-      <change beforePath="$PROJECT_DIR$/.idea/.gitignore" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/inspectionProfiles/profiles_settings.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/inspectionProfiles/profiles_settings.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/db.sqlite3" beforeDir="false" afterPath="$PROJECT_DIR$/db.sqlite3" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/frontend/package-lock.json" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/package-lock.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/uploads/productivity/kpOpEx.csv" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/uploads/resilience/kpCSP.csv" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/uploads/sustainability/kpco2.csv" beforeDir="false" />
-    </list>
+    <list default="true" id="8624a236-2b68-466d-89b6-fc665410d6a5" name="Changes" comment="" />
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -74,7 +66,7 @@
       <option name="presentableId" value="Default" />
       <updated>1694278235906</updated>
       <workItem from="1694278240431" duration="1779000" />
-      <workItem from="1694322108537" duration="464000" />
+      <workItem from="1694322108537" duration="1063000" />
     </task>
     <servers />
   </component>
