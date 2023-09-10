@@ -28,7 +28,7 @@ jobs:
         node-version: '14'
     - name: Install dependencies
      env:
-        - CI=false
+        CI=false
       run: |
         cd frontend
         npm install
