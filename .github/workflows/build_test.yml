@@ -32,6 +32,7 @@ jobs:
     - name: Run Tests
       run: |
         python manage.py test
+        cd frontend
         npm run start
 
   deploy:
