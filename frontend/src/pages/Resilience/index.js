@@ -47,7 +47,7 @@ export const Resilience = () => {
                             {show && <div className='card p-2' style={{ position: 'absolute', marginLeft: "-300px", marginTop: "-20px", zIndex: 9999, width: '250px' }}>
                                 {label === "inf" && <div>
                                     {getTitle("Inferences", "#427ae3", handleClose)}
-                                    <>{data.inferences?.length > 0 ? getOdometer(data?.inferences) : <li className='m-0 p-0' style={{ fontFamily: "poppins", fontWeight: 400, fontSize: '12px', width: '190px', listStyle: 'none' }}>No Inferences Found!</li>}</>
+                                    <>{data.inference?.length > 0 ? getData(data.inference, "#427ae3") : <li className='m-0 p-0' style={{ fontFamily: "poppins", fontWeight: 400, fontSize: '12px', width: '190px', listStyle: 'none' }}>No Inferences Found!</li>}</>
                                 </div>}
                                 {label === "rec" && <div>
                                     {getTitle("Recommendations", "#800080", handleClose)}
@@ -123,19 +123,32 @@ export const Resilience = () => {
         }
     }
 
+    let datan = {
+        data1: apidata?.filter((item) => item.name === "kpCSP.csv") || [],
+        data2: apidata?.filter((item) => item.name === "kpRMI.csv") || [],
+        data3: apidata?.filter((item) => item.name === "kpCST.csv") || [],
+        data4: apidata?.filter((item) => item.name === "kpVMR.csv") || [],
+        data5: apidata?.filter((item) => item.name === "kpCSM.csv") || [],
+        data6: apidata?.filter((item) => item.name === "kpBCP.csv") || [],
+        data7: apidata?.filter((item) => item.name === "kpIM.csv") || [],
+        data8: apidata?.filter((item) => item.name === "kpPF.csv") || [],
+        data9: apidata?.filter((item) => item.name === "kpCCM.csv") || [],
+        data10: apidata?.filter((item) => item.name === "kpCOMM.csv") || []
+    }
 
     let finalData = {
-        data1: getApiData(apidata?.filter((item) => item.name === "kpCSP.csv")) || [],
-        data2: getApiData(apidata?.filter((item) => item.name === "kpRMI.csv")) || [],
-        data3: getApiData(apidata?.filter((item) => item.name === "kpCST.csv")) || [],
-        data4: getApiData(apidata?.filter((item) => item.name === "kpVMR.csv")) || [],
-        data5: getApiData(apidata?.filter((item) => item.name === "kpCSM.csv")) || [],
-        data6: getApiData(apidata?.filter((item) => item.name === "kpBCP.csv")) || [],
-        data7: getApiData(apidata?.filter((item) => item.name === "kpIM.csv")) || [],
-        data8: getApiData(apidata?.filter((item) => item.name === "kpPF.csv")) || [],
-        data9: getApiData(apidata?.filter((item) => item.name === "kpCCM.csv")) || [],
-        data10: getApiData(apidata?.filter((item) => item.name === "kpCOMM.csv")) || []
+        data1: getApiData(datan.data1) || [],
+        data2: getApiData(datan.data2) || [],
+        data3: getApiData(datan.data3) || [],
+        data4: getApiData(datan.data4) || [],
+        data5: getApiData(datan.data5) || [],
+        data6: getApiData(datan.data6) || [],
+        data7: getApiData(datan.data7) || [],
+        data8: getApiData(datan.data8) || [],
+        data9: getApiData(datan.data9) || [],
+        data10: getApiData(datan.data10) || []
     }
+    console.log(datan)
     const data = [
         {
             img: cyber,
@@ -144,7 +157,7 @@ export const Resilience = () => {
                 name: 'Planned',
                 data: finalData.data1
             }],
-            inferences: [66],
+            inference: [datan.data1[0].inference],
             recomondations: ["Adhere to planned activities"],
             predictions: []
         },
@@ -155,7 +168,7 @@ export const Resilience = () => {
                 name: 'Planned',
                 data: finalData.data2
             }],
-            inferences: [33],
+            inference: [datan.data2[0].inference],
             recomondations: ["Make up missed/lost activities"],
             predictions: []
         },
@@ -166,7 +179,7 @@ export const Resilience = () => {
                 name: 'Planned',
                 data: finalData.data3
             }],
-            inferences: [58],
+            inference: [datan.data3[0].inference],
             recomondations: ["Adhere to planned activities"],
             predictions: []
         },
@@ -177,7 +190,7 @@ export const Resilience = () => {
                 name: 'Planned',
                 data: finalData.data4
             }],
-            inferences: [25],
+            inference: [datan.data4[0].inference],
             recomondations: ["Make up missed/lost activities"],
             predictions: []
         },
@@ -188,7 +201,7 @@ export const Resilience = () => {
                 name: 'Planned',
                 data: finalData.data5
             }],
-            inferences: [45],
+            inference: [datan.data5[0].inference],
             recomondations: ["Adhere to planned activities"],
             predictions: []
         },
@@ -199,7 +212,7 @@ export const Resilience = () => {
                 name: 'Planned',
                 data: finalData.data6
             }],
-            inferences: [33],
+            inference: [datan.data6[0].inference],
             recomondations: ["Make up missed/lost activities"],
             predictions: []
         }),
@@ -210,7 +223,7 @@ export const Resilience = () => {
                 name: 'Occurred',
                 data: finalData.data7
             }],
-            inferences: [100],
+            inference: [datan.data7[0].inference],
             recomondations: ["Keep up Good work"],
             predictions: ["Incident forecast over next 3 months - 2, 0, 0"]
         }),
@@ -221,7 +234,7 @@ export const Resilience = () => {
                 name: 'Occurred',
                 data: finalData.data8
             }],
-            inferences: [100],
+            inference: [datan.data8[0].inference],
             recomondations: ["Keep up Good work"],
             predictions: []
         }),
@@ -232,7 +245,7 @@ export const Resilience = () => {
                 name: 'Planned',
                 data: finalData.data9
             }],
-            inferences: [50],
+            inference: [datan.data9[0].inference],
             recomondations: ["Adhere to planned activities"],
             predictions: []
         }),
@@ -243,7 +256,7 @@ export const Resilience = () => {
                 name: 'Planned',
                 data: finalData.data10
             }],
-            inferences: [66],
+            inference: [datan.data10[0].inference],
             recomondations: ["Adhere to planned activities"],
             predictions: ["Expected communications over next 3 months - 5, 4, 4"]
         })
@@ -319,7 +332,7 @@ export const Resilience = () => {
             </div>
             <div className="row gy-3 gx-3 mt-2">
                 {data.map((item, index) => {
-                     if ((item.series[0].data.length > 0 && index > 5) && !second) {
+                    if ((item.series[0].data.length > 0 && index > 5) && !second) {
                         setSecond(true)
                     }
                     return (

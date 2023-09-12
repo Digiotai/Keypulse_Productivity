@@ -96,7 +96,7 @@ export const Sustainability = () => {
 
 
 
-    const handleGetData = (name, data5) => {
+    const handleGetData = (name, data5,inference) => {
         switch (name) {
             case 'kpEnergy.csv':
                 return <div className="col-4">
@@ -119,7 +119,7 @@ export const Sustainability = () => {
                                     {show && <div className='card p-2' style={{ position: 'absolute', marginLeft: "-300px", marginTop: "-20px", zIndex: 9999, width: '250px' }}>
                                         {label === "inf" && <div>
                                             {getTitle("Inferences", "#427ae3", () => setShow(false))}
-                                            <>{data[0].inferences?.length > 0 ? getData(data[0].inferences, "#427ae3") : <li className='m-0 p-0' style={{ fontFamily: "poppins", fontWeight: 400, fontSize: '12px', width: '190px', listStyle: 'none' }}>No Inferences Found!</li>}</>
+                                            <>{inference?.length > 0 ? getData(inference, "#427ae3") : <li className='m-0 p-0' style={{ fontFamily: "poppins", fontWeight: 400, fontSize: '12px', width: '190px', listStyle: 'none' }}>No Inferences Found!</li>}</>
                                         </div>}
                                         {label === "rec" && <div>
                                             {getTitle("Recommendations", "#800080", () => setShow(false))}
@@ -160,7 +160,7 @@ export const Sustainability = () => {
                                     {show1 && <div className='card p-2' style={{ position: 'absolute', marginLeft: "-300px", marginTop: "-20px", zIndex: 9999, width: '250px' }}>
                                         {label1 === "inf" && <div>
                                             {getTitle("Inferences", "#427ae3", () => setShow1(false))}
-                                            <>{data[1].inferences?.length > 0 ? getData(data[1].inferences, "#427ae3") : <li className='m-0 p-0' style={{ fontFamily: "poppins", fontWeight: 400, fontSize: '12px', width: '190px', listStyle: 'none' }}>No Inferences Found!</li>}</>
+                                            <>{inference?.length > 0 ? getData(inference, "#427ae3") : <li className='m-0 p-0' style={{ fontFamily: "poppins", fontWeight: 400, fontSize: '12px', width: '190px', listStyle: 'none' }}>No Inferences Found!</li>}</>
                                         </div>}
                                         {label1 === "rec" && <div>
                                             {getTitle("Recommendations", "#800080", () => setShow1(false))}
@@ -201,7 +201,7 @@ export const Sustainability = () => {
                                     {show2 && <div className='card p-2' style={{ position: 'absolute', marginLeft: "-300px", marginTop: "-20px", zIndex: 9999, width: '250px' }}>
                                         {label2 === "inf" && <div>
                                             {getTitle("Inferences", "#427ae3", () => setShow2(false))}
-                                            <>{data[2].inferences?.length > 0 ? getData(data[2].inferences, "#427ae3") : <li className='m-0 p-0' style={{ fontFamily: "poppins", fontWeight: 400, fontSize: '12px', width: '190px', listStyle: 'none' }}>No Inferences Found!</li>}</>
+                                            <>{inference?.length > 0 ? getData(inference, "#427ae3") : <li className='m-0 p-0' style={{ fontFamily: "poppins", fontWeight: 400, fontSize: '12px', width: '190px', listStyle: 'none' }}>No Inferences Found!</li>}</>
                                         </div>}
                                         {label2 === "rec" && <div>
                                             {getTitle("Recommendations", "#800080", () => setShow2(false))}
@@ -242,7 +242,7 @@ export const Sustainability = () => {
                                     {show3 && <div className='card p-2' style={{ position: 'absolute', marginLeft: "-300px", marginTop: "-20px", zIndex: 9999, width: '250px' }}>
                                         {label3 === "inf" && <div>
                                             {getTitle("Inferences", "#427ae3", () => setShow3(false))}
-                                            <>{data[3].inferences?.length > 0 ? getData(data[3].inferences, "#427ae3") : <li className='m-0 p-0' style={{ fontFamily: "poppins", fontWeight: 400, fontSize: '12px', width: '190px', listStyle: 'none' }}>No Inferences Found!</li>}</>
+                                            <>{inference?.length > 0 ? getData(inference, "#427ae3") : <li className='m-0 p-0' style={{ fontFamily: "poppins", fontWeight: 400, fontSize: '12px', width: '190px', listStyle: 'none' }}>No Inferences Found!</li>}</>
                                         </div>}
                                         {label3 === "rec" && <div>
                                             {getTitle("Recommendations", "#800080", () => setShow3(false))}
@@ -283,7 +283,7 @@ export const Sustainability = () => {
                                     {show4 && <div className='card p-2' style={{ position: 'absolute', marginLeft: "-300px", marginTop: "-20px", zIndex: 9999, width: '250px' }}>
                                         {label4 === "inf" && <div>
                                             {getTitle("Inferences", "#427ae3", () => setShow4(false))}
-                                            <>{data[4].inferences?.length > 0 ? getData(data[4].inferences, "#427ae3") : <li className='m-0 p-0' style={{ fontFamily: "poppins", fontWeight: 400, fontSize: '12px', width: '190px', listStyle: 'none' }}>No Inferences Found!</li>}</>
+                                            <>{inference?.length > 0 ? getData(inference, "#427ae3") : <li className='m-0 p-0' style={{ fontFamily: "poppins", fontWeight: 400, fontSize: '12px', width: '190px', listStyle: 'none' }}>No Inferences Found!</li>}</>
                                         </div>}
                                         {label4 === "rec" && <div>
                                             {getTitle("Recommendations", "#800080", () => setShow4(false))}
@@ -324,7 +324,7 @@ export const Sustainability = () => {
                                     {show5 && <div className='card p-2' style={{ position: 'absolute', marginLeft: "-300px", marginTop: "-20px", zIndex: 9999, width: '250px' }}>
                                         {label5 === "inf" && <div>
                                             {getTitle("Inferences", "#427ae3", () => setShow5(false))}
-                                            <>{data[5].inferences?.length > 0 ? getData(data[5].inferences, "#427ae3") : <li className='m-0 p-0' style={{ fontFamily: "poppins", fontWeight: 400, fontSize: '12px', width: '190px', listStyle: 'none' }}>No Inferences Found!</li>}</>
+                                            <>{inference?.length > 0 ? getData(inference, "#427ae3") : <li className='m-0 p-0' style={{ fontFamily: "poppins", fontWeight: 400, fontSize: '12px', width: '190px', listStyle: 'none' }}>No Inferences Found!</li>}</>
                                         </div>}
                                         {label5 === "rec" && <div>
                                             {getTitle("Recommendations", "#800080", () => setShow5(false))}
@@ -385,42 +385,42 @@ export const Sustainability = () => {
                 {apidata?.map((item) => {
                     if (item.name == "kpEnergy.csv") {
                         console.log(item)
-                        return handleGetData(item.name, item.data)
+                        return handleGetData(item.name, item.data,item.inference)
                     }
                 })}
                 {apidata?.map((item) => {
                     if (item.name == "kpWaste.csv") {
-                        return handleGetData(item.name, item.data)
+                        return handleGetData(item.name, item.data,item.inference)
                     }
                 })}
                 {apidata?.map((item) => {
                     if (item.name == "kpPlantation.csv") {
-                        return handleGetData(item.name, item.data)
+                        return handleGetData(item.name, item.data,item.inference)
                     }
                 })}
                 {apidata?.map((item) => {
                     if (item.name == "kpWater.csv") {
-                        return handleGetData(item.name, item.data)
+                        return handleGetData(item.name, item.data,item.inference)
                     }
                 })}
                 {apidata?.map((item) => {
                     if (item.name == "kpAltEnergy.csv") {
-                        return handleGetData(item.name, item.data)
+                        return handleGetData(item.name, item.data,item.inference)
                     }
                 })}
                 {apidata?.map((item) => {
                     if (item.name == "kpUptime.csv") {
-                        return handleGetData(item.name, item.data)
+                        return handleGetData(item.name, item.data,item.inference)
                     }
                 })}
                 {apidata?.map((item) => {
                     if (item.name == "kpThroughput.csv") {
-                        return handleGetData(item.name, item.data)
+                        return handleGetData(item.name, item.data,item.inference)
                     }
                 })}
                 {apidata?.map((item) => {
                     if (item.name == "kpco2.csv") {
-                        return handleGetData(item.name, item.data)
+                        return handleGetData(item.name, item.data,item.inference)
                     }
                 })}
             </div>

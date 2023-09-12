@@ -104,7 +104,7 @@ export const InnerProductivity = () => {
         }
     }
 
-    const handleGetData = (name, data5) => {
+    const handleGetData = (name, data5,inference) => {
         switch (name) {
             case 'kpThroughput.csv':
                 return <div className="col-6">
@@ -178,7 +178,7 @@ export const InnerProductivity = () => {
                                     {show && <div className='card p-2' style={{ position: 'absolute', marginLeft: "-300px", marginTop: "-20px", zIndex: 9999, width: '250px' }}>
                                         {label === "inf" && <div>
                                             {getTitle("Inferences", "#427ae3", () => setShow(false))}
-                                            <>{data[0].inferences?.length > 0 ? getData(data[0].inferences, "#427ae3") : <li className='m-0 p-0' style={{ fontFamily: "poppins", fontWeight: 400, fontSize: '12px', width: '190px', listStyle: 'none' }}>No Inferences Found!</li>}</>
+                                            <>{inference?.length > 0 ? getData(inference, "#427ae3") : <li className='m-0 p-0' style={{ fontFamily: "poppins", fontWeight: 400, fontSize: '12px', width: '190px', listStyle: 'none' }}>No Inferences Found!</li>}</>
                                         </div>}
                                         {label === "rec" && <div>
                                             {getTitle("Recommendations", "#800080", () => setShow(false))}
@@ -239,7 +239,7 @@ export const InnerProductivity = () => {
                                     {show1 && <div className='card p-2' style={{ position: 'absolute', marginLeft: "-300px", marginTop: "-20px", zIndex: 9999, width: '250px' }}>
                                         {label1 === "inf" && <div>
                                             {getTitle("Inferences", "#427ae3", () => setShow1(false))}
-                                            <>{data[1].inferences?.length > 0 ? getData(data[1].inferences, "#427ae3") : <li className='m-0 p-0' style={{ fontFamily: "poppins", fontWeight: 400, fontSize: '12px', width: '190px', listStyle: 'none' }}>No Inferences Found!</li>}</>
+                                            <>{inference?.length > 0 ? getData(inference, "#427ae3") : <li className='m-0 p-0' style={{ fontFamily: "poppins", fontWeight: 400, fontSize: '12px', width: '190px', listStyle: 'none' }}>No Inferences Found!</li>}</>
                                         </div>}
                                         {label1 === "rec" && <div>
                                             {getTitle("Recommendations", "#800080", () => setShow1(false))}
@@ -289,7 +289,7 @@ export const InnerProductivity = () => {
                                     {show2 && <div className='card p-2' style={{ position: 'absolute', marginLeft: "-300px", marginTop: "-20px", zIndex: 9999, width: '250px' }}>
                                         {label2 === "inf" && <div>
                                             {getTitle("Inferences", "#427ae3", () => setShow2(false))}
-                                            <>{data[2].inferences?.length > 0 ? getData(data[2].inferences, "#427ae3") : <li className='m-0 p-0' style={{ fontFamily: "poppins", fontWeight: 400, fontSize: '12px', width: '190px', listStyle: 'none' }}>No Inferences Found!</li>}</>
+                                            <>{inference?.length > 0 ? getData(inference, "#427ae3") : <li className='m-0 p-0' style={{ fontFamily: "poppins", fontWeight: 400, fontSize: '12px', width: '190px', listStyle: 'none' }}>No Inferences Found!</li>}</>
                                         </div>}
                                         {label2 === "rec" && <div>
                                             {getTitle("Recommendations", "#800080", () => setShow2(false))}
@@ -367,17 +367,17 @@ export const InnerProductivity = () => {
             <div className="row gx-1 gy-1 p-2 pt-0">
                 {apidata?.map((item) => {
                     if (item.name == "kpUnitsYTD.csv") {
-                        return handleGetData(item.name, item.data)
+                        return handleGetData(item.name, item.data,item.inference)
                     }
                 })}
                 {apidata?.map((item) => {
                     if (item.name == "kpUnitsLost.csv") {
-                        return handleGetData(item.name, item.data)
+                        return handleGetData(item.name, item.data,item.inference)
                     }
                 })}
                 {apidata?.map((item) => {
                     if (item.name == "kpPlantProd.csv") {
-                        return handleGetData(item.name, item.data)
+                        return handleGetData(item.name, item.data,item.inference)
                     }
                 })}
                 {apidata?.map((item) => {

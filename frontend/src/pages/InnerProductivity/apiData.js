@@ -123,13 +123,13 @@ export const unitsYTDData = (data) => {
         name: 'series1',
         data: data[0].data.map((item) => {
             return (
-                parseInt(item.replace(/,/g, ""))
+                parseInt(item)
             )
         })
     }]
     let count = 0
     data[0].data.filter((item) => {
-        count = count + parseInt(item.replace(/,/g, ""))
+        count = count + parseInt(item)
     })
     return { total: count, finalData: aseries }
 }
