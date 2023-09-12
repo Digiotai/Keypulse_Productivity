@@ -10,15 +10,16 @@ targetdata = {'kpUnitsYTD.csv': 45000, "kpUnitsLost.csv": 35, "kpPlantProd.csv":
 files = {"RiskManagementInitiatives": "kpRMI"}
 
 sustainabilityInference = {
-    "kpEnergy.csv": "Energy consumption by Chillers is 7% more than energy consumed by the other 3 types of machines "
-                    "During the period of observation, Boilers have consumed least energy, 3% down MoM",
-    "kpAltEnergy.csv": "Solar energy generated is highest during the fiscal Wind energy dropped "
-                       "by 0.7% YoY owing to unplanned downtime of two windmills",
-    "kpPlantation.csv": "Summer months have seen lower count of plantation as expected Early showers helped double "
-                        "the plantations in the month of July.",
-    "kpWaste.csv": "Overall waste generation is found to be within the set limits Recyclable waste segregation needs "
-                   "attention as the aggregate so far is less than expected",
-    "kpWater.csv": "Recycle water usage has increased to 2.1% Premium water purchase has gone down by 1.8%"
+    "kpEnergy.csv": ["Energy consumption by Chillers is 7% more than energy consumed by the other 3 types of machines",
+                     "During the period of observation, Boilers have consumed least energy, 3% down MoM"],
+    "kpAltEnergy.csv": ["Solar energy generated is highest during the fiscal ",
+                        "Wind energy dropped by 0.7% YoY owing to unplanned downtime of two windmills"],
+    "kpPlantation.csv": ["Summer months have seen lower count of plantation as expected",
+                         "Early showers helped double the plantations in the month of July."],
+    "kpWaste.csv": ["Overall waste generation is found to be within the set limits ",
+                   "Recyclable waste segregation needs attention as the aggregate so far is less than expected"],
+    "kpWater.csv": ["Recycle water usage has increased to 2.1%",
+                    "Premium water purchase has gone down by 1.8%"]
 }
 
 
@@ -98,7 +99,7 @@ def getData(request, kpi):
 
 
 def getProductivityInference(df, file, kpi):
-    res = ''
+    res = []
     if file == 'kpPlantProd.csv':
         name = "Plant Productivity (%)"
     else:
@@ -110,38 +111,35 @@ def getProductivityInference(df, file, kpi):
     i1 = actual / planned
 
     if i1 > 0.9:
-        res += 'I1: Status: Good. Maintain and adhere to the process'
+        res.append('I1: Status: Good. Maintain and adhere to the process')
     elif (i1 >= 0.7) and (i1 < 0.9):
         res += 'I1: Status: OK. Need to ramp up'
     else:
-        res += 'I1: Status: Bad, Needs attention and escalation to bring back on the track'
-    res += '<br>'
+        res.append('I1: Status: Bad, Needs attention and escalation to bring back on the track')
+
     i2 = df.sort_values(by=name).reset_index(drop=True)
-    res += f'I2: {i2.loc[0, "Month"]} and {i2.loc[1, "Month"]}  have lower {kpi}'
-    res += '<br>'
+    res.append(f'I2: {i2.loc[0, "Month"]} and {i2.loc[1, "Month"]}  have lower {kpi}')
     if i2.iloc[-1, 1] > planned:
-        res += f'I3: {i2.iloc[-1, 0]} is high yielding. Congratulations'
+        res.append(f'I3: {i2.iloc[-1, 0]} is high yielding. Congratulations')
     return res
 
 
 def getResilienceInference(data, kpi):
     try:
-        res = ''
+        res = []
         avgplanned = sum(data['Planned']) / data.shape[0]
         avgactual = sum(data['Actual']) / data.shape[0]
         i1 = avgactual / avgplanned
         if i1 > 0.9:
-            res += 'I1: Status: Good. Maintain and adhere to the process'
+            res.append('I1: Status: Good. Maintain and adhere to the process')
         elif (i1 >= 0.7) and (i1 < 0.9):
-            res += 'I1: Status: OK. Need to ramp up'
+            res.append('I1: Status: OK. Need to ramp up')
         else:
-            res += 'I1: Status: Bad, Needs attention and escalation to bring back on the track'
-        res += '<br>'
+            res.append('I1: Status: Bad, Needs attention and escalation to bring back on the track')
         i2 = data.sort_values(by='Actual').reset_index(drop=True)
-        res += f'I2: {i2.loc[0, "Month"]} and {i2.loc[1, "Month"]}  have lower {kpi}'
-        res += '<br>'
+        res.append(f'I2: {i2.loc[0, "Month"]} and {i2.loc[1, "Month"]}  have lower {kpi}')
         if i2.iloc[-1, 1] > avgplanned:
-            res += f'I3: {i2.iloc[-1, 0]} is high yielding. Congratulations'
+            res.append(f'I3: {i2.iloc[-1, 0]} is high yielding. Congratulations')
         return res
     except Exception as e:
         print(e)

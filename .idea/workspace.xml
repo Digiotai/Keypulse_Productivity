@@ -6,7 +6,8 @@
   <component name="ChangeListManager">
     <list default="true" id="8624a236-2b68-466d-89b6-fc665410d6a5" name="Changes" comment="updated files">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/db.sqlite3" beforeDir="false" afterPath="$PROJECT_DIR$/db.sqlite3" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend/views.py" beforeDir="false" afterPath="$PROJECT_DIR$/backend/views.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/package-lock.json" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/package-lock.json" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -87,7 +88,7 @@
       <workItem from="1694457061889" duration="1152000" />
       <workItem from="1694486254488" duration="678000" />
       <workItem from="1694506114284" duration="2918000" />
-      <workItem from="1694526113857" duration="4789000" />
+      <workItem from="1694526113857" duration="6257000" />
     </task>
     <task id="LOCAL-00001" summary="renamed type to kpi">
       <option name="closed" value="true" />
