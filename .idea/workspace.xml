@@ -4,31 +4,8 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="8624a236-2b68-466d-89b6-fc665410d6a5" name="Changes" comment="">
+    <list default="true" id="8624a236-2b68-466d-89b6-fc665410d6a5" name="Changes" comment="updated files">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/DefaultData/productivity/kpLostCause.csv" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/DefaultData/productivity/kpPlantProd.csv" beforeDir="false" afterPath="$PROJECT_DIR$/uploads/productivity/kpPlantProd.csv" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/DefaultData/productivity/kpThroughput.csv" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/DefaultData/productivity/kpUnitsLost.csv" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/DefaultData/productivity/kpUnitsYTD.csv" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/DefaultData/productivity/kpUptime.csv" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/DefaultData/productivity/kpUtilization.csv" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/DefaultData/resilience/kpBCP.csv" beforeDir="false" afterPath="$PROJECT_DIR$/uploads/resilience/kpBCP.csv" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/DefaultData/resilience/kpCCM.csv" beforeDir="false" afterPath="$PROJECT_DIR$/uploads/resilience/kpCCM.csv" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/DefaultData/resilience/kpCOMM.csv" beforeDir="false" afterPath="$PROJECT_DIR$/uploads/resilience/kpCOMM.csv" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/DefaultData/resilience/kpCSM.csv" beforeDir="false" afterPath="$PROJECT_DIR$/uploads/resilience/kpCSM.csv" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/DefaultData/resilience/kpCST.csv" beforeDir="false" afterPath="$PROJECT_DIR$/uploads/resilience/kpCST.csv" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/DefaultData/resilience/kpIM.csv" beforeDir="false" afterPath="$PROJECT_DIR$/uploads/resilience/kpIM.csv" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/DefaultData/resilience/kpPF.csv" beforeDir="false" afterPath="$PROJECT_DIR$/uploads/resilience/kpPF.csv" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/DefaultData/resilience/kpRMI.csv" beforeDir="false" afterPath="$PROJECT_DIR$/uploads/resilience/kpRMI.csv" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/DefaultData/resilience/kpVMR.csv" beforeDir="false" afterPath="$PROJECT_DIR$/uploads/resilience/kpVMR.csv" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/DefaultData/sustainability/kpAltEnergy.csv" beforeDir="false" afterPath="$PROJECT_DIR$/uploads/sustainability/kpAltEnergy.csv" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/DefaultData/sustainability/kpEnergy.csv" beforeDir="false" afterPath="$PROJECT_DIR$/uploads/sustainability/kpEnergy.csv" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/DefaultData/sustainability/kpPlantation.csv" beforeDir="false" afterPath="$PROJECT_DIR$/uploads/sustainability/kpPlantation.csv" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/DefaultData/sustainability/kpWaste.csv" beforeDir="false" afterPath="$PROJECT_DIR$/uploads/sustainability/kpWaste.csv" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/DefaultData/sustainability/kpWater.csv" beforeDir="false" afterPath="$PROJECT_DIR$/uploads/sustainability/kpWater.csv" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/backend/urls.py" beforeDir="false" afterPath="$PROJECT_DIR$/backend/urls.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/backend/views.py" beforeDir="false" afterPath="$PROJECT_DIR$/backend/views.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/db.sqlite3" beforeDir="false" afterPath="$PROJECT_DIR$/db.sqlite3" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -52,7 +29,7 @@
     &quot;RunOnceActivity.OpenProjectViewOnStart&quot;: &quot;true&quot;,
     &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
     &quot;WebServerToolWindowFactoryState&quot;: &quot;false&quot;,
-    &quot;last_opened_file_path&quot;: &quot;G:/F/d7/sohyper/sectionrows/sectionrows.py&quot;,
+    &quot;last_opened_file_path&quot;: &quot;G:/F/DIGIOTAI/Keypulse_Kprocess/Keypulse_Productivity/defaultData&quot;,
     &quot;node.js.detected.package.eslint&quot;: &quot;true&quot;,
     &quot;node.js.detected.package.tslint&quot;: &quot;true&quot;,
     &quot;node.js.selected.package.eslint&quot;: &quot;(autodetect)&quot;,
@@ -62,7 +39,11 @@
   }
 }</component>
   <component name="RecentsManager">
+    <key name="CopyFile.RECENT_KEYS">
+      <recent name="G:\F\DIGIOTAI\Keypulse_Kprocess\Keypulse_Productivity\defaultData" />
+    </key>
     <key name="MoveFile.RECENT_KEYS">
+      <recent name="G:\F\DIGIOTAI\Keypulse_Kprocess\Keypulse_Productivity\uploads" />
       <recent name="G:\F\DIGIOTAI\Keypulse_Kprocess\Keypulse_Productivity\DefaultData" />
     </key>
   </component>
@@ -101,11 +82,47 @@
       <updated>1694278235906</updated>
       <workItem from="1694278240431" duration="1779000" />
       <workItem from="1694322108537" duration="3818000" />
-      <workItem from="1694360868926" duration="434000" />
+      <workItem from="1694360868926" duration="1028000" />
+      <workItem from="1694444986605" duration="3468000" />
+      <workItem from="1694457061889" duration="1152000" />
+      <workItem from="1694486254488" duration="678000" />
+      <workItem from="1694506114284" duration="2918000" />
+      <workItem from="1694526113857" duration="4789000" />
     </task>
+    <task id="LOCAL-00001" summary="renamed type to kpi">
+      <option name="closed" value="true" />
+      <created>1694531926524</created>
+      <option name="number" value="00001" />
+      <option name="presentableId" value="LOCAL-00001" />
+      <option name="project" value="LOCAL" />
+      <updated>1694531926524</updated>
+    </task>
+    <task id="LOCAL-00002" summary="added inference logic">
+      <option name="closed" value="true" />
+      <created>1694531945973</created>
+      <option name="number" value="00002" />
+      <option name="presentableId" value="LOCAL-00002" />
+      <option name="project" value="LOCAL" />
+      <updated>1694531945973</updated>
+    </task>
+    <task id="LOCAL-00003" summary="updated files">
+      <option name="closed" value="true" />
+      <created>1694531964459</created>
+      <option name="number" value="00003" />
+      <option name="presentableId" value="LOCAL-00003" />
+      <option name="project" value="LOCAL" />
+      <updated>1694531964459</updated>
+    </task>
+    <option name="localTasksCounter" value="4" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
     <option name="version" value="3" />
+  </component>
+  <component name="VcsManagerConfiguration">
+    <MESSAGE value="renamed type to kpi" />
+    <MESSAGE value="added inference logic" />
+    <MESSAGE value="updated files" />
+    <option name="LAST_COMMIT_MESSAGE" value="updated files" />
   </component>
 </project>
