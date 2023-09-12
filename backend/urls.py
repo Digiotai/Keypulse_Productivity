@@ -3,6 +3,6 @@ from . import views
 
 urlpatterns = [
     path('', views.index, name='index'),
-    path('<str:UploadType>/FileUpload', views.uploadFile, name='FileUpload'),
-    path('<str:DownoladType>/getData', views.getData, name='getData')
+    path('<str:kpi>/FileUpload', views.uploadFile, name='FileUpload'),
+    path('<str:kpi>/getData', views.getData, name='getData')
 ]
