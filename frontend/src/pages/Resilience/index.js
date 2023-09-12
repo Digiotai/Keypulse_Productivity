@@ -157,7 +157,7 @@ export const Resilience = () => {
                 name: 'Planned',
                 data: finalData.data1
             }],
-            inference: [datan.data1[0].inference],
+            inference: [datan?.data1[0]?.inference],
             recomondations: ["Adhere to planned activities"],
             predictions: []
         },
@@ -168,7 +168,7 @@ export const Resilience = () => {
                 name: 'Planned',
                 data: finalData.data2
             }],
-            inference: [datan.data2[0].inference],
+            inference: [datan?.data2[0]?.inference],
             recomondations: ["Make up missed/lost activities"],
             predictions: []
         },
@@ -179,7 +179,7 @@ export const Resilience = () => {
                 name: 'Planned',
                 data: finalData.data3
             }],
-            inference: [datan.data3[0].inference],
+            inference: [datan?.data3[0]?.inference],
             recomondations: ["Adhere to planned activities"],
             predictions: []
         },
@@ -190,7 +190,7 @@ export const Resilience = () => {
                 name: 'Planned',
                 data: finalData.data4
             }],
-            inference: [datan.data4[0].inference],
+            inference: [datan?.data4[0]?.inference],
             recomondations: ["Make up missed/lost activities"],
             predictions: []
         },
@@ -201,7 +201,7 @@ export const Resilience = () => {
                 name: 'Planned',
                 data: finalData.data5
             }],
-            inference: [datan.data5[0].inference],
+            inference: [datan?.data5[0]?.inference],
             recomondations: ["Adhere to planned activities"],
             predictions: []
         },
@@ -212,7 +212,7 @@ export const Resilience = () => {
                 name: 'Planned',
                 data: finalData.data6
             }],
-            inference: [datan.data6[0].inference],
+            inference: [datan?.data6[0]?.inference],
             recomondations: ["Make up missed/lost activities"],
             predictions: []
         }),
@@ -223,7 +223,7 @@ export const Resilience = () => {
                 name: 'Occurred',
                 data: finalData.data7
             }],
-            inference: [datan.data7[0].inference],
+            inference: [datan?.data7[0]?.inference],
             recomondations: ["Keep up Good work"],
             predictions: ["Incident forecast over next 3 months - 2, 0, 0"]
         }),
@@ -234,7 +234,7 @@ export const Resilience = () => {
                 name: 'Occurred',
                 data: finalData.data8
             }],
-            inference: [datan.data8[0].inference],
+            inference: [datan?.data8[0]?.inference],
             recomondations: ["Keep up Good work"],
             predictions: []
         }),
@@ -245,7 +245,7 @@ export const Resilience = () => {
                 name: 'Planned',
                 data: finalData.data9
             }],
-            inference: [datan.data9[0].inference],
+            inference: [datan?.data9[0]?.inference],
             recomondations: ["Adhere to planned activities"],
             predictions: []
         }),
@@ -256,7 +256,7 @@ export const Resilience = () => {
                 name: 'Planned',
                 data: finalData.data10
             }],
-            inference: [datan.data10[0].inference],
+            inference: [datan?.data10[0]?.inference],
             recomondations: ["Adhere to planned activities"],
             predictions: ["Expected communications over next 3 months - 5, 4, 4"]
         })
