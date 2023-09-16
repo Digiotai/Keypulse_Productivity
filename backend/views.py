@@ -110,37 +110,32 @@ def getSustainabilityInference(df, file):
                 tname = col
             res.append(f'{tname} Status: Good. Maintain and adhere to the process')
         elif (i1 >= 0.7) and (i1 < 0.9):
-            res.append('Status: OK. Need to ramp up')
+            res.append(f'{col} Status: OK. Need to ramp up')
         else:
             res.append(f'{col} Status: Bad, Needs attention and escalation to bring back on the track')
 
         i2 = df.sort_values(by=col).reset_index(drop=True)
         if file.startswith('kpEnergy'):
-            res.append(f'{col} Energy was lower in {i2.loc[0, "Month"]} and {i2.loc[1, "Month"]}')
+           inftemp = f'{col} Energy was lower in {i2.loc[0, "Month"]} and {i2.loc[1, "Month"]}'
         elif file.startswith('kpWaste'):
-            res.append(f'Congratulations. {col} waste produced by each machine was lower in {i2.loc[0, "Month"]} and {i2.loc[1, "Month"]}')
+            inftemp = f'Congratulations, {col} waste produced by each machine was lower in {i2.loc[0, "Month"]} and {i2.loc[1, "Month"]}'
         elif file.startswith('kpPlantation'):
-            res.append(f'Plantation was lower in {i2.loc[0, "Month"]} and {i2.loc[1, "Month"]}')
+            inftemp = f'Plantation was lower in {i2.loc[0, "Month"]} and {i2.loc[1, "Month"]}'
         elif file.startswith('kpWater'):
-            res.append(f'Water utilised was lower in {i2.loc[0, "Month"]} and {i2.loc[1, "Month"]}')
+            inftemp = f'Water utilised was lower in {i2.loc[0, "Month"]} and {i2.loc[1, "Month"]}'
         elif file.startswith('kpco2'):
-            res.append(f'Congratulations. Co2 emission was lower in {i2.loc[0, "Month"]} and {i2.loc[1, "Month"]}')
+            inftemp = f'Congratulations, Co2 emission was lower in {i2.loc[0, "Month"]} and {i2.loc[1, "Month"]}'
         else:
-            res.append(f'{i2.loc[0, "Month"]} and {i2.loc[1, "Month"]}  have lower {col}')
+            inftemp = f'{i2.loc[0, "Month"]} and {i2.loc[1, "Month"]}  have lower {col}'
 
         if i2.iloc[-1, 1] > avgplanned:
-            if file.startswith('kpEnergy'):
-                res.append(f'{col} Energy was higher in {i2.iloc[-1, 0]}')
-            elif file.startswith('kpWaste'):
-                res.append(f'Attention. {col} waste produced by each machine was higher in {i2.iloc[-1, 0]}')
-            elif file.startswith('kpPlantation'):
-                res.append(f'Plantation was higher in {i2.iloc[-1, 0]}')
-            elif file.startswith('kpWater'):
-                res.append(f'Water utilised was higher in {i2.iloc[-1, 0]}')
+            if file.startswith('kpWaste'):
+                inftemp += f'.Attention, {col} waste produced by each machine was higher in {i2.iloc[-1, 0]}'
             elif file.startswith('kpco2'):
-                res.append(f'Attention. Co2 emission was higher in {i2.iloc[-1, 0]}')
+                inftemp += f'. Attention, Co2 emission was higher in {i2.iloc[-1, 0]}'
             else:
-                res.append(f'{col} was high in {i2.iloc[-1, 0]}.')
+                inftemp += f' and higher in {i2.iloc[-1, 0]}.'
+        res.append(inftemp)
     return res
 
 
@@ -171,7 +166,7 @@ def getProductivityInference(df, file):
     if i2.iloc[-1, 1] > planned:
         if file.startswith("kpUnitsLost"):
             res.append(
-                f'Attention required. {i2.loc[0, "Month"]} and {i2.loc[1, "Month"]}  has higher {file.replace(".csv","")[2:]}')
+                f'Attention required. {i2.iloc[-1, 0]}  has higher {file.replace(".csv","")[2:]}')
         else:
             res.append(f'{i2.iloc[-1, 0]} has high yielding . Congratulations')
     return res
