@@ -47,7 +47,7 @@ export const InnerProductivity = () => {
     const data = [
         {
             inferences: ["Average monthly units produced are consistent but for 2 months.", "Month of February'23 has seen 6% lower production", "Months of April'23 and June'23 have recorded 2.5% and 4.1% higher production"],
-            recomondations: ["Ensure supply and availability of raw material and water sources. Shortage of Water in the month of February'23 led to drop in production"],
+            recomondations: ["Ensure supply and availability of raw material and water sources."],
             predictions: ["Predicted units for the next 3 months are 36,013, 29,210 and 41,245"]
         },
         {
