@@ -71,26 +71,26 @@ def getData(request, kpi):
             files = os.listdir(os.path.join('uploads', kpi))
             res = []
             inference = ''
-            with pd.ExcelWriter("output.xlsx", mode='a', if_sheet_exists='overlay') as writer:
-                for file in files:
-                    df = pd.read_csv(os.path.join('uploads', kpi, file))
-                    df.dropna(how='all', inplace=True)
-                    df.fillna(0, inplace=True)
-                    df = df.iloc[:8, :]
-                    temp = []
-                    for col in df.columns[1:]:
-                        temp.append(
-                            {'name': col, 'data': list(df.loc[:, col].values),
-                             'label': list(df.loc[:, 'Month'].values)})
-                    if file in ['kpUnitsYTD.csv', 'kpUnitsLost.csv', "kpPlantProd.csv"]:
-                        inference = getProductivityInference(df, file)
-                    elif file in ['kpBCP.csv', "kpCOMM.csv", 'kpCSM.csv', 'kpCST.csv', 'kpIM.csv', 'kpCCM.csv',
-                                  'kpPF.csv',
-                                  'kpRMI.csv', 'kpVMR.csv']:
-                        inference = getResilienceInference(df,  file)
-                    elif kpi == 'sustainability':
-                        inference = getSustainabilityInference(df, file)
-                    res.append({'name': file, 'data': temp, 'inference': inference})
+
+            for file in files:
+                df = pd.read_csv(os.path.join('uploads', kpi, file))
+                df.dropna(how='all', inplace=True)
+                df.fillna(0, inplace=True)
+                df = df.iloc[:8, :]
+                temp = []
+                for col in df.columns[1:]:
+                    temp.append(
+                        {'name': col, 'data': list(df.loc[:, col].values),
+                         'label': list(df.loc[:, 'Month'].values)})
+                if file in ['kpUnitsYTD.csv', 'kpUnitsLost.csv', "kpPlantProd.csv"]:
+                    inference = getProductivityInference(df, file)
+                elif file in ['kpBCP.csv', "kpCOMM.csv", 'kpCSM.csv', 'kpCST.csv', 'kpIM.csv', 'kpCCM.csv',
+                              'kpPF.csv',
+                              'kpRMI.csv', 'kpVMR.csv']:
+                    inference = getResilienceInference(df,  file)
+                elif kpi == 'sustainability':
+                    inference = getSustainabilityInference(df, file)
+                res.append({'name': file, 'data': temp, 'inference': inference})
             return HttpResponse(json.dumps({'result': res}), content_type="application/json")
     except Exception as e:
         return HttpResponse(str(e))
