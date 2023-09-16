@@ -116,15 +116,15 @@ def getSustainabilityInference(df, file):
 
         i2 = df.sort_values(by=col).reset_index(drop=True)
         if file.startswith('kpEnergy'):
-           inftemp = f'{col} Energy was lower in {i2.loc[0, "Month"]} and {i2.loc[1, "Month"]}'
+           inftemp = f'{col} Energy was lower in {i2.loc[0, "Month"]}, {i2.loc[1, "Month"]}'
         elif file.startswith('kpWaste'):
-            inftemp = f'Congratulations, {col} waste produced by each machine was lower in {i2.loc[0, "Month"]} and {i2.loc[1, "Month"]}'
+            inftemp = f'Congratulations, {col} waste produced by each machine was lower in {i2.loc[0, "Month"]}, {i2.loc[1, "Month"]}'
         elif file.startswith('kpPlantation'):
-            inftemp = f'Plantation was lower in {i2.loc[0, "Month"]} and {i2.loc[1, "Month"]}'
+            inftemp = f'Plantation was lower in {i2.loc[0, "Month"]}, {i2.loc[1, "Month"]}'
         elif file.startswith('kpWater'):
-            inftemp = f'Water utilised was lower in {i2.loc[0, "Month"]} and {i2.loc[1, "Month"]}'
+            inftemp = f'Water utilised was lower in {i2.loc[0, "Month"]}, {i2.loc[1, "Month"]}'
         elif file.startswith('kpco2'):
-            inftemp = f'Congratulations, Co2 emission was lower in {i2.loc[0, "Month"]} and {i2.loc[1, "Month"]}'
+            inftemp = f'Congratulations, Co2 emission was lower in {i2.loc[0, "Month"]}, {i2.loc[1, "Month"]}'
         else:
             inftemp = f'{i2.loc[0, "Month"]} and {i2.loc[1, "Month"]}  have lower {col}'
 

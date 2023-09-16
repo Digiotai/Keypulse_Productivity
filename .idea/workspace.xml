@@ -4,10 +4,7 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="8624a236-2b68-466d-89b6-fc665410d6a5" name="Changes" comment="modified getData method">
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/backend/views.py" beforeDir="false" afterPath="$PROJECT_DIR$/backend/views.py" afterDir="false" />
-    </list>
+    <list default="true" id="8624a236-2b68-466d-89b6-fc665410d6a5" name="Changes" comment="modified getData method" />
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -196,7 +193,7 @@
       <workItem from="1694661678759" duration="3298000" />
       <workItem from="1694678931670" duration="2346000" />
       <workItem from="1694703355522" duration="5911000" />
-      <workItem from="1694841579700" duration="9230000" />
+      <workItem from="1694841579700" duration="9763000" />
     </task>
     <task id="LOCAL-00001" summary="renamed type to kpi">
       <option name="closed" value="true" />
@@ -243,6 +240,17 @@
   </component>
   <component name="TypeScriptGeneratedFilesManager">
     <option name="version" value="3" />
+  </component>
+  <component name="Vcs.Log.Tabs.Properties">
+    <option name="TAB_STATES">
+      <map>
+        <entry key="MAIN">
+          <value>
+            <State />
+          </value>
+        </entry>
+      </map>
+    </option>
   </component>
   <component name="VcsManagerConfiguration">
     <MESSAGE value="renamed type to kpi" />
