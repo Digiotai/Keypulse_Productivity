@@ -6,21 +6,15 @@ from django.views.decorators.csrf import csrf_exempt
 import shutil
 import json
 
-targetdata = {'kpUnitsYTD.csv': 45000, "kpUnitsLost.csv": 35, "kpPlantProd.csv": 75}
-files = {"RiskManagementInitiatives": "kpRMI"}
-
-sustainabilityInference = {
-    "kpEnergy.csv": ["Energy consumption by Chillers is 7% more than energy consumed by the other 3 types of machines",
-                     "During the period of observation, Boilers have consumed least energy, 3% down MoM"],
-    "kpAltEnergy.csv": ["Solar energy generated is highest during the fiscal ",
-                        "Wind energy dropped by 0.7% YoY owing to unplanned downtime of two windmills"],
-    "kpPlantation.csv": ["Summer months have seen lower count of plantation as expected",
-                         "Early showers helped double the plantations in the month of July."],
-    "kpWaste.csv": ["Overall waste generation is found to be within the set limits ",
-                   "Recyclable waste segregation needs attention as the aggregate so far is less than expected"],
-    "kpWater.csv": ["Recycle water usage has increased to 2.1%",
-                    "Premium water purchase has gone down by 1.8%"]
+targetdata = {
+    'kpUnitsYTD.csv': 45000, "kpUnitsLost.csv": 35, "kpPlantProd.csv": 75,
+    "kpEnergyRobotic Arm": 1100, "kpEnergyRoller Belts": 850, "kpEnergyBoilers": 700, "kpEnergyChillers": 455,
+    "kpWaterRobotic Arm": 30320, "kpWaterRoller Belts": 9065, "kpWaterBoilers": 28420, "kpWaterChillers": 16750,
+    "kpAltEnergyWind Energy": 13, "kpAltEnergySolar Energy": 7, "kpco2co2": 30, "kpPlantationPlantation": 8575.25,
+    "kpWasteMicelleneous": 180, "kpWasteGeneral": 145, "kpWasterecyclable": 97, "kpWastecritical": 20,
+    "kpWastewaste": 42
 }
+files = {"RiskManagementInitiatives": "kpRMI"}
 
 
 def copyDefaultData():
@@ -77,28 +71,80 @@ def getData(request, kpi):
             files = os.listdir(os.path.join('uploads', kpi))
             res = []
             inference = ''
-            for file in files:
-                df = pd.read_csv(os.path.join('uploads', kpi, file))
-                df.dropna(how='all', inplace=True)
-                df.fillna(0, inplace=True)
-                temp = []
-                for col in df.columns[1:]:
-                    temp.append(
-                        {'name': col, 'data': list(df.loc[:7, col].values), 'label': list(df.loc[:7, 'Month'].values)})
-                if file in ['kpUnitsYTD.csv', 'kpUnitsLost.csv', "kpPlantProd.csv"]:
-                    inference = getProductivityInference(df, file, kpi)
-                elif file in ['kpBCP.csv', "kpCOMM.csv", 'kpCSM.csv', 'kpCST.csv', 'kpIM.csv', 'kpCCM.csv', 'kpPF.csv',
-                              'kpRMI.csv', 'kpVMR.csv']:
-                    inference = getResilienceInference(df, kpi)
-                elif kpi == 'sustainability':
-                    inference = sustainabilityInference[file]
-                res.append({'name': file, 'data': temp, 'inference': inference})
+            with pd.ExcelWriter("output.xlsx", mode='a', if_sheet_exists='overlay') as writer:
+                for file in files:
+                    df = pd.read_csv(os.path.join('uploads', kpi, file))
+                    df.dropna(how='all', inplace=True)
+                    df.fillna(0, inplace=True)
+                    df = df.iloc[:8, :]
+                    temp = []
+                    for col in df.columns[1:]:
+                        temp.append(
+                            {'name': col, 'data': list(df.loc[:, col].values),
+                             'label': list(df.loc[:, 'Month'].values)})
+                    if file in ['kpUnitsYTD.csv', 'kpUnitsLost.csv', "kpPlantProd.csv"]:
+                        inference = getProductivityInference(df, file)
+                    elif file in ['kpBCP.csv', "kpCOMM.csv", 'kpCSM.csv', 'kpCST.csv', 'kpIM.csv', 'kpCCM.csv',
+                                  'kpPF.csv',
+                                  'kpRMI.csv', 'kpVMR.csv']:
+                        inference = getResilienceInference(df,  file)
+                    elif kpi == 'sustainability':
+                        inference = getSustainabilityInference(df, file)
+                    res.append({'name': file, 'data': temp, 'inference': inference})
             return HttpResponse(json.dumps({'result': res}), content_type="application/json")
     except Exception as e:
         return HttpResponse(str(e))
 
 
-def getProductivityInference(df, file, kpi):
+def getSustainabilityInference(df, file):
+    res = []
+    for col in df.columns[1:]:
+        avgplanned = targetdata[file.replace('.csv', '') + col]
+        avgactual = sum(df[col]) / df.shape[0]
+        i1 = avgactual / avgplanned
+
+        if i1 > 0.9:
+            if col != file.replace(".csv","")[2:]:
+                tname = col + " " + file.replace(".csv","")[2:]
+            else:
+                tname = col
+            res.append(f'{tname} Status: Good. Maintain and adhere to the process')
+        elif (i1 >= 0.7) and (i1 < 0.9):
+            res.append('Status: OK. Need to ramp up')
+        else:
+            res.append(f'{col} Status: Bad, Needs attention and escalation to bring back on the track')
+
+        i2 = df.sort_values(by=col).reset_index(drop=True)
+        if file.startswith('kpEnergy'):
+            res.append(f'{col} Energy was lower in {i2.loc[0, "Month"]} and {i2.loc[1, "Month"]}')
+        elif file.startswith('kpWaste'):
+            res.append(f'Congratulations. {col} waste produced by each machine was lower in {i2.loc[0, "Month"]} and {i2.loc[1, "Month"]}')
+        elif file.startswith('kpPlantation'):
+            res.append(f'Plantation was lower in {i2.loc[0, "Month"]} and {i2.loc[1, "Month"]}')
+        elif file.startswith('kpWater'):
+            res.append(f'Water utilised was lower in {i2.loc[0, "Month"]} and {i2.loc[1, "Month"]}')
+        elif file.startswith('kpco2'):
+            res.append(f'Congratulations. Co2 emission was lower in {i2.loc[0, "Month"]} and {i2.loc[1, "Month"]}')
+        else:
+            res.append(f'{i2.loc[0, "Month"]} and {i2.loc[1, "Month"]}  have lower {col}')
+
+        if i2.iloc[-1, 1] > avgplanned:
+            if file.startswith('kpEnergy'):
+                res.append(f'{col} Energy was higher in {i2.iloc[-1, 0]}')
+            elif file.startswith('kpWaste'):
+                res.append(f'Attention. {col} waste produced by each machine was higher in {i2.iloc[-1, 0]}')
+            elif file.startswith('kpPlantation'):
+                res.append(f'Plantation was higher in {i2.iloc[-1, 0]}')
+            elif file.startswith('kpWater'):
+                res.append(f'Water utilised was higher in {i2.iloc[-1, 0]}')
+            elif file.startswith('kpco2'):
+                res.append(f'Attention. Co2 emission was higher in {i2.iloc[-1, 0]}')
+            else:
+                res.append(f'{col} was high in {i2.iloc[-1, 0]}.')
+    return res
+
+
+def getProductivityInference(df, file):
     res = []
     if file == 'kpPlantProd.csv':
         name = "Plant Productivity (%)"
@@ -111,35 +157,42 @@ def getProductivityInference(df, file, kpi):
     i1 = actual / planned
 
     if i1 > 0.9:
-        res.append('I1: Status: Good. Maintain and adhere to the process')
+        res.append('Status: Good. Maintain and adhere to the process')
     elif (i1 >= 0.7) and (i1 < 0.9):
-        res += 'I1: Status: OK. Need to ramp up'
+        res.append('Status: OK. Need to ramp up')
     else:
-        res.append('I1: Status: Bad, Needs attention and escalation to bring back on the track')
+        res.append('Status: Bad, Needs attention and escalation to bring back on the track')
 
     i2 = df.sort_values(by=name).reset_index(drop=True)
-    res.append(f'I2: {i2.loc[0, "Month"]} and {i2.loc[1, "Month"]}  have lower {kpi}')
+    if file.startswith("kpUnitsLost"):
+        res.append(f'Congratulations. {i2.loc[0, "Month"]} and {i2.loc[1, "Month"]}  has lower {file.replace(".csv","")[2:]}')
+    else:
+        res.append(f'{i2.loc[0, "Month"]} and {i2.loc[1, "Month"]}  has lower {file.replace(".csv","")[2:]}')
     if i2.iloc[-1, 1] > planned:
-        res.append(f'I3: {i2.iloc[-1, 0]} is high yielding. Congratulations')
+        if file.startswith("kpUnitsLost"):
+            res.append(
+                f'Attention required. {i2.loc[0, "Month"]} and {i2.loc[1, "Month"]}  has higher {file.replace(".csv","")[2:]}')
+        else:
+            res.append(f'{i2.iloc[-1, 0]} has high yielding . Congratulations')
     return res
 
 
-def getResilienceInference(data, kpi):
+def getResilienceInference(df, file):
     try:
         res = []
-        avgplanned = sum(data['Planned']) / data.shape[0]
-        avgactual = sum(data['Actual']) / data.shape[0]
+        avgplanned = sum(df['Planned']) / df.shape[0]
+        avgactual = sum(df['Actual']) / df.shape[0]
         i1 = avgactual / avgplanned
         if i1 > 0.9:
-            res.append('I1: Status: Good. Maintain and adhere to the process')
+            res.append('Status: Good. Maintain and adhere to the process')
         elif (i1 >= 0.7) and (i1 < 0.9):
-            res.append('I1: Status: OK. Need to ramp up')
+            res.append('Status: OK. Need to ramp up')
         else:
-            res.append('I1: Status: Bad, Needs attention and escalation to bring back on the track')
-        i2 = data.sort_values(by='Actual').reset_index(drop=True)
-        res.append(f'I2: {i2.loc[0, "Month"]} and {i2.loc[1, "Month"]}  have lower {kpi}')
+            res.append('Status: Bad, Needs attention and escalation to bring back on the track')
+        i2 = df.sort_values(by='Actual').reset_index(drop=True)
+        res.append(f'{i2.loc[0, "Month"]} and {i2.loc[1, "Month"]}  has lower {file.replace(".csv","")[2:]} activities')
         if i2.iloc[-1, 1] > avgplanned:
-            res.append(f'I3: {i2.iloc[-1, 0]} is high yielding. Congratulations')
+            res.append(f'{i2.iloc[-1, 0]} has higher {file.replace(".csv","")[2:]} activities')
         return res
     except Exception as e:
         print(e)
