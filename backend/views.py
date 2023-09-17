@@ -74,6 +74,7 @@ def getData(request, kpi):
 
             for file in files:
                 df = pd.read_csv(os.path.join('uploads', kpi, file))
+                predictions = pd.read_excel("predictions.xlsx", sheet_name=file[:-4], engine="openpyxl")
                 df.dropna(how='all', inplace=True)
                 df.fillna(0, inplace=True)
                 df = df.iloc[:8, :]
@@ -81,7 +82,8 @@ def getData(request, kpi):
                 for col in df.columns[1:]:
                     temp.append(
                         {'name': col, 'data': list(df.loc[:, col].values),
-                         'label': list(df.loc[:, 'Month'].values)})
+                         'label': list(df.loc[:, 'Month'].values),
+                         'predictions': list(map(str,predictions.loc[8:, col]))})
                 if file in ['kpUnitsYTD.csv', 'kpUnitsLost.csv', "kpPlantProd.csv"]:
                     inference = getProductivityInference(df, file)
                 elif kpi == 'resilience':
@@ -177,7 +179,7 @@ def getResilienceInference(df, file):
         avgplanned = sum(df['Planned']) / df.shape[0]
         avgactual = sum(df['Actual']) / df.shape[0]
         i1 = avgactual / avgplanned
-        if file.replace(".csv", "")[2:] =='PF':
+        if file.replace(".csv", "")[2:] == 'PF':
             filename = 'CSM'
         else:
             filename = file.replace(".csv", "")[2:]
