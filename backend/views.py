@@ -84,10 +84,8 @@ def getData(request, kpi):
                          'label': list(df.loc[:, 'Month'].values)})
                 if file in ['kpUnitsYTD.csv', 'kpUnitsLost.csv', "kpPlantProd.csv"]:
                     inference = getProductivityInference(df, file)
-                elif file in ['kpBCP.csv', "kpCOMM.csv", 'kpCSM.csv', 'kpCST.csv', 'kpIM.csv', 'kpCCM.csv',
-                              'kpPF.csv',
-                              'kpRMI.csv', 'kpVMR.csv']:
-                    inference = getResilienceInference(df,  file)
+                elif kpi == 'resilience':
+                    inference = getResilienceInference(df, file)
                 elif kpi == 'sustainability':
                     inference = getSustainabilityInference(df, file)
                 res.append({'name': file, 'data': temp, 'inference': inference})
@@ -104,8 +102,8 @@ def getSustainabilityInference(df, file):
         i1 = avgactual / avgplanned
 
         if i1 > 0.9:
-            if col != file.replace(".csv","")[2:]:
-                tname = col + " " + file.replace(".csv","")[2:]
+            if col != file.replace(".csv", "")[2:]:
+                tname = col + " " + file.replace(".csv", "")[2:]
             else:
                 tname = col
             res.append(f'{tname} Status: Good. Maintain and adhere to the process')
@@ -116,7 +114,7 @@ def getSustainabilityInference(df, file):
 
         i2 = df.sort_values(by=col).reset_index(drop=True)
         if file.startswith('kpEnergy'):
-           inftemp = f'{col} Energy was lower in {i2.loc[0, "Month"]}, {i2.loc[1, "Month"]}'
+            inftemp = f'{col} Energy was lower in {i2.loc[0, "Month"]}, {i2.loc[1, "Month"]}'
         elif file.startswith('kpWaste'):
             inftemp = f'Congratulations, {col} waste produced by each machine was lower in {i2.loc[0, "Month"]}, {i2.loc[1, "Month"]}'
         elif file.startswith('kpPlantation'):
@@ -160,13 +158,14 @@ def getProductivityInference(df, file):
 
     i2 = df.sort_values(by=name).reset_index(drop=True)
     if file.startswith("kpUnitsLost"):
-        res.append(f'Congratulations. {i2.loc[0, "Month"]} and {i2.loc[1, "Month"]}  has lower {file.replace(".csv","")[2:]}')
+        res.append(
+            f'Congratulations. {i2.loc[0, "Month"]} and {i2.loc[1, "Month"]}  has lower {file.replace(".csv", "")[2:]}')
     else:
-        res.append(f'{i2.loc[0, "Month"]} and {i2.loc[1, "Month"]}  has lower {file.replace(".csv","")[2:]}')
+        res.append(f'{i2.loc[0, "Month"]} and {i2.loc[1, "Month"]}  has lower {file.replace(".csv", "")[2:]}')
     if i2.iloc[-1, 1] > planned:
         if file.startswith("kpUnitsLost"):
             res.append(
-                f'Attention required. {i2.iloc[-1, 0]}  has higher {file.replace(".csv","")[2:]}')
+                f'Attention required. {i2.iloc[-1, 0]}  has higher {file.replace(".csv", "")[2:]}')
         else:
             res.append(f'{i2.iloc[-1, 0]} has high yielding . Congratulations')
     return res
@@ -178,6 +177,10 @@ def getResilienceInference(df, file):
         avgplanned = sum(df['Planned']) / df.shape[0]
         avgactual = sum(df['Actual']) / df.shape[0]
         i1 = avgactual / avgplanned
+        if file.replace(".csv", "")[2:] =='PF':
+            filename = 'CSM'
+        else:
+            filename = file.replace(".csv", "")[2:]
         if i1 > 0.9:
             res.append('Status: Good. Maintain and adhere to the process')
         elif (i1 >= 0.7) and (i1 < 0.9):
@@ -185,9 +188,10 @@ def getResilienceInference(df, file):
         else:
             res.append('Status: Bad, Needs attention and escalation to bring back on the track')
         i2 = df.sort_values(by='Actual').reset_index(drop=True)
-        res.append(f'{i2.loc[0, "Month"]} and {i2.loc[1, "Month"]}  has lower {file.replace(".csv","")[2:]} activities')
+        res.append(
+            f'{i2.loc[0, "Month"]} and {i2.loc[1, "Month"]}  has lower {filename} activities')
         if i2.iloc[-1, 1] > avgplanned:
-            res.append(f'{i2.iloc[-1, 0]} has higher {file.replace(".csv","")[2:]} activities')
+            res.append(f'{i2.iloc[-1, 0]} has higher {filename} activities')
         return res
     except Exception as e:
         print(e)
