@@ -79,18 +79,19 @@ def getData(request, kpi):
                 df.fillna(0, inplace=True)
                 df = df.iloc[:8, :]
                 temp = []
+                pred = []
                 for col in df.columns[1:]:
                     temp.append(
                         {'name': col, 'data': list(df.loc[:, col].values),
-                         'label': list(df.loc[:, 'Month'].values),
-                         'predictions': list(map(str,predictions.loc[8:, col]))})
+                         'label': list(df.loc[:, 'Month'].values)})
+                    pred.append(f'{col} Predictions for next three months {",".join(list(map(str,predictions.loc[8:10, "Month"])))} is {",".join(list(map(str,predictions.loc[8:10, col])))}')
                 if file in ['kpUnitsYTD.csv', 'kpUnitsLost.csv', "kpPlantProd.csv"]:
                     inference = getProductivityInference(df, file)
                 elif kpi == 'resilience':
                     inference = getResilienceInference(df, file)
                 elif kpi == 'sustainability':
                     inference = getSustainabilityInference(df, file)
-                res.append({'name': file, 'data': temp, 'inference': inference})
+                res.append({'name': file, 'data': temp, 'inference': inference,'predictions':pred})
             return HttpResponse(json.dumps({'result': res}), content_type="application/json")
     except Exception as e:
         return HttpResponse(str(e))
