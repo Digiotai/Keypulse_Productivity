@@ -84,11 +84,12 @@ def getData(request, kpi):
                     temp.append(
                         {'name': col, 'data': list(df.loc[:, col].values),
                          'label': list(df.loc[:, 'Month'].values)})
-                    pred_text = f'{col} for next three months: '
-                    for i in range(8,11):
-                        pred_text += f'{predictions.loc[i, "Month"]} - {predictions.loc[i, col]}, '
-                    pred_text=pred_text[:-2]
-                    pred.append(pred_text)
+                    if col != 'Actual':
+                        pred_text = f'{col} for next three months: '
+                        for i in range(8,11):
+                            pred_text += f'{predictions.loc[i, "Month"]} - {predictions.loc[i, col]}, '
+                        pred_text=pred_text[:-2]
+                        pred.append(pred_text)
                 if file in ['kpUnitsYTD.csv', 'kpUnitsLost.csv', "kpPlantProd.csv"]:
                     inference = getProductivityInference(df, file)
                 elif kpi == 'resilience':
