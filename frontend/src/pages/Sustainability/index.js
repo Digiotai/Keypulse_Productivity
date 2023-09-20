@@ -96,7 +96,7 @@ export const Sustainability = () => {
 
 
 
-    const handleGetData = (name, data5,inference) => {
+    const handleGetData = (name, data5,inference,prediction) => {
         switch (name) {
             case 'kpEnergy.csv':
                 return <div className="col-4">
@@ -128,7 +128,7 @@ export const Sustainability = () => {
                                         </div>}
                                         {label === "pre" && <div className=''>
                                             {getTitle("Predictions", "#39c734", () => setShow(false))}
-                                            <>{data[0].predictions?.length > 0 ? getData(data[0].predictions, "#39c734") : <li className='m-0 p-0' style={{ fontFamily: "poppins", fontWeight: 400, fontSize: '12px', width: '190px', listStyle: 'none' }}>No Predictions Found!</li>}</>
+                                            <>{prediction?.length > 0 ? getData(prediction, "#39c734") : <li className='m-0 p-0' style={{ fontFamily: "poppins", fontWeight: 400, fontSize: '12px', width: '190px', listStyle: 'none' }}>No Predictions Found!</li>}</>
                                         </div>}
                                     </div>}
                                 </div>
@@ -169,7 +169,7 @@ export const Sustainability = () => {
                                         </div>}
                                         {label1 === "pre" && <div className=''>
                                             {getTitle("Predictions", "#39c734", () => setShow1(false))}
-                                            <>{data[1].predictions?.length > 0 ? getData(data[1].predictions, "#39c734") : <li className='m-0 p-0' style={{ fontFamily: "poppins", fontWeight: 400, fontSize: '12px', width: '190px', listStyle: 'none' }}>No Predictions Found!</li>}</>
+                                            <>{prediction?.length > 0 ? getData(prediction, "#39c734") : <li className='m-0 p-0' style={{ fontFamily: "poppins", fontWeight: 400, fontSize: '12px', width: '190px', listStyle: 'none' }}>No Predictions Found!</li>}</>
                                         </div>}
                                     </div>}
                                 </div>
@@ -210,7 +210,7 @@ export const Sustainability = () => {
                                         </div>}
                                         {label2 === "pre" && <div className=''>
                                             {getTitle("Predictions", "#39c734", () => setShow2(false))}
-                                            <>{data[2].predictions?.length > 0 ? getData(data[2].predictions, "#39c734") : <li className='m-0 p-0' style={{ fontFamily: "poppins", fontWeight: 400, fontSize: '12px', width: '190px', listStyle: 'none' }}>No Predictions Found!</li>}</>
+                                            <>{prediction?.length > 0 ? getData(prediction, "#39c734") : <li className='m-0 p-0' style={{ fontFamily: "poppins", fontWeight: 400, fontSize: '12px', width: '190px', listStyle: 'none' }}>No Predictions Found!</li>}</>
                                         </div>}
                                     </div>}
                                 </div>
@@ -251,7 +251,7 @@ export const Sustainability = () => {
                                         </div>}
                                         {label3 === "pre" && <div className=''>
                                             {getTitle("Predictions", "#39c734", () => setShow3(false))}
-                                            <>{data[3].predictions?.length > 0 ? getData(data[3].predictions, "#39c734") : <li className='m-0 p-0' style={{ fontFamily: "poppins", fontWeight: 400, fontSize: '12px', width: '190px', listStyle: 'none' }}>No Predictions Found!</li>}</>
+                                            <>{prediction?.length > 0 ? getData(prediction, "#39c734") : <li className='m-0 p-0' style={{ fontFamily: "poppins", fontWeight: 400, fontSize: '12px', width: '190px', listStyle: 'none' }}>No Predictions Found!</li>}</>
                                         </div>}
                                     </div>}
                                 </div>
@@ -292,7 +292,7 @@ export const Sustainability = () => {
                                         </div>}
                                         {label4 === "pre" && <div className=''>
                                             {getTitle("Predictions", "#39c734", () => setShow4(false))}
-                                            <>{data[4].predictions?.length > 0 ? getData(data[4].predictions, "#39c734") : <li className='m-0 p-0' style={{ fontFamily: "poppins", fontWeight: 400, fontSize: '12px', width: '190px', listStyle: 'none' }}>No Predictions Found!</li>}</>
+                                            <>{prediction?.length > 0 ? getData(prediction, "#39c734") : <li className='m-0 p-0' style={{ fontFamily: "poppins", fontWeight: 400, fontSize: '12px', width: '190px', listStyle: 'none' }}>No Predictions Found!</li>}</>
                                         </div>}
                                     </div>}
                                 </div>
@@ -333,7 +333,7 @@ export const Sustainability = () => {
                                         </div>}
                                         {label5 === "pre" && <div className=''>
                                             {getTitle("Predictions", "#39c734", () => setShow5(false))}
-                                            <>{data[5].predictions?.length > 0 ? getData(data[5].predictions, "#39c734") : <li className='m-0 p-0' style={{ fontFamily: "poppins", fontWeight: 400, fontSize: '12px', width: '190px', listStyle: 'none' }}>No Predictions Found!</li>}</>
+                                            <>{prediction?.length > 0 ? getData(prediction, "#39c734") : <li className='m-0 p-0' style={{ fontFamily: "poppins", fontWeight: 400, fontSize: '12px', width: '190px', listStyle: 'none' }}>No Predictions Found!</li>}</>
                                         </div>}
                                     </div>}
                                 </div>
@@ -385,42 +385,42 @@ export const Sustainability = () => {
                 {apidata?.map((item) => {
                     if (item.name == "kpEnergy.csv") {
                         console.log(item)
-                        return handleGetData(item.name, item.data,item.inference)
+                        return handleGetData(item.name, item.data,item.inference,item.predictions)
                     }
                 })}
                 {apidata?.map((item) => {
                     if (item.name == "kpWaste.csv") {
-                        return handleGetData(item.name, item.data,item.inference)
+                        return handleGetData(item.name, item.data,item.inference,item.predictions)
                     }
                 })}
                 {apidata?.map((item) => {
                     if (item.name == "kpPlantation.csv") {
-                        return handleGetData(item.name, item.data,item.inference)
+                        return handleGetData(item.name, item.data,item.inference,item.predictions)
                     }
                 })}
                 {apidata?.map((item) => {
                     if (item.name == "kpWater.csv") {
-                        return handleGetData(item.name, item.data,item.inference)
+                        return handleGetData(item.name, item.data,item.inference,item.predictions)
                     }
                 })}
                 {apidata?.map((item) => {
                     if (item.name == "kpAltEnergy.csv") {
-                        return handleGetData(item.name, item.data,item.inference)
+                        return handleGetData(item.name, item.data,item.inference,item.predictions)
                     }
                 })}
                 {apidata?.map((item) => {
                     if (item.name == "kpUptime.csv") {
-                        return handleGetData(item.name, item.data,item.inference)
+                        return handleGetData(item.name, item.data,item.inference,item.predictions)
                     }
                 })}
                 {apidata?.map((item) => {
                     if (item.name == "kpThroughput.csv") {
-                        return handleGetData(item.name, item.data,item.inference)
+                        return handleGetData(item.name, item.data,item.inference,item.predictions)
                     }
                 })}
                 {apidata?.map((item) => {
                     if (item.name == "kpco2.csv") {
-                        return handleGetData(item.name, item.data,item.inference)
+                        return handleGetData(item.name, item.data,item.inference,item.predictions)
                     }
                 })}
             </div>

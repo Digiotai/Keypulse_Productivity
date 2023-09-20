@@ -16,21 +16,21 @@ export const KProcess = () => {
         const [hover, setHover] = useState(false)
         return (
             <div style={{ border: '1px solid #E6E6E6', padding: 5, display: 'flex', flexDirection: "column", alignItems: 'center', marginLeft: '3px' }} onMouseEnter={() => setHover(true)} onMouseLeave={() => setHover(false)}>
-                <h5 style={{ fontFamily: 'Inter', marginTop: '0.5px', fontSize: '14px', lineHeight: '16px', fontWeight: 500 }}>
+                <h5 style={{ fontFamily: 'Inter', marginTop: '1px', fontSize: '14px', lineHeight: '16px', fontWeight: 500 }}>
                     {name}
                 </h5>
-                <img src={image} alt="Girl in a jacket" width={"25%"} className="mb-2" />
-                <h5 style={{ fontFamily: 'Inter', marginTop: '4px', fontSize: '12px', lineHeight: '14px', fontWeight: 500, textAlign: "center" }}>{value}
+                <img src={image} alt="Girl in a jacket" width={"37%"} className="mb-2 mt-2" />
+                <h5 style={{ fontFamily: 'Inter', marginTop: '10px', fontSize: '12px', lineHeight: '14px', fontWeight: 500, textAlign: "center" }}>{value}
                 </h5>
                 {hover && <div className="card" style={{ position: "absolute", height: "20px", padding: "20px", display: "flex", justifyContent: "center", alignItems: "center", marginTop: "20px" }}>
-                    <span style={{ fontFamily: 'Inter', marginTop: '4px', fontSize: '12px', lineHeight: '14px', fontWeight: 500, textAlign: "center" }}> {target}</span>
+                    <span style={{ fontFamily: 'Inter', marginTop: '5px', fontSize: '12px', lineHeight: '14px', fontWeight: 500, textAlign: "center" }}> {target}</span>
                 </div>}
             </div>
         )
     }
     return (
         <div style={{}}>
-            <div className="row p-0 m-0 mb-0 mt-0 gy-1 gx-0 ms-1" style={{ border: '0px solid black' }}>
+            <div className="row p-0 m-0 mb-0 mt-0 gy-1 gx-0 ms-1 mb-2" style={{ border: '0px solid black' }}>
                 <div className="col-6 card gradient-color">
                     <div>
                         <h5 style={{ fontFamily: "poppins", fontWeight: 550, display: 'flex', justifyContent: "center", marginBottom: '10px', marginTop: '1px', fontSize: '22px', lineHeight: "22px", cursor: "pointer" }} onClick={() => navigate('/productivity')}>Productivity</h5>
@@ -38,7 +38,7 @@ export const KProcess = () => {
                     </div>
                 </div>
                 <div className="col-6 gy-1 gx-0 p-0" style={{ borderLeft: '0px solid black' }}>
-                    <div style={{ paddingBottom: '10px', marginBottom: '0px', padding: '10px' }} className="mt-0 card gradient-color ms-1">
+                    <div style={{ paddingBottom: '10px', height:'400px',marginBottom: '0px', padding: '10px' }} className="mt-0 card gradient-color ms-1">
                         <h5 style={{ fontFamily: "poppins", fontWeight: 550, display: 'flex', justifyContent: "center", fontSize: '22px', lineHeight: "22px", cursor: "pointer" }} onClick={() => navigate('/sustainability')}>Sustainability</h5>
                         <div style={{ display: "flex", justifyContent: "space-around" }}>
                             <Sustainability name="CO2 Emission" image={co2} value={"15.23 KG/Ton"} target={"Target: 14 KG/Ton"} />

@@ -159,7 +159,7 @@ export const Resilience = () => {
             }],
             inference: [datan?.data1[0]?.inference],
             recomondations: ["Adhere to planned activities"],
-            predictions: []
+            predictions: [datan?.data1[0]?.predictions]
         },
         {
             img: risk,
@@ -170,7 +170,7 @@ export const Resilience = () => {
             }],
             inference: [datan?.data2[0]?.inference],
             recomondations: ["Make up missed/lost activities"],
-            predictions: []
+            predictions: [datan?.data2[0]?.predictions]
         },
         {
             img: train,
@@ -181,7 +181,7 @@ export const Resilience = () => {
             }],
             inference: [datan?.data3[0]?.inference],
             recomondations: ["Adhere to planned activities"],
-            predictions: []
+            predictions: [datan?.data3[0]?.predictions]
         },
         {
             img: vulner,
@@ -192,7 +192,7 @@ export const Resilience = () => {
             }],
             inference: [datan?.data4[0]?.inference],
             recomondations: ["Make up missed/lost activities"],
-            predictions: []
+            predictions: [datan?.data4[0]?.predictions]
         },
         {
             img: cont,
@@ -203,7 +203,7 @@ export const Resilience = () => {
             }],
             inference: [datan?.data5[0]?.inference],
             recomondations: ["Adhere to planned activities"],
-            predictions: []
+            predictions: [datan?.data5[0]?.predictions]
         },
         ({
             img: build,
@@ -214,7 +214,7 @@ export const Resilience = () => {
             }],
             inference: [datan?.data6[0]?.inference],
             recomondations: ["Make up missed/lost activities"],
-            predictions: []
+            predictions: [datan?.data6[0]?.predictions]
         }),
         ({
             img: inci,
@@ -225,7 +225,7 @@ export const Resilience = () => {
             }],
             inference: [datan?.data7[0]?.inference],
             recomondations: ["Keep up Good work"],
-            predictions: ["Incident forecast over next 3 months - 2, 0, 0"]
+            predictions: [datan?.data7[0]?.predictions]
         }),
         ({
             img: ser,
@@ -236,7 +236,7 @@ export const Resilience = () => {
             }],
             inference: [datan?.data8[0]?.inference],
             recomondations: ["Keep up Good work"],
-            predictions: []
+            predictions: [datan?.data8[0]?.predictions]
         }),
         ({
             img: config,
@@ -247,7 +247,7 @@ export const Resilience = () => {
             }],
             inference: [datan?.data9[0]?.inference],
             recomondations: ["Adhere to planned activities"],
-            predictions: []
+            predictions: [datan?.data9[0]?.predictions]
         }),
         ({
             img: com,
@@ -258,7 +258,7 @@ export const Resilience = () => {
             }],
             inference: [datan?.data10[0]?.inference],
             recomondations: ["Adhere to planned activities"],
-            predictions: ["Expected communications over next 3 months - 5, 4, 4"]
+            predictions: [datan?.data10[0]?.predictions]
         })
     ]
 

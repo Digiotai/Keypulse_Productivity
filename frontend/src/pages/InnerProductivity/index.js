@@ -104,7 +104,7 @@ export const InnerProductivity = () => {
         }
     }
 
-    const handleGetData = (name, data5,inference) => {
+    const handleGetData = (name, data5,inference,prediction) => {
         switch (name) {
             case 'kpThroughput.csv':
                 return <div className="col-6">
@@ -187,7 +187,7 @@ export const InnerProductivity = () => {
                                         </div>}
                                         {label === "pre" && <div className=''>
                                             {getTitle("Predictions", "#39c734", () => setShow(false))}
-                                            <>{data[0].predictions?.length > 0 ? getData(data[0].predictions, "#39c734") : <li className='m-0 p-0' style={{ fontFamily: "poppins", fontWeight: 400, fontSize: '12px', width: '190px', listStyle: 'none' }}>No Predictions Found!</li>}</>
+                                            <>{prediction?.length > 0 ? getData(prediction, "#39c734") : <li className='m-0 p-0' style={{ fontFamily: "poppins", fontWeight: 400, fontSize: '12px', width: '190px', listStyle: 'none' }}>No Predictions Found!</li>}</>
                                         </div>}
                                     </div>}
                                 </div>
@@ -248,7 +248,7 @@ export const InnerProductivity = () => {
                                         </div>}
                                         {label1 === "pre" && <div className=''>
                                             {getTitle("Predictions", "#39c734", () => setShow1(false))}
-                                            <>{data[1].predictions?.length > 0 ? getData(data[1].predictions, "#39c734") : <li className='m-0 p-0' style={{ fontFamily: "poppins", fontWeight: 400, fontSize: '12px', width: '190px', listStyle: 'none' }}>No Predictions Found!</li>}</>
+                                            <>{prediction?.length > 0 ? getData(prediction, "#39c734") : <li className='m-0 p-0' style={{ fontFamily: "poppins", fontWeight: 400, fontSize: '12px', width: '190px', listStyle: 'none' }}>No Predictions Found!</li>}</>
                                         </div>}
                                     </div>}
                                 </div>
@@ -298,7 +298,7 @@ export const InnerProductivity = () => {
                                         </div>}
                                         {label2 === "pre" && <div className=''>
                                             {getTitle("Predictions", "#39c734", () => setShow2(false))}
-                                            <>{data[2].predictions?.length > 0 ? getData(data[2].predictions, "#39c734") : <li className='m-0 p-0' style={{ fontFamily: "poppins", fontWeight: 400, fontSize: '12px', width: '190px', listStyle: 'none' }}>No Predictions Found!</li>}</>
+                                            <>{prediction?.length > 0 ? getData(prediction, "#39c734") : <li className='m-0 p-0' style={{ fontFamily: "poppins", fontWeight: 400, fontSize: '12px', width: '190px', listStyle: 'none' }}>No Predictions Found!</li>}</>
                                         </div>}
                                     </div>}
                                 </div>
@@ -367,17 +367,17 @@ export const InnerProductivity = () => {
             <div className="row gx-1 gy-1 p-2 pt-0">
                 {apidata?.map((item) => {
                     if (item.name == "kpUnitsYTD.csv") {
-                        return handleGetData(item.name, item.data,item.inference)
+                        return handleGetData(item.name, item.data,item.inference,item.predictions)
                     }
                 })}
                 {apidata?.map((item) => {
                     if (item.name == "kpUnitsLost.csv") {
-                        return handleGetData(item.name, item.data,item.inference)
+                        return handleGetData(item.name, item.data,item.inference,item.predictions)
                     }
                 })}
                 {apidata?.map((item) => {
                     if (item.name == "kpPlantProd.csv") {
-                        return handleGetData(item.name, item.data,item.inference)
+                        return handleGetData(item.name, item.data,item.inference,item.predictions)
                     }
                 })}
                 {apidata?.map((item) => {

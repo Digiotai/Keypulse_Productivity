@@ -5,14 +5,19 @@ import through from '../../assets/svg/output.png'
 import opex from '../../assets/svg/data-center.png'
 import uparrow from '../../assets/svg/upArrow.svg'
 import { useState } from "react"
+import { getOdometer } from '../../utils'
+import { options } from './data'
 import { series1, options1, series2, options2, series3, options3 } from "../../components/ApexBarChart/data"
 export const Productivity = () => {
     const [hover, setHover] = useState(false)
     var series = [90, 10]
-    const options = {
+    const options1 = {
         chart: {
             width: 380,
             type: 'pie',
+            // sparkline: {
+            //     enabled: true
+            //   }
         },
         legend: {
             show: false,
@@ -87,6 +92,19 @@ export const Productivity = () => {
             </div>
         )
     }
+
+    const ProdRadio = (data, title) => {
+        return (
+            <div style={{ border: '1px solid #E6E6E6', padding: 5, display: 'flex', flexDirection: "column", marginLeft: '3px' }}>
+                <h5 className="text-start" style={{ fontFamily: 'Inter', marginTop: '0.5px', fontSize: '14px', fontWeight: 500, lineHeight: '16px' }}>
+                    {title}
+                </h5>
+                <div className="">
+                    {getOdometer([data], { ...options })}
+                </div>
+            </div>
+        )
+    }
     return (
         <div className="container">
             <div className="row">
@@ -107,7 +125,7 @@ export const Productivity = () => {
                                 <div style={{ display: 'flex', marginLeft: '50px' }}>
                                     <span style={{ fontSize: '16px', fontFamily: "poppins", fontWeight: 500 }}>10%</span> <img src={uparrow} alt="Girl in a jacket" width={"20px"} className="mb-2 ms-2" />
                                 </div>
-                                {hover && <div className="card" style={{ position: "absolute", height: "20px", padding: "20px", display: "flex", justifyContent: "center", alignItems: "center", marginTop: "-60px",marginLeft:"80px" }}>
+                                {hover && <div className="card" style={{ position: "absolute", height: "20px", padding: "20px", display: "flex", justifyContent: "center", alignItems: "center", marginTop: "-60px", marginLeft: "80px" }}>
                                     <span style={{ fontFamily: 'Inter', marginTop: '4px', fontSize: '12px', lineHeight: '14px', fontWeight: 500, textAlign: "center" }}>10% increase MoM</span>
                                 </div>}
                             </div>
@@ -128,24 +146,24 @@ export const Productivity = () => {
                     </div>
                     {/* <ApexChart series={series3} options={options3}  height={"250px"} /> */}
                 </div>
-                {/* <div className="col-4">
-                    <div style={{ display: 'flex' }}>
-                        <div style={{ borderLeft: '1px solid grey', height: '40vh' }}></div>
-                        <div style={{display:'flex',justifyContent:"center",marginLeft:"10%"}}>
-                            <h6 style={{ fontFamily: "poppins", fontWeight: 500 }}>Delivery</h6>
-                        </div>
-                    </div>
-                </div> */}
             </div>
-            <div className="row mt-4">
-                <div className="col-6">
+            <div className="row mt-4 text-center">
+                <div className="col-7">
                     <h6 style={{ fontFamily: "poppins", fontWeight: 500, fontSize: '18px', fontWeight: 600, display: 'flex', justifyContent: "start" }}>Combined OEE Of Machines</h6>
-                    <ApexChart series={series1} options={options1} height={"250px"} width={"100%"} />
+                    {/* <ApexChart series={series1} options={options1} height={"250px"} width={"100%"} /> */}
+                    <div className="d-flex">
+                        {ProdRadio(74, 'OEE')}
+                        {ProdRadio(80, 'Performance')}
+                    </div>
+                    <div className="d-flex mt-1">
+                        {ProdRadio(24, "Availability")}
+                        {ProdRadio(64, "Quality")}
+                    </div>
                 </div>
-                <div className="col-6">
+                <div className="col-5">
                     <h6 style={{ fontFamily: "poppins", fontSize: '18px', fontWeight: 600, display: 'flex', justifyContent: "center" }}>Delivery</h6>
                     <div className="mt-4 ms-2">
-                        <Chart options={options} series={series} type="pie" height={"250px"} width={"100%"} />
+                        <Chart options={options1} series={series} type="pie" height={"250px"} width={"100%"} />
                     </div>
                 </div>
             </div>
