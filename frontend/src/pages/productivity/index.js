@@ -100,7 +100,7 @@ export const Productivity = () => {
                     {title}
                 </h5>
                 <div className="">
-                    {getOdometer([data], { ...options })}
+                    {getOdometer([data], { ...options, labels: [title] })}
                 </div>
             </div>
         )
@@ -117,7 +117,10 @@ export const Productivity = () => {
                                     <h5 style={{ fontFamily: 'Inter', marginTop: '0.5px', fontSize: '14px', lineHeight: '16px', fontWeight: 500 }}>
                                         Utilization
                                     </h5>
-                                    <h5 style={{ fontFamily: 'Inter', marginTop: '4px', fontSize: '20px', fontWeight: 600 }}>86%</h5>
+                                    <div className="">
+                                        {getOdometer([[86]], { ...options,labels: ["Utilization"] }, 96)}
+                                    </div>
+                                    {/* <h5 style={{ fontFamily: 'Inter', marginTop: '4px', fontSize: '20px', fontWeight: 600 }}>86%</h5> */}
                                     <p style={{
                                         fontFamily: 'Inter', marginTop: '4px', fontSize: '12px', fontWeight: 500, lineHeight: '14px'
                                     }}>In last 30 days</p>
@@ -133,15 +136,15 @@ export const Productivity = () => {
                         </div>
                         {/* <Productivity name="Overall Number" image={opex} value={"65.37 m/ton"} /> */}
                         <div className="col">
-                            <Productivity name="Operational Expenses" image={opex} value={"$ 11,345"} target={"2% reduction MoM"} />
+                            <Productivity name="Operational Expenses" image={opex} value={"$ 11,345"} target={"2% reduction of MoM OpEx has resulted in direct cost savings of $ 11, 345"} />
                         </div>
                     </div>
                     <div className="row gx-0 mt-1">
                         <div className="col-6">
-                            <Productivity name="Throughput" image={through} value={"104,536"} target={"0.8% increase MoM"} />
+                            <Productivity name="Throughput" image={through} value={"104,536"} target={"0.8% MoM increase in the throughput implies $130,670 additional revenue"} />
                         </div>
                         <div className="col-6">
-                            <Productivity name="Uptime" image={uptime} value={"91%"} target={"0.02% decrease MoM"} />
+                            <Productivity name="Uptime" image={uptime} value={"91%"} target={"Slight decrease in the uptime has no adverse effect on revenues"} />
                         </div>
                     </div>
                     {/* <ApexChart series={series3} options={options3}  height={"250px"} /> */}

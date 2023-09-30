@@ -22,7 +22,7 @@ export const KProcess = () => {
                 <img src={image} alt="Girl in a jacket" width={"37%"} className="mb-2 mt-2" />
                 <h5 style={{ fontFamily: 'Inter', marginTop: '10px', fontSize: '12px', lineHeight: '14px', fontWeight: 500, textAlign: "center" }}>{value}
                 </h5>
-                {hover && <div className="card" style={{ position: "absolute", height: "20px", padding: "20px", display: "flex", justifyContent: "center", alignItems: "center", marginTop: "20px" }}>
+                {hover && <div className="card" style={{ position: "absolute", padding: "10px", display: "flex", justifyContent: "center", alignItems: "center", marginTop: "20px" }}>
                     <span style={{ fontFamily: 'Inter', marginTop: '5px', fontSize: '12px', lineHeight: '14px', fontWeight: 500, textAlign: "center" }}> {target}</span>
                 </div>}
             </div>
@@ -38,17 +38,17 @@ export const KProcess = () => {
                     </div>
                 </div>
                 <div className="col-6 gy-1 gx-0 p-0" style={{ borderLeft: '0px solid black' }}>
-                    <div style={{ paddingBottom: '10px', height:'400px',marginBottom: '0px', padding: '10px' }} className="mt-0 card gradient-color ms-1">
+                    <div style={{ paddingBottom: '10px', height: '400px', marginBottom: '0px', padding: '10px' }} className="mt-0 card gradient-color ms-1">
                         <h5 style={{ fontFamily: "poppins", fontWeight: 550, display: 'flex', justifyContent: "center", fontSize: '22px', lineHeight: "22px", cursor: "pointer" }} onClick={() => navigate('/sustainability')}>Sustainability</h5>
                         <div style={{ display: "flex", justifyContent: "space-around" }}>
                             <Sustainability name="CO2 Emission" image={co2} value={"15.23 KG/Ton"} target={"Target: 14 KG/Ton"} />
-                            <Sustainability name="Water Consumption" image={water} value={"45.37 m3/Ton"} target={"Target: 45m3/Ton"} />
-                            <Sustainability name="Waste Produced" image={waste} value={"10.25 KG/Ton"} target={"Target: 9.25 KG/Ton"} />
+                            <Sustainability name="Water Consumption" image={water} value={"45.37 m3/Ton"} target={"Meeting Water consumption target results in cost savings of about $9,250"} />
+                            <Sustainability name="Waste Produced" image={waste} value={"10.25 KG/Ton"} target={"Minimum $8,870 cost savings are expected from meeting the waste reduction strategy"} />
                         </div>
                         <div style={{ display: "flex", justifyContent: "space-around", marginTop: '3px' }}>
                             <Sustainability name="Electricity Used" image={electric} value={"1.067 MWh/Ton"} target={"Target: 0.95 MWh/Ton"} />
                             <Sustainability name="Plantation" image={plantation} value={"62,378"} target={"Target: 100,000"} />
-                            <Sustainability name="Energy Produced" image={energy} value={"3MWh"} target={"Target: 4MWh"} />
+                            <Sustainability name="Energy Produced" image={energy} value={"3MWh"} target={"Reduction of energy consumption as planned directly yields cost savings to the tune of $ 245,700"} />
                         </div>
                     </div>
 
@@ -57,11 +57,50 @@ export const KProcess = () => {
                         <div className="ps-5 pt-1" style={{ display: "flex", justifyContent: "center", alignItems: "center" }}>
                             {getOdometer([33], { ...options, labels: ["Risk Review"] })}
                             {getOdometer([66], { ...options, labels: ["Impact Review"] })}
-                            {getOdometer([85], { ...options, labels: [["Business", "Continuity Plan"]] })}
+                            {getOdometer([85], {
+                                ...options, labels: [["Business", "Continuity Plan"]], tooltip: {
+                                    enabled: true,
+                                    width: 50,
+                                    style: {
+                                        fontSize: '10px'
+                                    },
+                                    y: {
+                                        formatter: function (value) {
+                                            return "BCP assurance of 85% may cap the revenue loss under 7.8%";
+                                        },
+                                    }
+                                },
+                            })}
                         </div>
                         <div className="ps-5" style={{ display: "flex", justifyContent: "space-around" }}>
-                            {getOdometer([33], { ...options, labels: ["Survival Time"] })}
-                            {getOdometer([66], { ...options, labels: ["Revival Time"] })}
+                            {getOdometer([33], {
+                                ...options, labels: ["Survival Time"], tooltip: {
+                                    enabled: true,
+                                    width: 50,
+                                    style: {
+                                        fontSize: '10px'
+                                    },
+                                    y: {
+                                        formatter: function (value) {
+                                            return "Survival time in the upto 50% quartile ensures regular production for additional 3 days, meeting 100% revenues during 3 days of crisis";
+                                        },
+                                    }
+                                },
+                            })}
+                            {getOdometer([66], {
+                                ...options, labels: ["Revival Time"], tooltip: {
+                                    enabled: true,
+                                    width: 50,
+                                    style: {
+                                        fontSize: '10px'
+                                    },
+                                    y: {
+                                        formatter: function (value) {
+                                            return "Revival time in the 50% - 75% quantile likely impact production by 10%, hence revenues by 3%";
+                                        },
+                                    }
+                                },
+                            })}
                             {getOdometer([85], { ...options, labels: ["Cyber Security"] })}
                         </div>
                     </div>
