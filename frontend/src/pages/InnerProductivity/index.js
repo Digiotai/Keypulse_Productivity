@@ -6,7 +6,7 @@ import { BiDownArrowAlt } from 'react-icons/bi'
 import AreaChart from "../../components/AreaChart/areacahrt"
 import { useEffect, useState, useRef } from "react"
 import { RxDotFilled } from 'react-icons/rx'
-import { getTitle, getData, getOdometer } from '../../utils'
+import { getTitle, getData } from '../../utils'
 import { LineChart } from "../../components/LineChart"
 import axios from "axios";
 import { aseries, aoptions, aoptions2, aoptions3, aseries2, aseries3 } from "../../components/AreaChart/data"

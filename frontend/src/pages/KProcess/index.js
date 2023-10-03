@@ -9,7 +9,7 @@ import energy from '../../assets/svg/energy2.png'
 import { Productivity } from "../productivity"
 import { useNavigate } from "react-router-dom"
 import { useState } from 'react'
-import { getOdometer } from '../../utils'
+import { GetOdometer } from '../../utils'
 export const KProcess = () => {
     const navigate = useNavigate()
     const Sustainability = ({ name, image, value, target }) => {
@@ -22,7 +22,7 @@ export const KProcess = () => {
                 <img src={image} alt="Girl in a jacket" width={"37%"} className="mb-2 mt-2" />
                 <h5 style={{ fontFamily: 'Inter', marginTop: '10px', fontSize: '12px', lineHeight: '14px', fontWeight: 500, textAlign: "center" }}>{value}
                 </h5>
-                {hover && <div className="card" style={{ position: "absolute", padding: "10px", display: "flex", justifyContent: "center", alignItems: "center", marginTop: "20px" }}>
+                {hover && <div className="card" style={{ position: "absolute", padding: "10px", display: "flex", justifyContent: "center", alignItems: "center", marginTop: "20px", width: '200px' }}>
                     <span style={{ fontFamily: 'Inter', marginTop: '5px', fontSize: '12px', lineHeight: '14px', fontWeight: 500, textAlign: "center" }}> {target}</span>
                 </div>}
             </div>
@@ -46,62 +46,29 @@ export const KProcess = () => {
                             <Sustainability name="Waste Produced" image={waste} value={"10.25 KG/Ton"} target={"Minimum $8,870 cost savings are expected from meeting the waste reduction strategy"} />
                         </div>
                         <div style={{ display: "flex", justifyContent: "space-around", marginTop: '3px' }}>
-                            <Sustainability name="Electricity Used" image={electric} value={"1.067 MWh/Ton"} target={"Target: 0.95 MWh/Ton"} />
+                            <Sustainability name="Electricity Used" image={electric} value={"1.067 MWh/Ton"} target={"Reduction of energy consumption as planned directly yields cost savings to the tune of $ 245,700"} />
                             <Sustainability name="Plantation" image={plantation} value={"62,378"} target={"Target: 100,000"} />
-                            <Sustainability name="Energy Produced" image={energy} value={"3MWh"} target={"Reduction of energy consumption as planned directly yields cost savings to the tune of $ 245,700"} />
+                            <Sustainability name="Energy Produced" image={energy} value={"3000MWh"} target={"Meeting alternate energy production target implies generation of $3.6M revenue per year"} />
                         </div>
                     </div>
 
                     <div className="mt-2 card gradient-color ms-1">
                         <h5 style={{ fontFamily: "poppins", fontWeight: 550, display: 'flex', justifyContent: "center", fontSize: '22px', lineHeight: "22px", cursor: "pointer", marginTop: '5px' }} onClick={() => navigate('/resilience')}>Resilience</h5>
                         <div className="ps-5 pt-1" style={{ display: "flex", justifyContent: "center", alignItems: "center" }}>
-                            {getOdometer([33], { ...options, labels: ["Risk Review"] })}
-                            {getOdometer([66], { ...options, labels: ["Impact Review"] })}
-                            {getOdometer([85], {
-                                ...options, labels: [["Business", "Continuity Plan"]], tooltip: {
-                                    enabled: true,
-                                    width: 50,
-                                    style: {
-                                        fontSize: '10px'
-                                    },
-                                    y: {
-                                        formatter: function (value) {
-                                            return "BCP assurance of 85% may cap the revenue loss under 7.8%";
-                                        },
-                                    }
-                                },
-                            })}
+                            {GetOdometer([33], { ...options, labels: ["Risk Review"] }, "150px", "Risk Review : 33%")}
+                            {GetOdometer([66], { ...options, labels: ["Impact Review"] }, '150px', "Impact Review : 66%")}
+                            {GetOdometer([85], {
+                                ...options, labels: [["Business", "Continuity Plan"]],
+                            }, '150px', "BCP assurance of 85% may cap the revenue loss under 7.8%")}
                         </div>
                         <div className="ps-5" style={{ display: "flex", justifyContent: "space-around" }}>
-                            {getOdometer([33], {
-                                ...options, labels: ["Survival Time"], tooltip: {
-                                    enabled: true,
-                                    width: 50,
-                                    style: {
-                                        fontSize: '10px'
-                                    },
-                                    y: {
-                                        formatter: function (value) {
-                                            return "Survival time in the upto 50% quartile ensures regular production for additional 3 days, meeting 100% revenues during 3 days of crisis";
-                                        },
-                                    }
-                                },
-                            })}
-                            {getOdometer([66], {
-                                ...options, labels: ["Revival Time"], tooltip: {
-                                    enabled: true,
-                                    width: 50,
-                                    style: {
-                                        fontSize: '10px'
-                                    },
-                                    y: {
-                                        formatter: function (value) {
-                                            return "Revival time in the 50% - 75% quantile likely impact production by 10%, hence revenues by 3%";
-                                        },
-                                    }
-                                },
-                            })}
-                            {getOdometer([85], { ...options, labels: ["Cyber Security"] })}
+                            {GetOdometer([33], {
+                                ...options, labels: ["Survival Time"],
+                            }, '150px', 'Survival time in the upto 50% quartile ensures regular production for additional 3 days, meeting 100% revenues during 3 days of crisis')}
+                            {GetOdometer([66], {
+                                ...options, labels: ["Revival Time"]
+                            }, '150px', 'Revival time in the 50% - 75% quantile likely impact production by 10%, hence revenues by 3%')}
+                            {GetOdometer([85], { ...options, labels: ["Cyber Security"] },'150px',"Cyber Security : 85%")}
                         </div>
                     </div>
                 </div>

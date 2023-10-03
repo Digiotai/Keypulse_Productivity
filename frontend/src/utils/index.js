@@ -1,4 +1,4 @@
-import React from "react"
+import React, { useState } from "react"
 import { ApexChart } from "../components/ApexBarChart"
 import { RxCross2 } from 'react-icons/rx'
 export const getData = (list, color) => {
@@ -25,7 +25,9 @@ export const getTitle = (title, color, handleClosr) => {
     )
 }
 
-export const getOdometer = (data,opt,height=150) => {
+export const GetOdometer = (data, opt, height = 150, hoverText) => {
+    const [hover, setHover] = useState(false)
+
     var options = {
         chart: {
             height: 350,
@@ -70,7 +72,10 @@ export const getOdometer = (data,opt,height=150) => {
             lineCap: "round",
         },
     }
-    return (<div style={{ display: "flex", justifyContent: "start" }}>
-        <ApexChart series={data} options={opt?opt:options} type='radialBar' height={height} width={""} />
+    return (<div style={{ display: "flex", justifyContent: "start" }} onMouseEnter={() => setHover(true)} onMouseLeave={() => setHover(false)}>
+        <ApexChart series={data} options={opt ? opt : options} type='radialBar' height={height} width={""} />
+        {hover && hoverText && <div className="card" style={{ position: "absolute", padding: "10px", display: "flex", justifyContent: "center", alignItems: "center", marginTop: "20px", width: '200px',marginLeft:"-30px" }}>
+            <span style={{ fontFamily: 'Inter', marginTop: '5px', fontSize: '12px', lineHeight: '14px', fontWeight: 500, textAlign: "center" }}> {hoverText}</span>
+        </div>}
     </div>)
 }

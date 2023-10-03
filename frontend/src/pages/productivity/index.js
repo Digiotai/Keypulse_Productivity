@@ -5,7 +5,7 @@ import through from '../../assets/svg/output.png'
 import opex from '../../assets/svg/data-center.png'
 import uparrow from '../../assets/svg/upArrow.svg'
 import { useState } from "react"
-import { getOdometer } from '../../utils'
+import { GetOdometer } from '../../utils'
 import { options } from './data'
 import { series1, options1, series2, options2, series3, options3 } from "../../components/ApexBarChart/data"
 export const Productivity = () => {
@@ -100,7 +100,7 @@ export const Productivity = () => {
                     {title}
                 </h5>
                 <div className="">
-                    {getOdometer([data], { ...options, labels: [title] })}
+                    {GetOdometer([data], { ...options, labels: [title] })}
                 </div>
             </div>
         )
@@ -112,13 +112,13 @@ export const Productivity = () => {
                     {/* <h6 style={{ fontFamily: "poppins", fontWeight: 500 }}>Production Lead Time Distribution</h6> */}
                     <div className="row gx-0">
                         <div className="col ">
-                            <div style={{ border: '1px solid #E6E6E6', padding: 5, display: 'flex', justifyContent: '', alignItems: 'center', marginLeft: '3px', padding: '5px' }} onMouseEnter={() => setHover(true)} onMouseLeave={() => setHover(false)}>
+                            <div style={{ border: '1px solid #E6E6E6', padding: 5, display: 'flex', justifyContent: '', alignItems: 'center', marginLeft: '3px', padding: '5px',paddingRight:'50px',paddingBottom:"0px" }} onMouseEnter={() => setHover(true)} onMouseLeave={() => setHover(false)}>
                                 <div style={{ display: 'flex', flexDirection: "column", justifyContent: 'space-between', height: '138px' }}>
                                     <h5 style={{ fontFamily: 'Inter', marginTop: '0.5px', fontSize: '14px', lineHeight: '16px', fontWeight: 500 }}>
                                         Utilization
                                     </h5>
                                     <div className="">
-                                        {getOdometer([[86]], { ...options,labels: ["Utilization"] }, 96)}
+                                        {GetOdometer([[86]], { ...options,labels: ["Utilization"] }, 85)}
                                     </div>
                                     {/* <h5 style={{ fontFamily: 'Inter', marginTop: '4px', fontSize: '20px', fontWeight: 600 }}>86%</h5> */}
                                     <p style={{
@@ -167,6 +167,7 @@ export const Productivity = () => {
                     <h6 style={{ fontFamily: "poppins", fontSize: '18px', fontWeight: 600, display: 'flex', justifyContent: "center" }}>Delivery</h6>
                     <div className="mt-4 ms-2">
                         <Chart options={options1} series={series} type="pie" height={"250px"} width={"100%"} />
+                        <span style={{ fontFamily: 'Inter', marginTop: '4px', fontSize: '12px', lineHeight: '14px', fontWeight: 500, textAlign: "center" }}>Upto 5% delivery delay has NO PENALTIES. 5% - 15% delay attracts $10,000 penal charges.</span>
                     </div>
                 </div>
             </div>

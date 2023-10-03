@@ -40,7 +40,7 @@ export var options = {
         },
     },
     tooltip: {
-        enabled: true,
+        enabled: false,
         y: {
             formatter: function (value) {
                 return value + ' units';

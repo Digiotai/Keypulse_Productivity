@@ -1,7 +1,7 @@
 import { heading, roptions } from './data'
 import { useState, useEffect, useRef } from 'react'
 import { ApexChart } from "../../components/ApexBarChart"
-import { getTitle, getData, getOdometer } from '../../utils'
+import { getTitle, getData } from '../../utils'
 import { RxDotFilled } from 'react-icons/rx'
 import cyber from '../../assets/svg/cyber.png'
 import vulner from '../../assets/svg/vulnar.png'
