@@ -268,7 +268,7 @@ export const optionsplantation = {
                     borderColor: 'none',
                     style: {
                         color: '#d10f0f',
-                        fontSize:"10px",
+                        fontSize: "10px",
                         background: 'none'
                     },
                     text: 'Planned 9000'
@@ -389,6 +389,14 @@ export var dounut1 = {
     // fill: {
     //   type: 'gradient',
     // },
+    tooltip: {
+        enabled: true,
+        y: {
+            formatter: function (value) {
+                return value + ' Units';
+            }
+        }
+    },
     legend: {
         show: true,
         position: 'bottom',
