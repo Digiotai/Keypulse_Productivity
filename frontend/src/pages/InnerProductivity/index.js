@@ -11,6 +11,15 @@ import { LineChart } from "../../components/LineChart"
 import axios from "axios";
 import { aseries, aoptions, aoptions2, aoptions3, aseries2, aseries3 } from "../../components/AreaChart/data"
 import { lostUnitsdata, prodOpexData, prodThroughputData, unitsLostData, unitsProdData, unitsYTDData, upTimeData, utilizationData } from "./apiData"
+import { Popup } from "../../components/Popup"
+import { UnitsYTD } from "./InnerProductivity/unitsYTD/unitsYTD"
+import { UnitsLost } from "./InnerProductivity/unitsLost/unitsLost"
+import { OveralPlantProductivity } from "./InnerProductivity/overal-plant-productivity"
+import { OveralProductivityUtilization } from "./InnerProductivity/overal-productivity-utilization"
+import { LostUnitsCauses } from "./InnerProductivity/lost-units-causes"
+import { OveralProductivityUptime } from "./InnerProductivity/overal-productivity-uptime/unitsLost"
+import { ProductivityThroughput } from "./InnerProductivity/productivity-throughput"
+import { ProductivityOpex } from "./InnerProductivity/productivity-opex"
 const ADAPTERS_BASE_URL = process.env.REACT_APP_BASE_URL;
 
 export const InnerProductivity = () => {
@@ -26,6 +35,9 @@ export const InnerProductivity = () => {
     const [decHover, setDecHover] = useState(false)
     const [incHover, setIncHover] = useState(false)
     const [apidata, setApiData] = useState([])
+    const [showModal, setShowModal] = useState(false)
+    const [title, setTitle] = useState("")
+    const [selData, setSelData] = useState([])
 
     const fetchData = async () => {
         try {
@@ -63,7 +75,6 @@ export const InnerProductivity = () => {
     ]
 
     const fileInputRef = useRef(null); // Explicit type
-    const [file, setFile] = useState([])
 
     const handleFileChange = (event) => {
         // const selectedFile = event.target.files;
@@ -104,10 +115,54 @@ export const InnerProductivity = () => {
         }
     }
 
-    const handleGetData = (name, data5,inference,prediction) => {
+    const handlePopup = (e, title, data) => {
+        e.stopPropagation();
+        setShowModal(true)
+        setTitle(title)
+        setSelData(data)
+    }
+
+    const handleTooltip = (e, setfunc, showVal) => {
+        e.stopPropagation();
+        setfunc(showVal)
+    }
+
+
+    const getCharts = () => {
+        const data = [{
+            title: "Units YTD", children: <UnitsYTD {...{ selData }} />,
+        }, {
+            title: "Units Lost", children: <UnitsLost {...{ selData }} />
+        },
+        {
+            title: "Overall Plant Productivity", children: <OveralPlantProductivity {...{ selData }} />
+        },
+        {
+            title: "Overall Productivity - Utilization (YTD)", children: <OveralProductivityUtilization {...{ selData }} />
+        },
+        {
+            title: "Lost Units:Causes", children: <LostUnitsCauses {...{ selData }} />
+        },
+        {
+            title: "Overall Productivity - Uptime (YTD)", children: <OveralProductivityUptime {...{ selData }} />
+        },
+        {
+            title: "Productivity - Throughout", children: <ProductivityThroughput {...{ selData }} />
+        },
+        {
+            title: "Productivity - OpEx", children: <ProductivityOpex {...{ selData }} />
+        }]
+        const final = data.filter((item) => {
+            if (item.title == title) return true
+        })
+        return final[0]?.children
+    }
+
+
+    const handleGetData = (name, data5, inference, prediction) => {
         switch (name) {
             case 'kpThroughput.csv':
-                return <div className="col-6">
+                return <div className="col-6" style={{ cursor: "pointer" }} onClick={(e) => handlePopup(e, "Productivity - Throughout", data5)}>
                     <div style={{ border: '1px solid #E6E6E6' }}>
                         <h6 className="ps-2" style={{ fontFamily: "poppins", fontWeight: 500, fontSize: '18px', fontWeight: 600, display: 'flex', justifyContent: "start" }}>Productivity - Throughout</h6>
                         <div style={{ minHeight: "265px", maxHeight: "265px", width: "100%" }}>
@@ -116,7 +171,7 @@ export const InnerProductivity = () => {
                     </div>
                 </div>
             case 'kpOpEx.csv':
-                return <div className="col-6">
+                return <div className="col-6" style={{ cursor: "pointer" }} onClick={(e) => handlePopup(e, "Productivity - OpEx", data5)}>
                     <div style={{ border: '1px solid #E6E6E6' }}>
                         <h6 className="ps-2" style={{ fontFamily: "poppins", fontWeight: 500, fontSize: '18px', fontWeight: 600, display: 'flex', justifyContent: "start" }}>Productivity - OpEx</h6>
                         {/* <ApexChart series={options2.series1} options={options2} height={"250px"} width={"100%"} /> */}
@@ -126,7 +181,7 @@ export const InnerProductivity = () => {
                     </div>
                 </div>
             case 'kpUtilization.csv':
-                return <div className="col-4">
+                return <div className="col-4" style={{ cursor: "pointer" }} onClick={(e) => handlePopup(e, "Overall Productivity - Utilization (YTD)", data5)}>
                     <div style={{ border: '1px solid #E6E6E6' }}>
                         <h6 className="ps-2" style={{ fontFamily: "poppins", fontWeight: 500, fontSize: '18px', fontWeight: 600, display: 'flex', justifyContent: "start" }}>Overall Productivity - Utilization (YTD)</h6>
                         <div style={{ minHeight: "265px", maxHeight: "265px", width: "100%" }}>
@@ -135,7 +190,7 @@ export const InnerProductivity = () => {
                     </div>
                 </div>
             case 'kpLostCause.csv':
-                return <div className="col-4">
+                return <div className="col-4" style={{ cursor: "pointer" }} onClick={(e) => handlePopup(e, "Lost Units:Causes", data5)}>
                     <div style={{ border: '1px solid #E6E6E6' }}>
                         <h6 className="ps-2" style={{ fontFamily: "poppins", fontWeight: 500, fontSize: '18px', fontWeight: 600, display: 'flex', justifyContent: "start" }}>Lost Units:Causes</h6>
                         <div style={{ minHeight: "265px", maxHeight: "255px", width: "100%" }}>
@@ -144,7 +199,7 @@ export const InnerProductivity = () => {
                     </div>
                 </div>
             case 'kpUptime.csv':
-                return <div className="col-4">
+                return <div className="col-4" style={{ cursor: "pointer" }} onClick={(e) => handlePopup(e, "Overall Productivity - Uptime (YTD)", data5)}>
                     <div style={{ border: '1px solid #E6E6E6', minHeight: "230px" }}>
                         <h6 className="ps-2" style={{ fontFamily: "poppins", fontWeight: 500, fontSize: '18px', fontWeight: 600, display: 'flex', justifyContent: "start" }}>Overall Productivity - Uptime (YTD)</h6>
                         {/* <ApexChart series={options4.series1} options={options4} height={"250px"} width={"100%"} /> */}
@@ -155,15 +210,15 @@ export const InnerProductivity = () => {
                 </div>
             case 'kpUnitsYTD.csv':
                 let { total, finalData } = unitsYTDData(data5)
-                return <div className="col-4">
+                return <div className="col-4" style={{ cursor: "pointer" }} onClick={(e) => handlePopup(e, "Units YTD", data5)}>
                     <div style={{ border: '1px solid #E6E6E6' }} className="p-2">
                         <div className="d-flex justify-content-between">
                             <div>
                                 <h6 className="ps-2" style={{ fontFamily: "poppins", fontSize: '18px', fontWeight: 600, display: 'flex', justifyContent: "start" }}>Units YTD</h6>
-                                <h6 className="ps-2" style={{ fontFamily: "poppins", fontSize: '14px', fontWeight: 400, display: 'flex', justifyContent: "start" }}>Units Produced</h6>
+                                {/* <h6 className="ps-2" style={{ fontFamily: "poppins", fontSize: '14px', fontWeight: 400, display: 'flex', justifyContent: "start" }}>Units Produced</h6> */}
                             </div>
                             <div style={{ height: '20px', justifyContent: 'space-around', display: "flex", alignItems: "center", width: "45px", borderRadius: "50px" }}>
-                                <div style={{ display: "flex", justifyContent: 'start' }} onClick={() => { setShow(true) }}><RxDotFilled cursor={"pointer"} color='#427ae3' onClick={() => { setLabel("inf") }} onMouseEnter={() => setHover("inf")} onMouseLeave={() => { setHover("") }} /> <RxDotFilled cursor={"pointer"} color='#800080' onClick={() => { setLabel("rec") }} onMouseEnter={() => setHover("rec")} onMouseLeave={() => { setHover("") }} /> <RxDotFilled cursor={"pointer"} color='#39c734' onClick={() => { setLabel("pre") }} onMouseEnter={() => setHover("pre")} onMouseLeave={() => { setHover("") }} /></div>
+                                <div style={{ display: "flex", justifyContent: 'start' }} onClick={(e) => { handleTooltip(e, setShow, true) }}><RxDotFilled cursor={"pointer"} color='#427ae3' onClick={() => { setLabel("inf") }} onMouseEnter={() => setHover("inf")} onMouseLeave={() => { setHover("") }} /> <RxDotFilled cursor={"pointer"} color='#800080' onClick={() => { setLabel("rec") }} onMouseEnter={() => setHover("rec")} onMouseLeave={() => { setHover("") }} /> <RxDotFilled cursor={"pointer"} color='#39c734' onClick={() => { setLabel("pre") }} onMouseEnter={() => setHover("pre")} onMouseLeave={() => { setHover("") }} /></div>
                                 <div>
                                     {/* <button className='btn btn-primary mb-2' onClick={() => setShow(!show)}>IPR</button> */}
                                     {hover == "inf" && <div className='card p-1' style={{ position: 'absolute', marginLeft: "0px", marginTop: "-20px", zIndex: 9999, alignItems: 'center' }}>
@@ -216,15 +271,15 @@ export const InnerProductivity = () => {
                 </div>
             case 'kpUnitsLost.csv':
                 let { totallost, finalDatalost } = unitsLostData(data5)
-                return <div className="col-4">
+                return <div className="col-4" style={{ cursor: "pointer" }} onClick={(e) => handlePopup(e, "Units Lost", data5)}>
                     <div style={{ border: '1px solid #E6E6E6' }} className="p-2">
                         <div className="d-flex justify-content-between">
                             <div>
                                 <h6 className="ps-2" style={{ fontFamily: "poppins", fontWeight: 500, fontSize: '18px', fontWeight: 600, display: 'flex', justifyContent: "start" }}>Units Lost</h6>
-                                <h6 className="ps-2" style={{ fontFamily: "poppins", fontSize: '14px', fontWeight: 400, display: 'flex', justifyContent: "start" }}>Units Losts</h6>
+                                {/* <h6 className="ps-2" style={{ fontFamily: "poppins", fontSize: '14px', fontWeight: 400, display: 'flex', justifyContent: "start" }}>Units Losts</h6> */}
                             </div>
                             <div style={{ height: '20px', justifyContent: 'space-around', display: "flex", alignItems: "center", width: "45px", borderRadius: "50px" }}>
-                                <div style={{ display: "flex", justifyContent: 'start' }} onClick={() => { setShow1(true) }}><RxDotFilled cursor={"pointer"} color='#427ae3' onClick={() => { setLabel1("inf") }} onMouseEnter={() => setHover1("inf")} onMouseLeave={() => { setHover1("") }} /> <RxDotFilled cursor={"pointer"} color='#800080' onClick={() => { setLabel1("rec") }} onMouseEnter={() => setHover1("rec")} onMouseLeave={() => { setHover1("") }} /> <RxDotFilled cursor={"pointer"} color='#39c734' onClick={() => { setLabel1("pre") }} onMouseEnter={() => setHover1("pre")} onMouseLeave={() => { setHover1("") }} /></div>
+                                <div style={{ display: "flex", justifyContent: 'start' }} onClick={(e) => { handleTooltip(e, setShow1, true) }}><RxDotFilled cursor={"pointer"} color='#427ae3' onClick={() => { setLabel1("inf") }} onMouseEnter={() => setHover1("inf")} onMouseLeave={() => { setHover1("") }} /> <RxDotFilled cursor={"pointer"} color='#800080' onClick={() => { setLabel1("rec") }} onMouseEnter={() => setHover1("rec")} onMouseLeave={() => { setHover1("") }} /> <RxDotFilled cursor={"pointer"} color='#39c734' onClick={() => { setLabel1("pre") }} onMouseEnter={() => setHover1("pre")} onMouseLeave={() => { setHover1("") }} /></div>
                                 <div>
                                     {/* <button className='btn btn-primary mb-2' onClick={() => setShow(!show)}>IPR</button> */}
                                     {hover1 == "inf" && <div className='card p-1' style={{ position: 'absolute', marginLeft: "0px", marginTop: "-20px", zIndex: 9999, alignItems: 'center' }}>
@@ -256,7 +311,7 @@ export const InnerProductivity = () => {
                         </div>
                         <div className="d-flex ps-2 justify-content-between" style={{ background: "", alignItems: 'center', height: '180px' }}>
                             <div className="pt-3" style={{ height: '70px' }}>
-                                <h2>{totallost}</h2>
+                                <h2>{parseInt(totallost)}</h2>
                             </div>
                             <div>
                                 <AreaChart options={aoptions2} series={finalDatalost} />
@@ -266,15 +321,15 @@ export const InnerProductivity = () => {
                 </div>
             case 'kpPlantProd.csv':
                 let { totalprod, finalDataprod } = unitsProdData(data5)
-                return <div className="col-4">
+                return <div className="col-4" style={{ cursor: "pointer" }} onClick={(e) => handlePopup(e, "Overall Plant Productivity", data5)}>
                     <div style={{ border: '1px solid #E6E6E6' }} className="p-2">
                         <div className="d-flex justify-content-between">
                             <div>
                                 <h6 className="ps-2" style={{ fontFamily: "poppins", fontWeight: 500, fontSize: '18px', fontWeight: 600, display: 'flex', justifyContent: "start" }}>Overall Plant Productivity</h6>
-                                <h6 className="ps-2" style={{ fontFamily: "poppins", fontSize: '14px', fontWeight: 400, display: 'flex', justifyContent: "start" }}>Productivity</h6>
+                                {/* <h6 className="ps-2" style={{ fontFamily: "poppins", fontSize: '14px', fontWeight: 400, display: 'flex', justifyContent: "start" }}>Productivity</h6> */}
                             </div>
                             <div style={{ height: '20px', justifyContent: 'space-around', display: "flex", alignItems: "center", width: "45px", borderRadius: "50px" }}>
-                                <div style={{ display: "flex", justifyContent: 'start' }} onClick={() => { setShow2(true) }}><RxDotFilled cursor={"pointer"} color='#427ae3' onClick={() => { setLabel2("inf") }} onMouseEnter={() => setHover2("inf")} onMouseLeave={() => { setHover2("") }} /> <RxDotFilled cursor={"pointer"} color='#800080' onClick={() => { setLabel2("rec") }} onMouseEnter={() => setHover2("rec")} onMouseLeave={() => { setHover2("") }} /> <RxDotFilled cursor={"pointer"} color='#39c734' onClick={() => { setLabel2("pre") }} onMouseEnter={() => setHover2("pre")} onMouseLeave={() => { setHover2("") }} /></div>
+                                <div style={{ display: "flex", justifyContent: 'start' }} onClick={(e) => { handleTooltip(e, setShow2, true) }}><RxDotFilled cursor={"pointer"} color='#427ae3' onClick={() => { setLabel2("inf") }} onMouseEnter={() => setHover2("inf")} onMouseLeave={() => { setHover2("") }} /> <RxDotFilled cursor={"pointer"} color='#800080' onClick={() => { setLabel2("rec") }} onMouseEnter={() => setHover2("rec")} onMouseLeave={() => { setHover2("") }} /> <RxDotFilled cursor={"pointer"} color='#39c734' onClick={() => { setLabel2("pre") }} onMouseEnter={() => setHover2("pre")} onMouseLeave={() => { setHover2("") }} /></div>
                                 <div>
                                     {/* <button className='btn btn-primary mb-2' onClick={() => setShow(!show)}>IPR</button> */}
                                     {hover2 == "inf" && <div className='card p-1' style={{ position: 'absolute', marginLeft: "-150px", marginTop: "-20px", zIndex: 9999, alignItems: 'center' }}>
@@ -325,11 +380,8 @@ export const InnerProductivity = () => {
                         </div>
                     </div>
                 </div>
-
         }
     }
-
-
     return (
         <div className="row ms-1">
             <div
@@ -367,17 +419,17 @@ export const InnerProductivity = () => {
             <div className="row gx-1 gy-1 p-2 pt-0">
                 {apidata?.map((item) => {
                     if (item.name == "kpUnitsYTD.csv") {
-                        return handleGetData(item.name, item.data,item.inference,item.predictions)
+                        return handleGetData(item.name, item.data, item.inference, item.predictions)
                     }
                 })}
                 {apidata?.map((item) => {
                     if (item.name == "kpUnitsLost.csv") {
-                        return handleGetData(item.name, item.data,item.inference,item.predictions)
+                        return handleGetData(item.name, item.data, item.inference, item.predictions)
                     }
                 })}
                 {apidata?.map((item) => {
                     if (item.name == "kpPlantProd.csv") {
-                        return handleGetData(item.name, item.data,item.inference,item.predictions)
+                        return handleGetData(item.name, item.data, item.inference, item.predictions)
                     }
                 })}
                 {apidata?.map((item) => {
@@ -405,6 +457,7 @@ export const InnerProductivity = () => {
                         return handleGetData(item.name, item.data)
                     }
                 })}
+                <Popup {...{ showModal, setShowModal, headerTitle: title, children: getCharts() }} />
             </div>
         </div>
     )

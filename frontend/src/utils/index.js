@@ -11,7 +11,8 @@ export const getData = (list, color) => {
     </ul>
 }
 export const getTitle = (title, color, handleClosr) => {
-    const handleClose = () => {
+    const handleClose = (e) => {
+        e.stopPropagation();
         handleClosr()
     }
     return (
@@ -19,7 +20,7 @@ export const getTitle = (title, color, handleClosr) => {
             <h5 style={{ fontFamily: "Poppins", fontWeight: 500, fontSize: '14px', display: 'flex', alignItems: "center", padding: 0, margin: 0 }}>
                 <div style={{ height: "12px", width: "12px", background: color, borderRadius: "50%", marginRight: "5px" }}></div>  {title}
             </h5>
-            <RxCross2 cursor={"pointer"} color="" onClick={() => handleClose()} />
+            <RxCross2 cursor={"pointer"} color="" onClick={(e) => handleClose(e)} />
         </div>
 
     )
