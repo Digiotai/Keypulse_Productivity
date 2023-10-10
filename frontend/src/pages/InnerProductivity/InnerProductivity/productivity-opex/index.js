@@ -1,80 +1,136 @@
 import { ApexChart } from "../../../../components/ApexBarChart"
 export const ProductivityOpex = ({ selData }) => {
-    var options3 = {
+    const options3 = {
         chart: {
-            type: 'bar',
-            // height: 350
+            // height: '400px',
+            // width:'100px',
+            type: 'bar'
         },
+
+        colors: [
+            "#427ae3",
+            "#0000FF"
+        ],
         plotOptions: {
             bar: {
-                horizontal: true,
-                columnWidth: '55%',
-                endingShape: 'rounded',
-                responsive: true,
-
+                columnWidth: '5px',
+                horizontal: false,
+                borderRadius: 0,
+                borderRadiusApplication: 'around',
+                borderRadiusWhenStacked: 'last',
+                columnWidth: '30%',
+                barHeight: '40%',
+                distributed: false,
+                rangeBarOverlap: true,
+                rangeBarGroupRows: false,
+                hideZeroBarsWhenGrouped: false,
+                isDumbbell: false,
+                dumbbellColors: undefined,
+                isFunnel: false,
+                isFunnel3d: true,
+                dataLabels: {
+                    position: 'top',
+                }
             },
         },
+        grid: {
+            show: false
+        },
+
         dataLabels: {
-            enabled: false
-        },
-        stroke: {
-            show: true,
-            width: 2,
-            colors: ['transparent']
-        },
-        xaxis: {
-            categories: ['2023'],
-            labels: {
-                show: true,
+            style: {
+                fontSize: '12px',
+                colors: ["#304758"]
+            },
+            offsetY: -20,
+            formatter: function (val, opt) {
+                const goals =
+                    opt.w.config.series[opt.seriesIndex].data[opt.dataPointIndex]
+                        .goals
+                return `${val}`
             }
         },
-        colors: ["#1b3c7a", "#427ae3", "#3dc7d1", "#faa93e"],
-        fill: {
-            colors: ["#1b3c7a", "#427ae3", "#3dc7d1", ""]
-        },
-        // yaxis: {
-        //   title: {
-        //     text: 'Machine'
-        //   },
-        // },
-        fill: {
-            opacity: 1
-        },
-        tooltip: {
-            y: {
-                formatter: function (val) {
-                    return val + "%"
-                }
+        yaxis: {
+            title: {
+                text: 'Units'
             }
-        }
-    };
-    const utilizationData = (data) => {
-
-        function calculatePercentages(numbers) {
-            const totalSum = numbers.reduce((sum, num) => sum + num, 0);
-            return parseInt((totalSum / (numbers.length * 100)) * 100);
-        }
-
-        let series1 = [{
-            name: 'Robotic Arm',
-            data: [calculatePercentages(data.filter((item) => item.name == "Robotic Arm")[0].data)]
-        }, {
-            name: 'Roller Belts',
-            data: [calculatePercentages(data.filter((item) => item.name == "Roller Belts")[0].data)]
-        }, {
-            name: 'Boilers',
-            data: [calculatePercentages(data.filter((item) => item.name == "Boilers")[0].data)]
         },
-        {
-            name: 'Chillers',
-            data: [calculatePercentages(data.filter((item) => item.name == "Chillers")[0].data)]
-        }]
-        console.log(series1)
-        return series1
+        // colors: colors
+    }
+    const plantationData = (data) => {
+        const finalData = [
+            {
+                name: 'Actual',
+                data: [
+                    {
+                        x: 'Jan',
+                        y: data[0].data[0],
+                        color: "#41B883",
+                    },
+                    {
+                        x: 'Feb',
+                        y: data[0].data[1],
+                        color: "#00D8FF",
+                    },
+                    {
+                        x: 'Mar',
+                        y: data[0].data[2],
+                        color: "#00D8FF",
+                    },
+                    {
+                        x: 'Apr',
+                        y: data[0].data[3],
+                        color: "#00D8FF",
+                    },
+                    {
+                        x: 'May',
+                        y: data[0].data[4],
+                        color: "#00D8FF",
+                    },
+                    {
+                        x: 'Jun',
+                        y: data[0].data[5],
+                        color: "#00D8FF",
+                    },
+                    {
+                        x: 'Jul',
+                        y: data[0].data[6],
+                        color: "#00D8FF",
+                    },
+                    {
+                        x: 'Aug',
+                        y: data[0].data[7],
+                        color: "#00D8FF",
+                    }
+                ]
+            }
+        ]
+        return finalData
     }
     return (
-        <div className="card" style={{ width: "520px" }}>
-            <ApexChart series={utilizationData(selData)} options={options3} height={"250px"} width={"500px"} />
+        <div className="container">
+            <div className="row">
+                {
+                    selData.map((item) => {
+                        return (
+                            <div className="card col-5 m-2">
+                                <h5 style={{ fontFamily: 'Inter', margin: '10px', fontSize: '14px', fontWeight: 600, lineHeight: '10px'}}>
+                                    {item.name}
+                                </h5>
+                                <ApexChart series={plantationData([item])} options={options3} height={"230px"} width={"500px"} />
+                            </div>
+                        )
+                    })
+                }
+            </div>
+            {/* <div className="row gy-2">
+                <div className="card col-6">
+                    <ApexChart series={plantationData([selData[2]])} options={options3} height={"250px"} width={"500px"} />
+                </div>
+                <div className="card col-6" >
+                    <ApexChart series={plantationData([selData[3]])} options={options3} height={"250px"} width={"500px"} />
+                </div>
+            </div> */}
         </div>
     )
 }

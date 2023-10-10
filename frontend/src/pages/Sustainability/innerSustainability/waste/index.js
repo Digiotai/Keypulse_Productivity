@@ -1,5 +1,5 @@
 import { ApexChart } from "../../../../components/ApexBarChart"
-export const OveralProductivityUptime = ({ selData }) => {
+export const InnerWaste = ({ selData }) => {
     const options3 = {
         chart: {
             // height: '400px',
@@ -52,7 +52,12 @@ export const OveralProductivityUptime = ({ selData }) => {
         },
         yaxis: {
             title: {
-                text: 'Units'
+                text: 'Tons'
+            }
+        },
+        xaxis: {
+            title: {
+                text: 'Month'
             }
         },
         // colors: colors

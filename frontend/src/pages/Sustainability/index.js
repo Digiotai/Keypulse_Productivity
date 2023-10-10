@@ -7,6 +7,13 @@ import { getTitle, getData } from "../../utils"
 import { RxDotFilled } from 'react-icons/rx'
 import { altEnergyData, co2Data, energyData, namesSusSort, plantationData, wasteData, waterData } from "./apiData"
 import axios from 'axios'
+import { Popup } from "../../components/Popup"
+import { InnerEnergy } from "./innerSustainability/energy"
+import { InnerWaste } from "./innerSustainability/waste"
+import { InnerWater } from "./innerSustainability/water"
+import { InnerAltEnergy } from "./innerSustainability/alternate-energy"
+import { InnerCO2Emmision } from "./innerSustainability/co2emmision"
+import { InnerPlantation } from "./innerSustainability/plantation"
 const ADAPTERS_BASE_URL = process.env.REACT_APP_BASE_URL;
 
 export const Sustainability = () => {
@@ -29,6 +36,9 @@ export const Sustainability = () => {
     const [hover4, setHover4] = useState("")
     const [hover5, setHover5] = useState("")
     const [apidata, setApiData] = useState([])
+    const [showModal, setShowModal] = useState(false)
+    const [title, setTitle] = useState("")
+    const [selData, setSelData] = useState([])
 
     const fetchData = async () => {
         try {
@@ -94,17 +104,55 @@ export const Sustainability = () => {
     }
 
 
+    const handlePopup = (e, title, data) => {
+        e.stopPropagation();
+        setShowModal(true)
+        setTitle(title)
+        setSelData(data)
+    }
+
+    const handleTooltip = (e, setfunc, showVal) => {
+        e.stopPropagation();
+        setfunc(showVal)
+    }
 
 
-    const handleGetData = (name, data5,inference,prediction) => {
+    const getCharts = () => {
+        const data = [{
+            title: "Energy (KWH)", children: <InnerEnergy {...{ selData }} />, size: "xl"
+        },
+            {
+                title: "Waste (Tons)", children: <InnerWaste {...{ selData }} />, size: "xl"
+            },
+            {
+                title: "Plantation", children: <InnerPlantation {...{ selData }} />, size: "lg"
+            },
+            {
+                title: "Water (Kilolitres)", children: <InnerWater {...{ selData }} />, size: "xl"
+            },
+            {
+                title: "Alternate Energy", children: <InnerAltEnergy {...{ selData }} />, size: "xl"
+            },
+            {
+                title: "CO2 Emission", children: <InnerCO2Emmision {...{ selData }} />, size: "lg"
+            }
+        ]
+        const final = data.filter((item) => {
+            if (item.title == title) return true
+        })
+        return final[0]
+    }
+
+
+    const handleGetData = (name, data5, inference, prediction) => {
         switch (name) {
             case 'kpEnergy.csv':
                 return <div className="col-4">
-                    <div style={{ border: '1px solid #E6E6E6', padding: '2px', margin: '5px 0px 5px 5px' }}>
+                    <div style={{ border: '1px solid #E6E6E6', padding: '2px', margin: '5px 0px 5px 5px', cursor: "pointer" }} onClick={(e) => handlePopup(e, "Energy (KWH)", data5)}>
                         <div className="d-flex justify-content-between">
                             <h6 style={{ fontFamily: "poppins", fontWeight: 500, fontSize: '18px', fontWeight: 600, display: 'flex', justifyContent: "start" }}>Energy {" (KWH)"}</h6>
                             <div style={{ height: '20px', justifyContent: 'space-around', display: "flex", alignItems: "center", width: "45px", borderRadius: "50px" }}>
-                                <div style={{ display: "flex", justifyContent: 'start' }} onClick={() => { setShow(true) }}><RxDotFilled cursor={"pointer"} color='#427ae3' onClick={() => { setLabel("inf") }} onMouseEnter={() => setHover("inf")} onMouseLeave={() => { setHover("") }} /> <RxDotFilled cursor={"pointer"} color='#800080' onClick={() => { setLabel("rec") }} onMouseEnter={() => setHover("rec")} onMouseLeave={() => { setHover("") }} /> <RxDotFilled cursor={"pointer"} color='#39c734' onClick={() => { setLabel("pre") }} onMouseEnter={() => setHover("pre")} onMouseLeave={() => { setHover("") }} /></div>
+                                <div style={{ display: "flex", justifyContent: 'start' }} onClick={(e) => { handleTooltip(e, setShow, true) }}><RxDotFilled cursor={"pointer"} color='#427ae3' onClick={() => { setLabel("inf") }} onMouseEnter={() => setHover("inf")} onMouseLeave={() => { setHover("") }} /> <RxDotFilled cursor={"pointer"} color='#800080' onClick={() => { setLabel("rec") }} onMouseEnter={() => setHover("rec")} onMouseLeave={() => { setHover("") }} /> <RxDotFilled cursor={"pointer"} color='#39c734' onClick={() => { setLabel("pre") }} onMouseEnter={() => setHover("pre")} onMouseLeave={() => { setHover("") }} /></div>
                                 <div>
                                     {/* <button className='btn btn-primary mb-2' onClick={() => setShow(!show)}>IPR</button> */}
                                     {hover == "inf" && <div className='card p-1' style={{ position: 'absolute', marginLeft: "0px", marginTop: "-20px", zIndex: 9999, alignItems: 'center' }}>
@@ -141,11 +189,11 @@ export const Sustainability = () => {
                 </div>
             case 'kpWaste.csv':
                 return <div className="col-4">
-                    <div style={{ border: '1px solid #E6E6E6', padding: '2px', margin: '5px 0px 5px 5px' }}>
+                    <div style={{ border: '1px solid #E6E6E6', padding: '2px', margin: '5px 0px 5px 5px', cursor: 'pointer' }} onClick={(e) => handlePopup(e, "Waste (Tons)", data5)}>
                         <div className="d-flex justify-content-between">
                             <h6 style={{ fontFamily: "poppins", fontWeight: 500, fontSize: '18px', fontWeight: 600, display: 'flex', justifyContent: "start" }}>Waste {"(Tons)"}</h6>
                             <div style={{ height: '20px', justifyContent: 'space-around', display: "flex", alignItems: "center", width: "45px", borderRadius: "50px" }}>
-                                <div style={{ display: "flex", justifyContent: 'start' }} onClick={() => { setShow1(true) }}><RxDotFilled cursor={"pointer"} color='#427ae3' onClick={() => { setLabel1("inf") }} onMouseEnter={() => setHover1("inf")} onMouseLeave={() => { setHover1("") }} /> <RxDotFilled cursor={"pointer"} color='#800080' onClick={() => { setLabel1("rec") }} onMouseEnter={() => setHover1("rec")} onMouseLeave={() => { setHover1("") }} /> <RxDotFilled cursor={"pointer"} color='#39c734' onClick={() => { setLabel1("pre") }} onMouseEnter={() => setHover1("pre")} onMouseLeave={() => { setHover1("") }} /></div>
+                                <div style={{ display: "flex", justifyContent: 'start' }} onClick={(e) => { handleTooltip(e, setShow1, true) }}><RxDotFilled cursor={"pointer"} color='#427ae3' onClick={() => { setLabel1("inf") }} onMouseEnter={() => setHover1("inf")} onMouseLeave={() => { setHover1("") }} /> <RxDotFilled cursor={"pointer"} color='#800080' onClick={() => { setLabel1("rec") }} onMouseEnter={() => setHover1("rec")} onMouseLeave={() => { setHover1("") }} /> <RxDotFilled cursor={"pointer"} color='#39c734' onClick={() => { setLabel1("pre") }} onMouseEnter={() => setHover1("pre")} onMouseLeave={() => { setHover1("") }} /></div>
                                 <div>
                                     {/* <button className='btn btn-primary mb-2' onClick={() => setShow(!show)}>IPR</button> */}
                                     {hover1 == "inf" && <div className='card p-1' style={{ position: 'absolute', marginLeft: "0px", marginTop: "-20px", zIndex: 9999, alignItems: 'center' }}>
@@ -182,11 +230,11 @@ export const Sustainability = () => {
                 </div>
             case 'kpPlantation.csv':
                 return <div className="col-4">
-                    <div style={{ border: '1px solid #E6E6E6', padding: '2px', margin: '5px 0px 5px 5px' }}>
+                    <div style={{ border: '1px solid #E6E6E6', padding: '2px', margin: '5px 0px 5px 5px', cursor: 'pointer' }} onClick={(e) => handlePopup(e, "Plantation", data5)}>
                         <div className="d-flex justify-content-between">
                             <h6 style={{ fontFamily: "poppins", fontWeight: 500, fontSize: '18px', fontWeight: 600, display: 'flex', justifyContent: "start" }}>Plantation</h6>
                             <div style={{ height: '20px', justifyContent: 'space-around', display: "flex", alignItems: "center", width: "45px", borderRadius: "50px" }}>
-                                <div style={{ display: "flex", justifyContent: 'start' }} onClick={() => { setShow2(true) }}><RxDotFilled cursor={"pointer"} color='#427ae3' onClick={() => { setLabel2("inf") }} onMouseEnter={() => setHover2("inf")} onMouseLeave={() => { setHover2("") }} /> <RxDotFilled cursor={"pointer"} color='#800080' onClick={() => { setLabel2("rec") }} onMouseEnter={() => setHover2("rec")} onMouseLeave={() => { setHover2("") }} /> <RxDotFilled cursor={"pointer"} color='#39c734' onClick={() => { setLabel2("pre") }} onMouseEnter={() => setHover2("pre")} onMouseLeave={() => { setHover2("") }} /></div>
+                                <div style={{ display: "flex", justifyContent: 'start' }} onClick={(e) => { handleTooltip(e, setShow2, true) }}><RxDotFilled cursor={"pointer"} color='#427ae3' onClick={() => { setLabel2("inf") }} onMouseEnter={() => setHover2("inf")} onMouseLeave={() => { setHover2("") }} /> <RxDotFilled cursor={"pointer"} color='#800080' onClick={() => { setLabel2("rec") }} onMouseEnter={() => setHover2("rec")} onMouseLeave={() => { setHover2("") }} /> <RxDotFilled cursor={"pointer"} color='#39c734' onClick={() => { setLabel2("pre") }} onMouseEnter={() => setHover2("pre")} onMouseLeave={() => { setHover2("") }} /></div>
                                 <div>
                                     {/* <button className='btn btn-primary mb-2' onClick={() => setShow(!show)}>IPR</button> */}
                                     {hover2 == "inf" && <div className='card p-1' style={{ position: 'absolute', marginLeft: "-150px", marginTop: "-20px", zIndex: 9999, alignItems: 'center' }}>
@@ -223,11 +271,11 @@ export const Sustainability = () => {
                 </div>
             case 'kpWater.csv':
                 return <div className="col-4">
-                    <div style={{ border: '1px solid #E6E6E6', padding: '2px', margin: '5px 0px 5px 5px' }}>
+                    <div style={{ border: '1px solid #E6E6E6', padding: '2px', margin: '5px 0px 5px 5px', cursor: "pointer" }} onClick={(e) => handlePopup(e, "Water (Kilolitres)", data5)}>
                         <div className="d-flex justify-content-between">
                             <h6 style={{ fontFamily: "poppins", fontWeight: 500, fontSize: '18px', fontWeight: 600, display: 'flex', justifyContent: "start" }}>Water {" (Kilolitres)"}</h6>
                             <div style={{ height: '20px', justifyContent: 'space-around', display: "flex", alignItems: "center", width: "45px", borderRadius: "50px" }}>
-                                <div style={{ display: "flex", justifyContent: 'start' }} onClick={() => { setShow3(true) }}><RxDotFilled cursor={"pointer"} color='#427ae3' onClick={() => { setLabel3("inf") }} onMouseEnter={() => setHover3("inf")} onMouseLeave={() => { setHover3("") }} /> <RxDotFilled cursor={"pointer"} color='#800080' onClick={() => { setLabel3("rec") }} onMouseEnter={() => setHover3("rec")} onMouseLeave={() => { setHover3("") }} /> <RxDotFilled cursor={"pointer"} color='#39c734' onClick={() => { setLabel3("pre") }} onMouseEnter={() => setHover3("pre")} onMouseLeave={() => { setHover3("") }} /></div>
+                                <div style={{ display: "flex", justifyContent: 'start' }} onClick={(e) => { handleTooltip(e, setShow3, true) }}><RxDotFilled cursor={"pointer"} color='#427ae3' onClick={() => { setLabel3("inf") }} onMouseEnter={() => setHover3("inf")} onMouseLeave={() => { setHover3("") }} /> <RxDotFilled cursor={"pointer"} color='#800080' onClick={() => { setLabel3("rec") }} onMouseEnter={() => setHover3("rec")} onMouseLeave={() => { setHover3("") }} /> <RxDotFilled cursor={"pointer"} color='#39c734' onClick={() => { setLabel3("pre") }} onMouseEnter={() => setHover3("pre")} onMouseLeave={() => { setHover3("") }} /></div>
                                 <div>
                                     {/* <button className='btn btn-primary mb-2' onClick={() => setShow(!show)}>IPR</button> */}
                                     {hover3 == "inf" && <div className='card p-1' style={{ position: 'absolute', marginLeft: "-150px", marginTop: "-20px", zIndex: 9999, alignItems: 'center' }}>
@@ -264,11 +312,11 @@ export const Sustainability = () => {
                 </div>
             case 'kpAltEnergy.csv':
                 return <div className="col-4">
-                    <div style={{ border: '1px solid #E6E6E6', padding: '2px', margin: '5px 0px 5px 5px' }}>
+                    <div style={{ border: '1px solid #E6E6E6', padding: '2px', margin: '5px 0px 5px 5px', cursor: "pointer" }} onClick={(e) => handlePopup(e, "Alternate Energy", data5)}>
                         <div className="d-flex justify-content-between">
                             <h6 style={{ fontFamily: "poppins", fontWeight: 500, fontSize: '18px', fontWeight: 600, display: 'flex', justifyContent: "start" }}>Alternate Energy</h6>
                             <div style={{ height: '20px', justifyContent: 'space-around', display: "flex", alignItems: "center", width: "45px", borderRadius: "50px" }}>
-                                <div style={{ display: "flex", justifyContent: 'start' }} onClick={() => { setShow4(true) }}><RxDotFilled cursor={"pointer"} color='#427ae3' onClick={() => { setLabel4("inf") }} onMouseEnter={() => setHover4("inf")} onMouseLeave={() => { setHover4("") }} /> <RxDotFilled cursor={"pointer"} color='#800080' onClick={() => { setLabel4("rec") }} onMouseEnter={() => setHover4("rec")} onMouseLeave={() => { setHover4("") }} /> <RxDotFilled cursor={"pointer"} color='#39c734' onClick={() => { setLabel4("pre") }} onMouseEnter={() => setHover4("pre")} onMouseLeave={() => { setHover4("") }} /></div>
+                                <div style={{ display: "flex", justifyContent: 'start' }} onClick={(e) => { handleTooltip(e, setShow4, true) }}><RxDotFilled cursor={"pointer"} color='#427ae3' onClick={() => { setLabel4("inf") }} onMouseEnter={() => setHover4("inf")} onMouseLeave={() => { setHover4("") }} /> <RxDotFilled cursor={"pointer"} color='#800080' onClick={() => { setLabel4("rec") }} onMouseEnter={() => setHover4("rec")} onMouseLeave={() => { setHover4("") }} /> <RxDotFilled cursor={"pointer"} color='#39c734' onClick={() => { setLabel4("pre") }} onMouseEnter={() => setHover4("pre")} onMouseLeave={() => { setHover4("") }} /></div>
                                 <div>
                                     {/* <button className='btn btn-primary mb-2' onClick={() => setShow(!show)}>IPR</button> */}
                                     {hover4 == "inf" && <div className='card p-1' style={{ position: 'absolute', marginLeft: "0px", marginTop: "-20px", zIndex: 9999, alignItems: 'center' }}>
@@ -305,11 +353,11 @@ export const Sustainability = () => {
                 </div>
             case 'kpco2.csv':
                 return <div className="col-4">
-                    <div style={{ border: '1px solid #E6E6E6', padding: '2px', margin: '5px 0px 5px 5px' }}>
+                    <div style={{ border: '1px solid #E6E6E6', padding: '2px', margin: '5px 0px 5px 5px', cursor: "pointer" }} onClick={(e) => handlePopup(e, "CO2 Emission", data5)}>
                         <div className="d-flex justify-content-between">
                             <h6 style={{ fontFamily: "poppins", fontWeight: 500, fontSize: '18px', fontWeight: 600, display: 'flex', justifyContent: "start" }}>CO2 Emission</h6>
                             <div style={{ height: '20px', justifyContent: 'space-around', display: "flex", alignItems: "center", width: "45px", borderRadius: "50px" }}>
-                                <div style={{ display: "flex", justifyContent: 'start' }} onClick={() => { setShow5(true) }}><RxDotFilled cursor={"pointer"} color='#427ae3' onClick={() => { setLabel5("inf") }} onMouseEnter={() => setHover5("inf")} onMouseLeave={() => { setHover5("") }} /> <RxDotFilled cursor={"pointer"} color='#800080' onClick={() => { setLabel5("rec") }} onMouseEnter={() => setHover5("rec")} onMouseLeave={() => { setHover5("") }} /> <RxDotFilled cursor={"pointer"} color='#39c734' onClick={() => { setLabel5("pre") }} onMouseEnter={() => setHover5("pre")} onMouseLeave={() => { setHover5("") }} /></div>
+                                <div style={{ display: "flex", justifyContent: 'start' }} onClick={(e) => { handleTooltip(e, setShow5, true) }}><RxDotFilled cursor={"pointer"} color='#427ae3' onClick={() => { setLabel5("inf") }} onMouseEnter={() => setHover5("inf")} onMouseLeave={() => { setHover5("") }} /> <RxDotFilled cursor={"pointer"} color='#800080' onClick={() => { setLabel5("rec") }} onMouseEnter={() => setHover5("rec")} onMouseLeave={() => { setHover5("") }} /> <RxDotFilled cursor={"pointer"} color='#39c734' onClick={() => { setLabel5("pre") }} onMouseEnter={() => setHover5("pre")} onMouseLeave={() => { setHover5("") }} /></div>
                                 <div>
                                     {/* <button className='btn btn-primary mb-2' onClick={() => setShow(!show)}>IPR</button> */}
                                     {hover5 == "inf" && <div className='card p-1' style={{ position: 'absolute', marginLeft: "-150px", marginTop: "-20px", zIndex: 9999, alignItems: 'center' }}>
@@ -340,7 +388,7 @@ export const Sustainability = () => {
                             </div>
                         </div>
                         <div style={{ minHeight: "265px", maxHeight: "265px", width: "100%" }}>
-                            <LineChart height={"260px"} width={"100%"} data={co2Data(data5)}/>
+                            <LineChart height={"260px"} width={"100%"} data={co2Data(data5)} />
                         </div>
                     </div>
                 </div>
@@ -385,44 +433,45 @@ export const Sustainability = () => {
                 {apidata?.map((item) => {
                     if (item.name == "kpEnergy.csv") {
                         console.log(item)
-                        return handleGetData(item.name, item.data,item.inference,item.predictions)
+                        return handleGetData(item.name, item.data, item.inference, item.predictions)
                     }
                 })}
                 {apidata?.map((item) => {
                     if (item.name == "kpWaste.csv") {
-                        return handleGetData(item.name, item.data,item.inference,item.predictions)
+                        return handleGetData(item.name, item.data, item.inference, item.predictions)
                     }
                 })}
                 {apidata?.map((item) => {
                     if (item.name == "kpPlantation.csv") {
-                        return handleGetData(item.name, item.data,item.inference,item.predictions)
+                        return handleGetData(item.name, item.data, item.inference, item.predictions)
                     }
                 })}
                 {apidata?.map((item) => {
                     if (item.name == "kpWater.csv") {
-                        return handleGetData(item.name, item.data,item.inference,item.predictions)
+                        return handleGetData(item.name, item.data, item.inference, item.predictions)
                     }
                 })}
                 {apidata?.map((item) => {
                     if (item.name == "kpAltEnergy.csv") {
-                        return handleGetData(item.name, item.data,item.inference,item.predictions)
+                        return handleGetData(item.name, item.data, item.inference, item.predictions)
                     }
                 })}
                 {apidata?.map((item) => {
                     if (item.name == "kpUptime.csv") {
-                        return handleGetData(item.name, item.data,item.inference,item.predictions)
+                        return handleGetData(item.name, item.data, item.inference, item.predictions)
                     }
                 })}
                 {apidata?.map((item) => {
                     if (item.name == "kpThroughput.csv") {
-                        return handleGetData(item.name, item.data,item.inference,item.predictions)
+                        return handleGetData(item.name, item.data, item.inference, item.predictions)
                     }
                 })}
                 {apidata?.map((item) => {
                     if (item.name == "kpco2.csv") {
-                        return handleGetData(item.name, item.data,item.inference,item.predictions)
+                        return handleGetData(item.name, item.data, item.inference, item.predictions)
                     }
                 })}
+                <Popup {...{ showModal, setShowModal, headerTitle: title, children: getCharts()?.children, size: getCharts()?.size, fullscreen: getCharts()?.size == "xl" ? true : false }} />
             </div>
         </div>
     )

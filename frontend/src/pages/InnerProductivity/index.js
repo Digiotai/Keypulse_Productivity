@@ -130,32 +130,32 @@ export const InnerProductivity = () => {
 
     const getCharts = () => {
         const data = [{
-            title: "Units YTD", children: <UnitsYTD {...{ selData }} />,
+            title: "Units YTD", children: <UnitsYTD {...{ selData }} />, size: "lg"
         }, {
-            title: "Units Lost", children: <UnitsLost {...{ selData }} />
+            title: "Units Lost", children: <UnitsLost {...{ selData }} />, size: "lg"
         },
         {
-            title: "Overall Plant Productivity", children: <OveralPlantProductivity {...{ selData }} />
+            title: "Overall Plant Productivity", children: <OveralPlantProductivity {...{ selData }} />, size: "lg"
         },
         {
-            title: "Overall Productivity - Utilization (YTD)", children: <OveralProductivityUtilization {...{ selData }} />
+            title: "Overall Productivity - Utilization (YTD)", children: <OveralProductivityUtilization {...{ selData }} />, size: "xl"
         },
         {
-            title: "Lost Units:Causes", children: <LostUnitsCauses {...{ selData }} />
+            title: "Lost Units:Causes", children: <LostUnitsCauses {...{ selData }} />, size: "xl"
         },
         {
-            title: "Overall Productivity - Uptime (YTD)", children: <OveralProductivityUptime {...{ selData }} />
+            title: "Overall Productivity - Uptime (YTD)", children: <OveralProductivityUptime {...{ selData }} />, size: "xl"
         },
         {
-            title: "Productivity - Throughout", children: <ProductivityThroughput {...{ selData }} />
+            title: "Productivity - Throughout", children: <ProductivityThroughput {...{ selData }} />, size: "xl"
         },
         {
-            title: "Productivity - OpEx", children: <ProductivityOpex {...{ selData }} />
+            title: "Productivity - OpEx", children: <ProductivityOpex {...{ selData }} />, size: "xl"
         }]
         const final = data.filter((item) => {
             if (item.title == title) return true
         })
-        return final[0]?.children
+        return final[0]
     }
 
 
@@ -457,7 +457,7 @@ export const InnerProductivity = () => {
                         return handleGetData(item.name, item.data)
                     }
                 })}
-                <Popup {...{ showModal, setShowModal, headerTitle: title, children: getCharts() }} />
+                <Popup {...{ showModal, setShowModal, headerTitle: title, children: getCharts()?.children, size: getCharts()?.size, fullscreen: getCharts()?.size == "xl" ? true : false }} />
             </div>
         </div>
     )

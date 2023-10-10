@@ -1,5 +1,6 @@
 import { ApexChart } from "../../../../components/ApexBarChart"
-export const OveralProductivityUptime = ({ selData }) => {
+export const InnerCO2Emmision = ({ selData }) => {
+    console.log(selData)
     const options3 = {
         chart: {
             // height: '400px',
@@ -109,29 +110,8 @@ export const OveralProductivityUptime = ({ selData }) => {
         return finalData
     }
     return (
-        <div className="container">
-            <div className="row">
-                {
-                    selData.map((item) => {
-                        return (
-                            <div className="card col-5 m-2">
-                                <h5 style={{ fontFamily: 'Inter', margin: '10px', fontSize: '14px', fontWeight: 600, lineHeight: '10px'}}>
-                                    {item.name}
-                                </h5>
-                                <ApexChart series={plantationData([item])} options={options3} height={"230px"} width={"500px"} />
-                            </div>
-                        )
-                    })
-                }
-            </div>
-            {/* <div className="row gy-2">
-                <div className="card col-6">
-                    <ApexChart series={plantationData([selData[2]])} options={options3} height={"250px"} width={"500px"} />
-                </div>
-                <div className="card col-6" >
-                    <ApexChart series={plantationData([selData[3]])} options={options3} height={"250px"} width={"500px"} />
-                </div>
-            </div> */}
+        <div className="card" style={{ width: "520px" }}>
+            <ApexChart series={plantationData(selData)} options={options3} height={"250px"} width={"500px"} />
         </div>
     )
 }
