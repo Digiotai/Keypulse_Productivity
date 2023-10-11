@@ -10,7 +10,7 @@ export const UnitsYTD = ({ selData }) => {
 
         colors: [
             "#427ae3",
-            "#0000FF"
+            "#faa93e"
         ],
         plotOptions: {
             bar: {
@@ -19,8 +19,8 @@ export const UnitsYTD = ({ selData }) => {
                 borderRadius: 0,
                 borderRadiusApplication: 'around',
                 borderRadiusWhenStacked: 'last',
-                columnWidth: '30%',
-                barHeight: '40%',
+                columnWidth: '40%',
+                barHeight: '50%',
                 distributed: false,
                 rangeBarOverlap: true,
                 rangeBarGroupRows: false,
@@ -104,14 +104,26 @@ export const UnitsYTD = ({ selData }) => {
                         color: "#00D8FF",
                     }
                 ]
+            },
+            {
+                name: "Planned",
+                data: [
+                    { x: "Jan", y: 50000, color: "#faa93e" },
+                    { x: "Feb", y: 50000, color: "#faa93e" },
+                    { x: "Mar", y: 50000, color: "#faa93e" },
+                    { x: "Apr", y: 50000, color: "#faa93e" },
+                    { x: "May", y: 50000, color: "#faa93e" },
+                    { x: "Jun", y: 50000, color: "#faa93e" },
+                    { x: "Jul", y: 50000, color: "#faa93e" },
+                    { x: "Aug", y: 50000, color: "#faa93e" },
+                ]
             }
         ]
-        console.log(finalData)
         return finalData
     }
     return (
-        <div className="card" style={{ width: "520px" }}>
-            <ApexChart series={plantationData(selData)} options={options3} height={"250px"} width={"500px"} />
+        <div className="card" style={{ width: "680px" }}>
+            <ApexChart series={plantationData(selData)} options={options3} height={"250px"} width={"630px"} />
         </div>
     )
 }

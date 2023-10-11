@@ -254,7 +254,7 @@ export const InnerProductivity = () => {
                                 <h2 style={{ color: "#ffbf00" }}>{total}</h2>
                                 <div style={{ display: 'flex', justifyContent: 'space-between' }}>
                                     <h6>Target</h6>
-                                    <h6 style={{ color: 'black' }}>450,000</h6>
+                                    <h6 style={{ color: 'black' }}>450000</h6>
                                 </div>
                             </div>
                             <div>

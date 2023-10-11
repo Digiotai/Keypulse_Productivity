@@ -9,7 +9,7 @@ export const OveralPlantProductivity = ({ selData }) => {
 
         colors: [
             "#427ae3",
-            "#0000FF"
+            "#faa93e"
         ],
         plotOptions: {
             bar: {
@@ -18,8 +18,8 @@ export const OveralPlantProductivity = ({ selData }) => {
                 borderRadius: 0,
                 borderRadiusApplication: 'around',
                 borderRadiusWhenStacked: 'last',
-                columnWidth: '30%',
-                barHeight: '40%',
+                columnWidth: '40%',
+                barHeight: '50%',
                 distributed: false,
                 rangeBarOverlap: true,
                 rangeBarGroupRows: false,
@@ -103,14 +103,27 @@ export const OveralPlantProductivity = ({ selData }) => {
                         color: "#00D8FF",
                     }
                 ]
+            },
+            {
+                name: "Planned",
+                data: [
+                    { x: "Jan", y: 75, color: "#faa93e" },
+                    { x: "Feb", y: 75, color: "#faa93e" },
+                    { x: "Mar", y: 75, color: "#faa93e" },
+                    { x: "Apr", y: 75, color: "#faa93e" },
+                    { x: "May", y: 75, color: "#faa93e" },
+                    { x: "Jun", y: 75, color: "#faa93e" },
+                    { x: "Jul", y: 75, color: "#faa93e" },
+                    { x: "Aug", y: 75, color: "#faa93e" },
+                ]
             }
         ]
         console.log(finalData)
         return finalData
     }
     return (
-        <div className="card" style={{ width: "520px" }}>
-            <ApexChart series={plantationData(selData)} options={options3} height={"250px"} width={"500px"} />
+        <div className="card" style={{ width: "630px" }}>
+            <ApexChart series={plantationData(selData)} options={options3} height={"250px"} width={"600px"} />
         </div>
     )
 }

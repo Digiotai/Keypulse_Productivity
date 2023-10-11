@@ -10,7 +10,7 @@ export const LostUnitsCauses = ({ selData }) => {
 
         colors: [
             "#427ae3",
-            "#0000FF"
+            "#faa93e"
         ],
         plotOptions: {
             bar: {
@@ -19,8 +19,8 @@ export const LostUnitsCauses = ({ selData }) => {
                 borderRadius: 0,
                 borderRadiusApplication: 'around',
                 borderRadiusWhenStacked: 'last',
-                columnWidth: '30%',
-                barHeight: '40%',
+                columnWidth: '40%',
+                barHeight: '50%',
                 distributed: false,
                 rangeBarOverlap: true,
                 rangeBarGroupRows: false,
@@ -59,6 +59,10 @@ export const LostUnitsCauses = ({ selData }) => {
         // colors: colors
     }
     const plantationData = (data) => {
+        const max = Math.max(...data[0].data);
+        console.log(Array(data[0].data.length).fill({
+           x:"jan", y:max
+        }))
         const finalData = [
             {
                 name: 'Actual',
@@ -104,9 +108,14 @@ export const LostUnitsCauses = ({ selData }) => {
                         color: "#00D8FF",
                     }
                 ]
+            },
+            {
+                name: "Planned",
+                data: Array(data[0].data.length).fill({
+                    x:"jan", y:max
+                 })
             }
         ]
-        console.log(finalData)
         return finalData
     }
     return (
