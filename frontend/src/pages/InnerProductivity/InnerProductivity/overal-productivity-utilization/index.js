@@ -9,8 +9,8 @@ export const OveralProductivityUtilization = ({ selData }) => {
         },
 
         colors: [
+            "#faa93e",
             "#427ae3",
-            "#faa93e"
         ],
         plotOptions: {
             bar: {
@@ -65,6 +65,12 @@ export const OveralProductivityUtilization = ({ selData }) => {
         }))
         const finalData = [
             {
+                name: "Planned",
+                data: Array(data[0].data.length).fill({
+                    x:"jan", y:max
+                 })
+            },
+            {
                 name: 'Actual',
                 data: [
                     {
@@ -109,12 +115,7 @@ export const OveralProductivityUtilization = ({ selData }) => {
                     }
                 ]
             },
-            {
-                name: "Planned",
-                data: Array(data[0].data.length).fill({
-                    x:"jan", y:max
-                 })
-            }
+           
         ]
         return finalData
     }

@@ -11,7 +11,7 @@ export const Popup = ({
         <Modal size={size} fullscreen={fullscreen} show={showModal} onHide={() => setShowModal(false)}>
             <Modal.Header closeButton>
                 <Modal.Title>
-                    <h5 style={{ fontFamily: "Poppins", fontSize: "20px" }}>{headerTitle} (Detailed View)</h5>
+                    <h5 style={{ fontFamily: "Poppins", fontSize: "20px" }}>{headerTitle} (Planned vs Actual)</h5>
                 </Modal.Title>
             </Modal.Header>
             <Modal.Body>

@@ -9,8 +9,8 @@ export const UnitsYTD = ({ selData }) => {
         },
 
         colors: [
+            "#faa93e",
             "#427ae3",
-            "#faa93e"
         ],
         plotOptions: {
             bar: {
@@ -61,6 +61,19 @@ export const UnitsYTD = ({ selData }) => {
     const plantationData = (data) => {
         const finalData = [
             {
+                name: "Planned",
+                data: [
+                    { x: "Jan", y: 50000, color: "#faa93e" },
+                    { x: "Feb", y: 50000, color: "#faa93e" },
+                    { x: "Mar", y: 50000, color: "#faa93e" },
+                    { x: "Apr", y: 50000, color: "#faa93e" },
+                    { x: "May", y: 50000, color: "#faa93e" },
+                    { x: "Jun", y: 50000, color: "#faa93e" },
+                    { x: "Jul", y: 50000, color: "#faa93e" },
+                    { x: "Aug", y: 50000, color: "#faa93e" },
+                ]
+            },
+            {
                 name: 'Actual',
                 data: [
                     {
@@ -105,19 +118,7 @@ export const UnitsYTD = ({ selData }) => {
                     }
                 ]
             },
-            {
-                name: "Planned",
-                data: [
-                    { x: "Jan", y: 50000, color: "#faa93e" },
-                    { x: "Feb", y: 50000, color: "#faa93e" },
-                    { x: "Mar", y: 50000, color: "#faa93e" },
-                    { x: "Apr", y: 50000, color: "#faa93e" },
-                    { x: "May", y: 50000, color: "#faa93e" },
-                    { x: "Jun", y: 50000, color: "#faa93e" },
-                    { x: "Jul", y: 50000, color: "#faa93e" },
-                    { x: "Aug", y: 50000, color: "#faa93e" },
-                ]
-            }
+           
         ]
         return finalData
     }

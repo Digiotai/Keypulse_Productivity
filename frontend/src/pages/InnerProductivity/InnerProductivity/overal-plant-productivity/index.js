@@ -8,8 +8,8 @@ export const OveralPlantProductivity = ({ selData }) => {
         },
 
         colors: [
+            "#faa93e",
             "#427ae3",
-            "#faa93e"
         ],
         plotOptions: {
             bar: {
@@ -60,6 +60,19 @@ export const OveralPlantProductivity = ({ selData }) => {
     const plantationData = (data) => {
         const finalData = [
             {
+                name: "Planned",
+                data: [
+                    { x: "Jan", y: 75, color: "#faa93e" },
+                    { x: "Feb", y: 75, color: "#faa93e" },
+                    { x: "Mar", y: 75, color: "#faa93e" },
+                    { x: "Apr", y: 75, color: "#faa93e" },
+                    { x: "May", y: 75, color: "#faa93e" },
+                    { x: "Jun", y: 75, color: "#faa93e" },
+                    { x: "Jul", y: 75, color: "#faa93e" },
+                    { x: "Aug", y: 75, color: "#faa93e" },
+                ]
+            },
+            {
                 name: 'Actual',
                 data: [
                     {
@@ -104,19 +117,7 @@ export const OveralPlantProductivity = ({ selData }) => {
                     }
                 ]
             },
-            {
-                name: "Planned",
-                data: [
-                    { x: "Jan", y: 75, color: "#faa93e" },
-                    { x: "Feb", y: 75, color: "#faa93e" },
-                    { x: "Mar", y: 75, color: "#faa93e" },
-                    { x: "Apr", y: 75, color: "#faa93e" },
-                    { x: "May", y: 75, color: "#faa93e" },
-                    { x: "Jun", y: 75, color: "#faa93e" },
-                    { x: "Jul", y: 75, color: "#faa93e" },
-                    { x: "Aug", y: 75, color: "#faa93e" },
-                ]
-            }
+            
         ]
         console.log(finalData)
         return finalData

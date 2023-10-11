@@ -75,7 +75,7 @@ export const GetOdometer = (data, opt, height = 150, hoverText) => {
     }
     return (<div style={{ display: "flex", justifyContent: "start" }} onMouseEnter={() => setHover(true)} onMouseLeave={() => setHover(false)}>
         <ApexChart series={data} options={opt ? opt : options} type='radialBar' height={height} width={""} />
-        {hover && hoverText && <div className="card" style={{ position: "absolute", padding: "10px", display: "flex", justifyContent: "center", alignItems: "center", marginTop: "20px", width: '200px',marginLeft:"-30px" }}>
+        {hover && hoverText && <div className="card" style={{ position: "absolute", padding: "10px", display: "flex", justifyContent: "center", alignItems: "center", marginTop: "20px", width: '200px', marginLeft: "-30px" }}>
             <span style={{ fontFamily: 'Inter', marginTop: '5px', fontSize: '12px', lineHeight: '14px', fontWeight: 500, textAlign: "center" }}> {hoverText}</span>
         </div>}
     </div>)
@@ -90,8 +90,8 @@ export const options3 = {
     },
 
     colors: [
-        "#427ae3",
-        "#faa93e"
+        "#faa93e",
+        "#427ae3"
     ],
     plotOptions: {
         bar: {
@@ -142,9 +142,15 @@ export const options3 = {
 export const plantationData = (data) => {
     const max = Math.max(...data[0].data);
     console.log(Array(data[0].data.length).fill({
-       x:"jan", y:max
+        x: "jan", y: max
     }))
     const finalData = [
+        {
+            name: "Planned",
+            data: Array(data[0].data.length).fill({
+                x: "jan", y: max
+            })
+        },
         {
             name: 'Actual',
             data: [
@@ -190,12 +196,6 @@ export const plantationData = (data) => {
                 }
             ]
         },
-        {
-            name: "Planned",
-            data: Array(data[0].data.length).fill({
-                x:"jan", y:max
-             })
-        }
     ]
     return finalData
 }

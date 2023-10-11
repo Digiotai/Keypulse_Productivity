@@ -8,8 +8,8 @@ export const OveralProductivityUptime = ({ selData }) => {
         },
 
         colors: [
+            "#faa93e",
             "#427ae3",
-            "#faa93e"
         ],
         plotOptions: {
             bar: {
@@ -64,6 +64,12 @@ export const OveralProductivityUptime = ({ selData }) => {
         }))
         const finalData = [
             {
+                name: "Planned",
+                data: Array(data[0].data.length).fill({
+                    x:"jan", y:max
+                 })
+            },
+            {
                 name: 'Actual',
                 data: [
                     {
@@ -108,12 +114,7 @@ export const OveralProductivityUptime = ({ selData }) => {
                     }
                 ]
             },
-            {
-                name: "Planned",
-                data: Array(data[0].data.length).fill({
-                    x:"jan", y:max
-                 })
-            }
+           
         ]
         return finalData
     }
