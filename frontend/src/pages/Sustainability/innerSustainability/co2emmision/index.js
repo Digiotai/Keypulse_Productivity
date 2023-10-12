@@ -1,16 +1,15 @@
 import { ApexChart } from "../../../../components/ApexBarChart"
 export const InnerCO2Emmision = ({ selData }) => {
-    console.log(selData)
     const options3 = {
         chart: {
             // height: '400px',
             // width:'100px',
             type: 'bar'
         },
-
+    
         colors: [
-            "#427ae3",
-            "#0000FF"
+            "#faa93e",
+            "#427ae3"
         ],
         plotOptions: {
             bar: {
@@ -19,8 +18,8 @@ export const InnerCO2Emmision = ({ selData }) => {
                 borderRadius: 0,
                 borderRadiusApplication: 'around',
                 borderRadiusWhenStacked: 'last',
-                columnWidth: '30%',
-                barHeight: '40%',
+                columnWidth: '40%',
+                barHeight: '50%',
                 distributed: false,
                 rangeBarOverlap: true,
                 rangeBarGroupRows: false,
@@ -37,7 +36,7 @@ export const InnerCO2Emmision = ({ selData }) => {
         grid: {
             show: false
         },
-
+    
         dataLabels: {
             style: {
                 fontSize: '12px',
@@ -59,7 +58,17 @@ export const InnerCO2Emmision = ({ selData }) => {
         // colors: colors
     }
     const plantationData = (data) => {
+        const max = Math.min(...data[0].data);
+        const months = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug']
         const finalData = [
+            {
+                name: "Estimated",
+                data: months.map((item => {
+                    return {
+                        x: item, y: max
+                    }
+                }))
+            },
             {
                 name: 'Actual',
                 data: [
@@ -104,9 +113,8 @@ export const InnerCO2Emmision = ({ selData }) => {
                         color: "#00D8FF",
                     }
                 ]
-            }
+            },
         ]
-        console.log(finalData)
         return finalData
     }
     return (

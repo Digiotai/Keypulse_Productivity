@@ -65,7 +65,7 @@ export const LostUnitsCauses = ({ selData }) => {
         }))
         const finalData = [
             {
-                name: "Planned",
+                name: "Estimated",
                 data: Array(data[0].data.length).fill({
                     x:"jan", y:max
                  })

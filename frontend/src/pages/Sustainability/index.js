@@ -119,22 +119,22 @@ export const Sustainability = () => {
 
     const getCharts = () => {
         const data = [{
-            title: "Energy (KWH)", children: <InnerEnergy {...{ selData }} />, size: "xl"
+            title: "Energy (KWH)", children: <InnerEnergy {...{ selData }} />, size: "xl",estimate:false
         },
             {
-                title: "Waste (Tons)", children: <InnerWaste {...{ selData }} />, size: "xl"
+                title: "Waste (Tons)", children: <InnerWaste {...{ selData }} />, size: "xl",estimate:true
             },
             {
-                title: "Plantation", children: <InnerPlantation {...{ selData }} />, size: "lg"
+                title: "Plantation", children: <InnerPlantation {...{ selData }} />, size: "lg",estimate:false
             },
             {
-                title: "Water (Kilolitres)", children: <InnerWater {...{ selData }} />, size: "xl"
+                title: "Water (Kilolitres)", children: <InnerWater {...{ selData }} />, size: "xl",estimate:false
             },
             {
-                title: "Alternate Energy", children: <InnerAltEnergy {...{ selData }} />, size: "xl"
+                title: "Alternate Energy", children: <InnerAltEnergy {...{ selData }} />, size: "xl",estimate:false
             },
             {
-                title: "CO2 Emission", children: <InnerCO2Emmision {...{ selData }} />, size: "lg"
+                title: "CO2 Emission", children: <InnerCO2Emmision {...{ selData }} />, size: "lg",estimate:true
             }
         ]
         const final = data.filter((item) => {
@@ -471,7 +471,7 @@ export const Sustainability = () => {
                         return handleGetData(item.name, item.data, item.inference, item.predictions)
                     }
                 })}
-                <Popup {...{ showModal, setShowModal, headerTitle: title, children: getCharts()?.children, size: getCharts()?.size, fullscreen: getCharts()?.size == "xl" ? true : false }} />
+                <Popup {...{ showModal, setShowModal, headerTitle: title, children: getCharts()?.children, size: getCharts()?.size, fullscreen: getCharts()?.size == "xl" ? true : false,estimate:getCharts()?.estimate }} />
             </div>
         </div>
     )

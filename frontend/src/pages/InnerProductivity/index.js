@@ -141,7 +141,7 @@ export const InnerProductivity = () => {
             title: "Overall Productivity - Utilization (YTD)", children: <OveralProductivityUtilization {...{ selData }} />, size: "xl"
         },
         {
-            title: "Lost Units:Causes", children: <LostUnitsCauses {...{ selData }} />, size: "xl"
+            title: "Lost Units:Causes", children: <LostUnitsCauses {...{ selData }} />, size: "xl",estimate:true
         },
         {
             title: "Overall Productivity - Uptime (YTD)", children: <OveralProductivityUptime {...{ selData }} />, size: "xl"
@@ -457,7 +457,7 @@ export const InnerProductivity = () => {
                         return handleGetData(item.name, item.data)
                     }
                 })}
-                <Popup {...{ showModal, setShowModal, headerTitle: title, children: getCharts()?.children, size: getCharts()?.size, fullscreen: getCharts()?.size == "xl" ? true : false }} />
+                <Popup {...{ showModal, setShowModal, headerTitle: title, children: getCharts()?.children, size: getCharts()?.size, fullscreen: getCharts()?.size == "xl" ? true : false,estimate:getCharts()?.estimate }} />
             </div>
         </div>
     )

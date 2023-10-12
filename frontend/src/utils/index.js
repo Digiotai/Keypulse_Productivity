@@ -141,15 +141,15 @@ export const options3 = {
 }
 export const plantationData = (data) => {
     const max = Math.max(...data[0].data);
-    console.log(Array(data[0].data.length).fill({
-        x: "jan", y: max
-    }))
+    const months = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug']
     const finalData = [
         {
             name: "Planned",
-            data: Array(data[0].data.length).fill({
-                x: "jan", y: max
-            })
+            data: months.map((item => {
+                return {
+                    x: item, y: max
+                }
+            }))
         },
         {
             name: 'Actual',
