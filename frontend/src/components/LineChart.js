@@ -57,7 +57,7 @@ export const options = {
         display: false
       }
     }
-  }
+  },
 };
 
 export const data = {

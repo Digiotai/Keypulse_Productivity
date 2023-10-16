@@ -6,8 +6,6 @@ import { useNavigate } from "react-router-dom";
 import Logo from '../../assets/images/Logo2.png'
 import avatar from '../../assets/svg/avatar.svg'
 import { useLocation } from "react-router-dom";
-import upload from '../../assets/svg/upload.svg'
-import axios from 'axios'
 function Navbar() {
   const navigate = useNavigate()
   const [name, setName] = useState("Dashboard")

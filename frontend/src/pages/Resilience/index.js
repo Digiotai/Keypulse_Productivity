@@ -1,7 +1,7 @@
 import { heading, roptions } from './data'
 import { useState, useEffect, useRef } from 'react'
 import { ApexChart } from "../../components/ApexBarChart"
-import { getTitle, getData, getOdometer } from '../../utils'
+import { getTitle, getData } from '../../utils'
 import { RxDotFilled } from 'react-icons/rx'
 import cyber from '../../assets/svg/cyber.png'
 import vulner from '../../assets/svg/vulnar.png'
@@ -15,24 +15,34 @@ import ser from '../../assets/svg/service.png'
 import build from '../../assets/svg/build.png'
 import axios from 'axios'
 import { namesResSort, getApiData } from './data'
+import { Popup } from "../../components/Popup"
+import { InnerResiliance } from './InnerResiliance'
 const ADAPTERS_BASE_URL = process.env.REACT_APP_BASE_URL;
 
 export const Resilience = () => {
     const [second, setSecond] = useState(false)
     const [first, setFirst] = useState(false)
+    const [title,setTitle] = useState("")
+    const[selData,setSelData] = useState([])
+    const [showModal,setShowModal] = useState(false)
     const Card = ({ img, text, series, data }) => {
         const [show, setShow] = useState(false)
         const [label, setLabel] = useState("")
         const [hover, setHover] = useState("")
-        const handleClose = () => {
+        const handleClose = (e) => {
+            // e.stopPropagation();
             setShow(false)
+        }
+        const handleTooltip = (e, setfunc, showVal) => {
+            e.stopPropagation();
+            setfunc(showVal)
         }
         return (
             <div className='ps-4 pe-4 pt-3' style={{ border: "2px solid #E6E6E6", borderRadius: '0px', alignItems: 'center' }}>
                 <div className='d-flex justify-content-between' >
                     <h5 style={{ fontFamily: "Inter", fontSize: '18px', fontWeight: 600, height: '50px', marginBottom: '0px', width: "220px" }}>{text}</h5>
                     <div style={{ height: '20px', justifyContent: 'space-around', display: "flex", alignItems: "center", width: "45px", borderRadius: "50px" }}>
-                        <div style={{ display: "flex", justifyContent: 'start' }} onClick={() => { setShow(true) }}><RxDotFilled cursor={"pointer"} color='#427ae3' onClick={() => { setLabel("inf") }} onMouseEnter={() => setHover("inf")} onMouseLeave={() => { setHover("") }} /> <RxDotFilled cursor={"pointer"} color='#800080' onClick={() => { setLabel("rec") }} onMouseEnter={() => setHover("rec")} onMouseLeave={() => { setHover("") }} /> <RxDotFilled cursor={"pointer"} color='#39c734' onClick={() => { setLabel("pre") }} onMouseEnter={() => setHover("pre")} onMouseLeave={() => { setHover("") }} /></div>
+                        <div style={{ display: "flex", justifyContent: 'start' }} onClick={(e) => { handleTooltip(e, setShow, true) }}><RxDotFilled cursor={"pointer"} color='#427ae3' onClick={() => { setLabel("inf") }} onMouseEnter={() => setHover("inf")} onMouseLeave={() => { setHover("") }} /> <RxDotFilled cursor={"pointer"} color='#800080' onClick={() => { setLabel("rec") }} onMouseEnter={() => setHover("rec")} onMouseLeave={() => { setHover("") }} /> <RxDotFilled cursor={"pointer"} color='#39c734' onClick={() => { setLabel("pre") }} onMouseEnter={() => setHover("pre")} onMouseLeave={() => { setHover("") }} /></div>
                         <div>
                             {/* <button className='btn btn-primary mb-2' onClick={() => setShow(!show)}>IPR</button> */}
                             {hover == "inf" && <div className='card p-1' style={{ position: 'absolute', marginLeft: "0px", marginTop: "-20px", zIndex: 9999, alignItems: 'center' }}>
@@ -71,6 +81,16 @@ export const Resilience = () => {
             </div>
         )
     }
+
+    const handlePopup = (e, title, data) => {
+        e.stopPropagation();
+        setShowModal(true)
+        setTitle(title)
+        setSelData(data)
+    }
+
+
+
     const [apidata, setApiData] = useState([])
     const fetchData = async () => {
         try {
@@ -148,7 +168,6 @@ export const Resilience = () => {
         data9: getApiData(datan.data9) || [],
         data10: getApiData(datan.data10) || []
     }
-    console.log(datan)
     const data = [
         {
             img: cyber,
@@ -159,7 +178,8 @@ export const Resilience = () => {
             }],
             inference: [datan?.data1[0]?.inference],
             recomondations: ["Adhere to planned activities"],
-            predictions: [datan?.data1[0]?.predictions]
+            predictions: [datan?.data1[0]?.predictions],
+            fullData:datan.data1
         },
         {
             img: risk,
@@ -170,7 +190,8 @@ export const Resilience = () => {
             }],
             inference: [datan?.data2[0]?.inference],
             recomondations: ["Make up missed/lost activities"],
-            predictions: [datan?.data2[0]?.predictions]
+            predictions: [datan?.data2[0]?.predictions],
+            fullData:datan.data2
         },
         {
             img: train,
@@ -181,7 +202,8 @@ export const Resilience = () => {
             }],
             inference: [datan?.data3[0]?.inference],
             recomondations: ["Adhere to planned activities"],
-            predictions: [datan?.data3[0]?.predictions]
+            predictions: [datan?.data3[0]?.predictions],
+            fullData:datan.data3
         },
         {
             img: vulner,
@@ -192,7 +214,8 @@ export const Resilience = () => {
             }],
             inference: [datan?.data4[0]?.inference],
             recomondations: ["Make up missed/lost activities"],
-            predictions: [datan?.data4[0]?.predictions]
+            predictions: [datan?.data4[0]?.predictions],
+            fullData:datan.data4
         },
         {
             img: cont,
@@ -203,7 +226,8 @@ export const Resilience = () => {
             }],
             inference: [datan?.data5[0]?.inference],
             recomondations: ["Adhere to planned activities"],
-            predictions: [datan?.data5[0]?.predictions]
+            predictions: [datan?.data5[0]?.predictions],
+            fullData:datan.data5
         },
         ({
             img: build,
@@ -214,7 +238,8 @@ export const Resilience = () => {
             }],
             inference: [datan?.data6[0]?.inference],
             recomondations: ["Make up missed/lost activities"],
-            predictions: [datan?.data6[0]?.predictions]
+            predictions: [datan?.data6[0]?.predictions],
+            fullData:datan.data6
         }),
         ({
             img: inci,
@@ -225,7 +250,8 @@ export const Resilience = () => {
             }],
             inference: [datan?.data7[0]?.inference],
             recomondations: ["Keep up Good work"],
-            predictions: [datan?.data7[0]?.predictions]
+            predictions: [datan?.data7[0]?.predictions],
+            fullData:datan.data7
         }),
         ({
             img: ser,
@@ -236,7 +262,8 @@ export const Resilience = () => {
             }],
             inference: [datan?.data8[0]?.inference],
             recomondations: ["Keep up Good work"],
-            predictions: [datan?.data8[0]?.predictions]
+            predictions: [datan?.data8[0]?.predictions],
+            fullData:datan.data8
         }),
         ({
             img: config,
@@ -247,7 +274,8 @@ export const Resilience = () => {
             }],
             inference: [datan?.data9[0]?.inference],
             recomondations: ["Adhere to planned activities"],
-            predictions: [datan?.data9[0]?.predictions]
+            predictions: [datan?.data9[0]?.predictions],
+            fullData:datan.data9
         }),
         ({
             img: com,
@@ -258,7 +286,8 @@ export const Resilience = () => {
             }],
             inference: [datan?.data10[0]?.inference],
             recomondations: ["Adhere to planned activities"],
-            predictions: [datan?.data10[0]?.predictions]
+            predictions: [datan?.data10[0]?.predictions],
+            fullData:datan.data10
         })
     ]
 
@@ -312,7 +341,7 @@ export const Resilience = () => {
                         setFirst(true)
                     }
                     return (
-                        <>{(item.series[0].data.length > 0 && index < 6) && <div className='col-lg-6 col-md-6 col-sm-6'>
+                        <>{(item.series[0].data.length > 0 && index < 6) && <div className='col-lg-6 col-md-6 col-sm-6 cursor-pointer' style={{cursor:"pointer"}} onClick={(e) => handlePopup(e, item.name, item.fullData)}>
                             <Card img={item.img} text={item.name} series={item.series} data={item} />
                         </div>}</>
                     )
@@ -336,12 +365,13 @@ export const Resilience = () => {
                         setSecond(true)
                     }
                     return (
-                        <>{(item.series[0].data.length > 0 && index > 5) && <div className='col-lg-6 col-md-6 col-sm-6'>
+                        <>{(item.series[0].data.length > 0 && index > 5) && <div className='col-lg-6 col-md-6 col-sm-6' style={{cursor:"pointer"}} onClick={(e) => handlePopup(e, item.name, item.fullData)}>
                             <Card img={item.img} text={item.name} series={item.series} data={item} />
                         </div>}</>
                     )
                 })}
             </div>
+            <Popup {...{ showModal, setShowModal, headerTitle: title, children: <InnerResiliance {...{selData}}/>, size: "lg", fullscreen: false}} />
         </div>
     )
 }

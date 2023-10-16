@@ -4,7 +4,7 @@ export var options = {
         type: 'radialBar',
         sparkline: {
             enabled: true
-          }
+        }
     },
     colors: [
         function ({ value, seriesIndex, dataPointIndex, w }) {
@@ -23,7 +23,7 @@ export var options = {
             },
             dataLabels: {
                 name: {
-                    show:false,
+                    show: false,
                     offsetY: -10,
                     align: 'center',
                     verticalAlign: 'middle',
@@ -45,7 +45,14 @@ export var options = {
         },
     },
     tooltip: {
-        enabled: true
+        enabled: true,
+        y: {
+            formatter: function (val, opts) {
+                return val + "%";
+            }, title: {
+                formatter: (seriesName) => seriesName,
+            },
+        },
     },
     stroke: {
         lineCap: "round",

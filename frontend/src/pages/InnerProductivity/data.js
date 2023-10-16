@@ -30,7 +30,12 @@ export var options = {
   },
   yaxis: {
     title: {
-      text: 'Throughout'
+      text: 'Throughout (units)'
+    }
+  },
+  xaxis: {
+    title: {
+      text: 'Month'
     }
   },
   fill: {
@@ -75,7 +80,7 @@ export const options2 = {
     y: {
       title: {
         display: true,
-        text: 'Operational Expenses',
+        text: 'Operational Expenses($)',
         color: 'black',
         fontWeight: 700,
         padding: 5
@@ -167,7 +172,7 @@ export const options4 = {
     y: {
       title: {
         display: true,
-        text: 'Up Time  2023',
+        text: 'Up Time (hours)  2023',
         color: 'black',
         fontWeight: 700,
         padding: 5
