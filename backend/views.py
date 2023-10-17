@@ -76,8 +76,8 @@ def getData(request, kpi):
                 df = pd.read_csv(os.path.join('uploads', kpi, file))
                 predictions = pd.read_excel("predictions.xlsx", sheet_name=file[:-4], engine="openpyxl")
                 df.dropna(how='all', inplace=True)
-                df.fillna(0, inplace=True)
-                df = df.iloc[:8, :]
+                df = df.dropna(subset=df.columns[1:],how='all')
+                df.fillna(0,inplace=True)
                 temp = []
                 pred = []
                 for col in df.columns[1:]:
@@ -86,9 +86,9 @@ def getData(request, kpi):
                          'label': list(df.loc[:, 'Month'].values)})
                     if col != 'Actual':
                         pred_text = f'{col} for next three months: '
-                        for i in range(8,11):
+                        for i in range(df.shape[0], 12):
                             pred_text += f'{predictions.loc[i, "Month"]} - {predictions.loc[i, col]}, '
-                        pred_text=pred_text[:-2]
+                        pred_text = pred_text[:-2]
                         pred.append(pred_text)
                 if file in ['kpUnitsYTD.csv', 'kpUnitsLost.csv', "kpPlantProd.csv"]:
                     inference = getProductivityInference(df, file)
@@ -96,7 +96,7 @@ def getData(request, kpi):
                     inference = getResilienceInference(df, file)
                 elif kpi == 'sustainability':
                     inference = getSustainabilityInference(df, file)
-                res.append({'name': file, 'data': temp, 'inference': inference,'predictions':pred})
+                res.append({'name': file, 'data': temp, 'inference': inference, 'predictions': pred})
             return HttpResponse(json.dumps({'result': res}), content_type="application/json")
     except Exception as e:
         return HttpResponse(str(e))
