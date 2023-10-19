@@ -82,7 +82,7 @@ def getData(request, kpi):
                 pred = []
                 for col in df.columns[1:]:
                     temp.append(
-                        {'name': col, 'data': list(df.loc[:, col].values),
+                        {'name': col, 'data': list(map(int,df.loc[:, col].values)),
                          'label': list(df.loc[:, 'Month'].values)})
                     if col != 'Actual':
                         pred_text = f'{col} for next three months: '
