@@ -119,23 +119,23 @@ export const Sustainability = () => {
 
     const getCharts = () => {
         const data = [{
-            title: "Energy (KWH)", children: <InnerEnergy {...{ selData }} />, size: "xl",estimate:false
+            title: "Energy (KWH)", children: <InnerEnergy {...{ selData }} />, size: "xl", estimate: false
         },
-            {
-                title: "Waste (Tons)", children: <InnerWaste {...{ selData }} />, size: "xl",estimate:true
-            },
-            {
-                title: "Plantation", children: <InnerPlantation {...{ selData }} />, size: "lg",estimate:false
-            },
-            {
-                title: "Water (Kilolitres)", children: <InnerWater {...{ selData }} />, size: "xl",estimate:false
-            },
-            {
-                title: "Alternate Energy", children: <InnerAltEnergy {...{ selData }} />, size: "xl",estimate:false
-            },
-            {
-                title: "CO2 Emission", children: <InnerCO2Emmision {...{ selData }} />, size: "lg",estimate:true
-            }
+        {
+            title: "Waste (Tons)", children: <InnerWaste {...{ selData }} />, size: "xl", estimate: true
+        },
+        {
+            title: "Plantation", children: <InnerPlantation {...{ selData }} />, size: "lg", estimate: false
+        },
+        {
+            title: "Water (Kilolitres)", children: <InnerWater {...{ selData }} />, size: "xl", estimate: false
+        },
+        {
+            title: "Alternate Energy", children: <InnerAltEnergy {...{ selData }} />, size: "xl", estimate: false
+        },
+        {
+            title: "CO2 Emission", children: <InnerCO2Emmision {...{ selData }} />, size: "lg", estimate: true
+        }
         ]
         const final = data.filter((item) => {
             if (item.title == title) return true
@@ -456,23 +456,15 @@ export const Sustainability = () => {
                         return handleGetData(item.name, item.data, item.inference, item.predictions)
                     }
                 })}
-                {apidata?.map((item) => {
-                    if (item.name == "kpUptime.csv") {
-                        return handleGetData(item.name, item.data, item.inference, item.predictions)
-                    }
-                })}
-                {apidata?.map((item) => {
-                    if (item.name == "kpThroughput.csv") {
-                        return handleGetData(item.name, item.data, item.inference, item.predictions)
-                    }
-                })}
+
                 {apidata?.map((item) => {
                     if (item.name == "kpco2.csv") {
                         return handleGetData(item.name, item.data, item.inference, item.predictions)
                     }
                 })}
-                <Popup {...{ showModal, setShowModal, headerTitle: title, children: getCharts()?.children, size: getCharts()?.size, fullscreen: getCharts()?.size == "xl" ? true : false,estimate:getCharts()?.estimate }} />
+                <Popup {...{ showModal, setShowModal, headerTitle: title, children: getCharts()?.children, size: getCharts()?.size, fullscreen: getCharts()?.size == "xl" ? true : false, estimate: getCharts()?.estimate }} />
             </div>
+
         </div>
     )
 }

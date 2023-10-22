@@ -1,12 +1,13 @@
 import { LineChart } from "../../../../components/LineChart"
+import { getLabels } from "../../apiData";
 export const InnerPlantation = ({ selData }) => {
     const co2Data = (data) => {
         const finalData = {
-            labels: ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Aug"],
+            labels: getLabels(data),
             datasets: [
                 {
                     label: 'Planned',
-                    data: [9000,9000,9000,9000,9000,9000,9000],
+                    data: Array(data[0].data.length).fill(9000),
                     borderColor: "#faa93e",
                     backgroundColor: "#faa93e",
                 },
@@ -18,7 +19,7 @@ export const InnerPlantation = ({ selData }) => {
                 },
             ],
         };
-        
+
         return finalData
     }
 
@@ -77,10 +78,10 @@ export const InnerPlantation = ({ selData }) => {
             ]
         }
     };
- 
+
     return (
         <div className="card" style={{ width: "520px" }}>
-            <LineChart height={"200px"} width={"100%"} data={co2Data(selData)} options={options}/>
+            <LineChart height={"200px"} width={"100%"} data={co2Data(selData)} options={options} />
         </div>
     )
 }
