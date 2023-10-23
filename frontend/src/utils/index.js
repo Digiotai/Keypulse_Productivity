@@ -154,7 +154,7 @@ export const plantationData = (data) => {
         return finalData
     }
     const max = Math.max(...data[0].data);
-    const months = data[0].data.map((item,index)=>data[0].label[index].substring(0, 3))
+    const months = data[0].data.map((item, index) => data[0].label[index].substring(0, 3))
     const finalData = [
         {
             name: "Planned",

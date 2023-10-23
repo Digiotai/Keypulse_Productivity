@@ -1,3 +1,5 @@
+import { getLabels } from "../Sustainability/apiData"
+
 export const prodThroughputData = (data) => {
     const finalData = [{
         name: 'Robotic Arm',
@@ -18,7 +20,7 @@ export const prodThroughputData = (data) => {
 
 export const prodOpexData = (data) => {
     let finalData = {
-        labels: ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug"],
+        labels: getLabels(data),
         datasets: [
             {
                 label: 'Robotic Arm',

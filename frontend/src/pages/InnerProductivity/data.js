@@ -22,12 +22,6 @@ export var options = {
     width: 2,
     colors: ['transparent']
   },
-  xaxis: {
-    categories: ['Jan','Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul','Aug'],
-    labels: {
-      show: true,
-    }
-  },
   yaxis: {
     title: {
       text: 'Throughout (units)'

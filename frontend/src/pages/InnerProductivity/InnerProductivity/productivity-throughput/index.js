@@ -1,4 +1,6 @@
 import { ApexChart } from "../../../../components/ApexBarChart"
+import {plantationData} from '../../../../utils'
+
 export const ProductivityThroughput = ({ selData }) => {
     const options3 = {
         chart: {
@@ -57,67 +59,67 @@ export const ProductivityThroughput = ({ selData }) => {
         },
         // colors: colors
     }
-    const plantationData = (data) => {
-        const max = Math.max(...data[0].data);
-        console.log(Array(data[0].data.length).fill({
-           x:"jan", y:max
-        }))
-        const finalData = [
-            {
-                name: "Planned",
-                data: Array(data[0].data.length).fill({
-                    x:"jan", y:max
-                 })
-            },
-            {
-                name: 'Actual',
-                data: [
-                    {
-                        x: 'Jan',
-                        y: data[0].data[0],
-                        color: "#41B883",
-                    },
-                    {
-                        x: 'Feb',
-                        y: data[0].data[1],
-                        color: "#00D8FF",
-                    },
-                    {
-                        x: 'Mar',
-                        y: data[0].data[2],
-                        color: "#00D8FF",
-                    },
-                    {
-                        x: 'Apr',
-                        y: data[0].data[3],
-                        color: "#00D8FF",
-                    },
-                    {
-                        x: 'May',
-                        y: data[0].data[4],
-                        color: "#00D8FF",
-                    },
-                    {
-                        x: 'Jun',
-                        y: data[0].data[5],
-                        color: "#00D8FF",
-                    },
-                    {
-                        x: 'Jul',
-                        y: data[0].data[6],
-                        color: "#00D8FF",
-                    },
-                    {
-                        x: 'Aug',
-                        y: data[0].data[7],
-                        color: "#00D8FF",
-                    }
-                ]
-            },
+    // const plantationData = (data) => {
+    //     const max = Math.max(...data[0].data);
+    //     console.log(Array(data[0].data.length).fill({
+    //        x:"jan", y:max
+    //     }))
+    //     const finalData = [
+    //         {
+    //             name: "Planned",
+    //             data: Array(data[0].data.length).fill({
+    //                 x:"jan", y:max
+    //              })
+    //         },
+    //         {
+    //             name: 'Actual',
+    //             data: [
+    //                 {
+    //                     x: 'Jan',
+    //                     y: data[0].data[0],
+    //                     color: "#41B883",
+    //                 },
+    //                 {
+    //                     x: 'Feb',
+    //                     y: data[0].data[1],
+    //                     color: "#00D8FF",
+    //                 },
+    //                 {
+    //                     x: 'Mar',
+    //                     y: data[0].data[2],
+    //                     color: "#00D8FF",
+    //                 },
+    //                 {
+    //                     x: 'Apr',
+    //                     y: data[0].data[3],
+    //                     color: "#00D8FF",
+    //                 },
+    //                 {
+    //                     x: 'May',
+    //                     y: data[0].data[4],
+    //                     color: "#00D8FF",
+    //                 },
+    //                 {
+    //                     x: 'Jun',
+    //                     y: data[0].data[5],
+    //                     color: "#00D8FF",
+    //                 },
+    //                 {
+    //                     x: 'Jul',
+    //                     y: data[0].data[6],
+    //                     color: "#00D8FF",
+    //                 },
+    //                 {
+    //                     x: 'Aug',
+    //                     y: data[0].data[7],
+    //                     color: "#00D8FF",
+    //                 }
+    //             ]
+    //         },
             
-        ]
-        return finalData
-    }
+    //     ]
+    //     return finalData
+    // }
     return (
         <div className="">
             <div className="row">
