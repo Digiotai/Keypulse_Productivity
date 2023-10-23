@@ -142,7 +142,7 @@ export const options3 = {
 
 
 
-export const plantationData = (data) => {
+export const plantationData = (data, targetLine = false, value = "", color = "") => {
     const getData = (data) => {
         const finalData = data[0].data.map((item, index) => {
             return {
@@ -159,7 +159,9 @@ export const plantationData = (data) => {
         {
             name: "Planned",
             data: months.map((item => {
-                return {
+                return targetLine ? {
+                    x: item ,y: value, color: color
+                } : {
                     x: item, y: max
                 }
             }))
