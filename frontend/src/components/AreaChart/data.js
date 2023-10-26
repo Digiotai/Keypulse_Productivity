@@ -37,7 +37,7 @@ export const aoptions = {
     },
     stroke: {
         curve: 'smooth',
-        colors:["#3dc7d1"]
+        colors:["#fff"]
     }
 }
 
@@ -91,7 +91,7 @@ export const aoptions2 = {
     },
     stroke: {
         curve: 'smooth',
-        colors:["#3dc7d1"]
+        colors:["#fff"]
     }
 }
 
@@ -146,6 +146,6 @@ export const aoptions3 = {
     },
     stroke: {
         curve: 'smooth',
-        colors:["#3dc7d1"]
+        colors:["#fff"]
     }
 }

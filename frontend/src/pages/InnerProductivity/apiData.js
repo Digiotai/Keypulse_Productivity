@@ -88,7 +88,7 @@ export const lostUnitsdata = (data) => {
 
 export const upTimeData = (data) => {
     let finalData = {
-        labels: ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", 'Aug'],
+        labels: getLabels(data),
         datasets: [
             {
                 label: 'Robotic Arm',

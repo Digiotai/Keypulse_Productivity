@@ -122,8 +122,10 @@ export const options3 = {
     dataLabels: {
         style: {
             fontSize: '12px',
-            colors: ["#304758"]
-        },
+            colors: [
+                "#faa93e",
+                "#427ae3"
+            ],        },
         offsetY: -20,
         formatter: function (val, opt) {
             const goals =
@@ -142,7 +144,7 @@ export const options3 = {
 
 
 
-export const plantationData = (data, targetLine = false, value = "", color = "") => {
+export const plantationData = (data, targetLine = false, value = "", color = "",name="Planned") => {
     const getData = (data) => {
         const finalData = data[0].data.map((item, index) => {
             return {
@@ -157,7 +159,7 @@ export const plantationData = (data, targetLine = false, value = "", color = "")
     const months = data[0].data.map((item, index) => data[0].label[index].substring(0, 3))
     const finalData = [
         {
-            name: "Planned",
+            name: name,
             data: months.map((item => {
                 return targetLine ? {
                     x: item ,y: value, color: color

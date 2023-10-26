@@ -120,8 +120,8 @@ export const InnerCO2Emmision = ({ selData }) => {
     //     return finalData
     // }
     return (
-        <div className="card" style={{ width: "520px" }}>
-            <ApexChart series={plantationData(selData)} options={options3} height={"250px"} width={"500px"} />
+        <div className="card" style={{ width: "540px" }}>
+            <ApexChart series={plantationData(selData,false,'','','Estimated')} options={options3} height={"250px"} width={"540px"} />
         </div>
     )
 }

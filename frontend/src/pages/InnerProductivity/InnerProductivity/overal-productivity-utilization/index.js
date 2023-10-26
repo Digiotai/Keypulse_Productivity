@@ -1,5 +1,5 @@
 import { ApexChart } from "../../../../components/ApexBarChart"
-import {plantationData} from '../../../../utils'
+import { plantationData } from '../../../../utils'
 export const OveralProductivityUtilization = ({ selData }) => {
     console.log(selData)
     const options3 = {
@@ -42,8 +42,10 @@ export const OveralProductivityUtilization = ({ selData }) => {
         dataLabels: {
             style: {
                 fontSize: '12px',
-                colors: ["#304758"]
-            },
+                colors: [
+                    "#faa93e",
+                    "#427ae3",
+                ],              },
             offsetY: -20,
             formatter: function (val, opt) {
                 const goals =
@@ -116,21 +118,23 @@ export const OveralProductivityUtilization = ({ selData }) => {
     //                 }
     //             ]
     //         },
-           
+
     //     ]
     //     return finalData
     // }
     return (
         <div className="">
-            <div className="row">
+            <div className="row g-2 justify-content-between ">
                 {
                     selData.map((item) => {
                         return (
-                            <div className="card col-5 m-2">
-                                <h5 style={{ fontFamily: 'Inter', margin: '10px', fontSize: '14px', fontWeight: 600, lineHeight: '10px' }}>
-                                    {item.name}
-                                </h5>
-                                <ApexChart series={plantationData([item])} options={options3} height={"230px"} width={"600px"} />
+                            <div className="col-6">
+                                <div className="card pl-1 pr-1">
+                                    <h5 style={{ fontFamily: 'Inter', margin: '10px', fontSize: '14px', fontWeight: 600, lineHeight: '10px' }}>
+                                        {item.name}
+                                    </h5>
+                                    <ApexChart series={plantationData([item])} options={options3} height={"230px"} width={"590px"} />
+                                </div>
                             </div>
                         )
                     })

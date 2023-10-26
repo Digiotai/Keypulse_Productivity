@@ -20,6 +20,7 @@ import { LostUnitsCauses } from "./InnerProductivity/lost-units-causes"
 import { OveralProductivityUptime } from "./InnerProductivity/overal-productivity-uptime/unitsLost"
 import { ProductivityThroughput } from "./InnerProductivity/productivity-throughput"
 import { ProductivityOpex } from "./InnerProductivity/productivity-opex"
+import { getLabels } from "../Sustainability/apiData"
 const ADAPTERS_BASE_URL = process.env.REACT_APP_BASE_URL;
 
 export const InnerProductivity = () => {
@@ -141,7 +142,7 @@ export const InnerProductivity = () => {
             title: "Overall Productivity - Utilization (YTD)", children: <OveralProductivityUtilization {...{ selData }} />, size: "xl"
         },
         {
-            title: "Lost Units:Causes", children: <LostUnitsCauses {...{ selData }} />, size: "xl",estimate:true
+            title: "Lost Units:Causes", children: <LostUnitsCauses {...{ selData }} />, size: "xl", estimate: true
         },
         {
             title: "Overall Productivity - Uptime (YTD)", children: <OveralProductivityUptime {...{ selData }} />, size: "xl"
@@ -166,7 +167,14 @@ export const InnerProductivity = () => {
                     <div style={{ border: '1px solid #E6E6E6' }}>
                         <h6 className="ps-2" style={{ fontFamily: "poppins", fontWeight: 500, fontSize: '18px', fontWeight: 600, display: 'flex', justifyContent: "start" }}>Productivity - Throughout</h6>
                         <div style={{ minHeight: "265px", maxHeight: "265px", width: "100%" }}>
-                            <ApexChart series={prodThroughputData(data5)} options={options} height={"250px"} width={"100%"} />
+                            <ApexChart series={prodThroughputData(data5)} options={{
+                                ...options, xaxis: {
+                                    categories: getLabels(data5),
+                                    title: {
+                                        text: 'Month'
+                                    }
+                                },
+                            }} height={"250px"} width={"100%"} />
                         </div>
                     </div>
                 </div>
@@ -457,7 +465,7 @@ export const InnerProductivity = () => {
                         return handleGetData(item.name, item.data)
                     }
                 })}
-                <Popup {...{ showModal, setShowModal, headerTitle: title, children: getCharts()?.children, size: getCharts()?.size, fullscreen: getCharts()?.size == "xl" ? true : false,estimate:getCharts()?.estimate }} />
+                <Popup {...{ showModal, setShowModal, headerTitle: title, children: getCharts()?.children, size: getCharts()?.size, fullscreen: getCharts()?.size == "xl" ? true : false, estimate: getCharts()?.estimate }} />
             </div>
         </div>
     )

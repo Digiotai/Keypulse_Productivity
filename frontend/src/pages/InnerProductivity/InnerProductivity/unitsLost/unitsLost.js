@@ -40,7 +40,8 @@ export const UnitsLost = ({ selData }) => {
         dataLabels: {
             style: {
                 fontSize: '12px',
-                colors: ["#304758"]
+                colors: [  "#427ae3",
+                "#0000FF"]
             },
             offsetY: -20,
             formatter: function (val, opt) {

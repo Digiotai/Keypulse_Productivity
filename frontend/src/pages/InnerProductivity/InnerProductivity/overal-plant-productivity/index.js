@@ -41,8 +41,10 @@ export const OveralPlantProductivity = ({ selData }) => {
         dataLabels: {
             style: {
                 fontSize: '12px',
-                colors: ["#304758"]
-            },
+                colors: [
+                    "#faa93e",
+                    "#427ae3",
+                ],              },
             offsetY: -20,
             formatter: function (val, opt) {
                 const goals =

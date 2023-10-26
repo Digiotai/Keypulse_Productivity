@@ -4,7 +4,7 @@ import React, { useEffect, useState, useRef } from "react";
 // import userprofile from '../../assets/images/userprofile.png'
 import { useNavigate } from "react-router-dom";
 import Logo from '../../assets/images/Logo2.png'
-import avatar from '../../assets/svg/avatar.svg'
+import { AiTwotoneCalendar } from 'react-icons/ai'
 import { useLocation } from "react-router-dom";
 function Navbar() {
   const navigate = useNavigate()
@@ -36,22 +36,32 @@ function Navbar() {
             style={{ width: '160px' }}
             id="logo_RL"
           />
-          <div style={{
+          {name == "KProcess" && <div style={{
             marginLeft: '80px',
+            marginTop: '10px',
+            fontWeight: 700,
+            fontSize: '23px'
+          }}>
+            Dashboard
+          </div>}
+          <div style={{
+            marginLeft: name == "KProcess" ? '30%':'80px',
             marginTop: '10px',
             fontWeight: 700,
             fontSize: '23px'
           }}>
             {name}
           </div>
-        </div>
-        <div class="nav-item dropdown d-flex align-items-center mr-2 pr-5" style={{ color: 'black' }}>
 
-          <img
-            src={avatar}
-            style={{ width: "32px", marginRight: '5px' }}
-            id="logo_RL"
-          />
+        </div>
+        <div className="card me-2" style={{
+          fontFamily: "poppins", fontSize: "12px", alignItems: "center",
+          display: 'flex',
+          padding: "4px"
+        }}>
+          <span>  Jan - Dec 2023    <AiTwotoneCalendar style={{ marginTop: "-3px" }} /></span>
+        </div>
+        {/* <div class="nav-item dropdown d-flex align-items-center mr-2 pr-5" style={{ color: 'black' }}>
           <a
             className="nav-link dropdown-toggle p-0 m-0 pe-5"
             href="/#"
@@ -71,7 +81,7 @@ function Navbar() {
             <span class="dropdown-item">Action</span>
             <span class="dropdown-item" onClick={() => handleLogout()}>Logout</span>
           </div>
-        </div>
+        </div> */}
       </nav>
     </>
 
