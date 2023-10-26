@@ -40,7 +40,8 @@ function Navbar() {
             marginLeft: '80px',
             marginTop: '10px',
             fontWeight: 700,
-            fontSize: '23px'
+            fontSize: '23px',
+            color:"#427ae3"
           }}>
             Dashboard
           </div>}
