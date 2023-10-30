@@ -181,7 +181,7 @@ export const customStyles = {
     container: provided => ({
         ...provided,
         width: 400,
-        zIndex: 9999999999,
+        // zIndex: 9999999999,
         // Ensure the dropdown is rendered above other elements
     }),
     valueContainer: (provided, state) => ({
@@ -192,9 +192,9 @@ export const customStyles = {
     }),
     menuPortal: base => ({
         ...base,
-        zIndex: 9999999999, // Ensure the dropdown is rendered above other elements
+        zIndex: 99, // Ensure the dropdown is rendered above other elements
     }),
     menu: (base) => ({
-        ...base, zIndex: 9999999999, // Ensure the dropdown is rendered above other elements
+        ...base, zIndex: 999, // Ensure the dropdown is rendered above other elements
     }),
 };

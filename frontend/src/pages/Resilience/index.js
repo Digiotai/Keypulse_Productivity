@@ -333,96 +333,70 @@ export const Resilience = () => {
 
     return (
         <div>
-            <div
-                style={{
-                    display: 'flex',
-                    justifyContent: 'start',
-                    alignItems: 'start',
-                    marginRight: '10px',
-                    marginTop: '5px',
-                    padding: '10px'
-                }}
-            // onMouseEnter={() => setHover(true)}
-            // onMouseLeave={() => setHover(false)}
-            >
-                {/* <button
-            className="btn btn-primary"
-            lineHeight={'24px'}
-            height={'44px'}
-            // startIcon={<image src={upload} />}
-            children={'Upload CSV File'}
-            onClick={() => handleButtonClick()}
-        />{' '}
-        <input
-            type="file"
-            ref={fileInputRef}
-            style={{ display: 'none' }}
-            onChange={handleFileChange}
-            multiple={true}
-            accept="*"
-        /> */}
-                <div style={{ display: "flex", alignItems: "center" }}>
-                    <h2 style={{ fontSize: "14px", fontFamily: "poppins", marginTop: '7px', marginRight: "10px" }}>Industry</h2>
-                    <Select
-                        styles={customStyles}
-                        components={animatedComponents}
-                        onChange={handleChangeOrg}
-                        options={options}
+            <div style={{display:"flex",justifyContent:"space-between"}}>
+                <div
+                    style={{
+                        display: 'flex',
+                        justifyContent: 'start',
+                        alignItems: 'start',
+                        marginRight: '10px',
+                        marginTop: '5px',
+                        padding: '10px'
+                    }}
+                // onMouseEnter={() => setHover(true)}
+                // onMouseLeave={() => setHover(false)}
+                >
+                    <div style={{ display: "flex", alignItems: "center" }}>
+                        <h2 style={{ fontSize: "14px", fontFamily: "poppins", marginTop: '7px', marginRight: "10px" }}>Industry</h2>
+                        <Select
+                            styles={customStyles}
+                            components={animatedComponents}
+                            onChange={handleChangeOrg}
+                            options={options}
+                        />
+                    </div>
+
+                    <div style={{ display: "flex", justifyContent: 'center', alignItems: "center", marginLeft: '30px', width: "500px" }}>
+                        <h2 style={{ fontSize: "14px", fontFamily: "poppins", marginTop: '7px', marginRight: "10px" }}>KPI(s)</h2>
+                        <Select
+                            styles={customStyles}
+                            closeMenuOnSelect={false}
+                            components={animatedComponents}
+                            isMulti
+                            onChange={handleChangeKpi}
+                            options={kpidata}
+                        />
+                    </div>
+
+                    <button
+                        className="btn btn-primary"
+                        lineHeight={'24px'}
+                        height={'44px'}
+                        // startIcon={<image src={upload} />}
+                        children={'Filter'}
+                        onClick={() => getFilterData()}
                     />
                 </div>
-
-                <div style={{ display: "flex", justifyContent: 'center', alignItems: "center", marginLeft: '30px', width: "500px" }}>
-                    <h2 style={{ fontSize: "14px", fontFamily: "poppins", marginTop: '7px', marginRight: "10px" }}>KPI(s)</h2>
-                    <Select
-                        styles={customStyles}
-                        closeMenuOnSelect={false}
-                        components={animatedComponents}
-                        isMulti
-                        onChange={handleChangeKpi}
-                        options={kpidata}
+                <div className='p-2'>
+                    <button
+                        className="btn btn-primary"
+                        lineHeight={'24px'}
+                        height={'44px'}
+                        // startIcon={<image src={upload} />}
+                        children={'Upload CSV File'}
+                        onClick={() => handleButtonClick()}
+                    />{' '}
+                    <input
+                        type="file"
+                        ref={fileInputRef}
+                        style={{ display: 'none' }}
+                        onChange={handleFileChange}
+                        multiple={true}
+                        accept="*"
                     />
                 </div>
-
-                <button
-                    className="btn btn-primary"
-                    lineHeight={'24px'}
-                    height={'44px'}
-                    // startIcon={<image src={upload} />}
-                    children={'Filter'}
-                    onClick={() => getFilterData()}
-                />
             </div>
             <div className="p-1 m-1" style={{ minHeight: "100vh" }}>
-                {/* <div
-                item
-                style={{
-                    display: 'flex',
-                    // padding: '12px 32px',
-                    justifyContent: 'end',
-                    alignItems: 'center',
-                    // gap: '8px',
-                    alignSelf: 'stretch',
-                    marginRight: '10px',
-                    marginTop: '5px'
-                }}
-            >
-                <button
-                    className="btn btn-primary"
-                    lineHeight={'24px'}
-                    height={'44px'}
-                    // startIcon={<image src={upload} />}
-                    children={'Upload CSV File'}
-                    onClick={() => handleButtonClick()}
-                />{' '}
-                <input
-                    type="file"
-                    ref={fileInputRef}
-                    style={{ display: 'none' }}
-                    onChange={handleFileChange}
-                    multiple={true}
-                    accept="*"
-                />
-            </div> */}
                 <div className='row gy-2 gx-3 mt-2' >
                     {first && heading.map((item, index) => {
                         return (
