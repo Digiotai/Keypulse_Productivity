@@ -3,7 +3,7 @@ import { options1, series1, options2, series2, dounut1, options3, series3, dounu
 import PieChart from "../../components/PieChart"
 import { LineChart } from "../../components/LineChart"
 import { useState, useEffect, useRef } from "react"
-import { getTitle, getData } from "../../utils"
+import { getTitle, getData, customStyles } from "../../utils"
 import { RxDotFilled } from 'react-icons/rx'
 import { altEnergyData, co2Data, energyData, namesSusSort, plantationData, wasteData, waterData } from "./apiData"
 import axios from 'axios'
@@ -14,6 +14,9 @@ import { InnerWater } from "./innerSustainability/water"
 import { InnerAltEnergy } from "./innerSustainability/alternate-energy"
 import { InnerCO2Emmision } from "./innerSustainability/co2emmision"
 import { InnerPlantation } from "./innerSustainability/plantation"
+import Select from 'react-select';
+import makeAnimated from 'react-select/animated';
+
 const ADAPTERS_BASE_URL = process.env.REACT_APP_BASE_URL;
 
 export const Sustainability = () => {
@@ -36,10 +39,26 @@ export const Sustainability = () => {
     const [hover4, setHover4] = useState("")
     const [hover5, setHover5] = useState("")
     const [apidata, setApiData] = useState([])
+    const [apidata2, setApiData2] = useState([])
     const [showModal, setShowModal] = useState(false)
     const [title, setTitle] = useState("")
     const [selData, setSelData] = useState([])
+    const animatedComponents = makeAnimated();
+    const [selectedOrg, setSelectedOrg] = useState(null);
+    const [selectedKpi, setSelectedKpi] = useState(null);
 
+    const handleChangeOrg = (selectedOption) => {
+        setSelectedOrg(selectedOption);
+    };
+
+    const handleChangeKpi = (selectedOption) => {
+        setSelectedKpi(selectedOption);
+    };
+    const options = [
+        { value: 'Heavy machinery', label: 'Heavy machinery' },
+        { value: 'Automotive', label: 'Automotive' },
+        { value: 'Paper and pulp', label: 'Paper and pulp' }
+    ]
     const fetchData = async () => {
         try {
             await axios.get(`${ADAPTERS_BASE_URL}/sustainability/getData`).then((response) => {
@@ -116,33 +135,39 @@ export const Sustainability = () => {
         setfunc(showVal)
     }
 
+    const kpidata = [{
+        label: "Energy (KWH)", value: "kpEnergy.csv", children: <InnerEnergy {...{ selData }} />, size: "xl", estimate: false,
+    },
+    {
+        label: "Waste (Tons)", value: "kpWaste.csv", children: <InnerWaste {...{ selData }} />, size: "xl", estimate: true
+    },
+    {
+        label: "Plantation", value: "kpPlantation.csv", children: <InnerPlantation {...{ selData }} />, size: "lg", estimate: false
+    },
+    {
+        label: "Water (Kilolitres)", value: "kpWater.csv", children: <InnerWater {...{ selData }} />, size: "xl", estimate: false
+    },
+    {
+        label: "Alternate Energy", value: "kpAltEnergy.csv", children: <InnerAltEnergy {...{ selData }} />, size: "xl", estimate: false
+    },
+    {
+        label: "CO2 Emission", value: "kpco2.csv", children: <InnerCO2Emmision {...{ selData }} />, size: "lg", estimate: true
+    }
+    ]
 
     const getCharts = () => {
-        const data = [{
-            title: "Energy (KWH)", children: <InnerEnergy {...{ selData }} />, size: "xl", estimate: false
-        },
-        {
-            title: "Waste (Tons)", children: <InnerWaste {...{ selData }} />, size: "xl", estimate: true
-        },
-        {
-            title: "Plantation", children: <InnerPlantation {...{ selData }} />, size: "lg", estimate: false
-        },
-        {
-            title: "Water (Kilolitres)", children: <InnerWater {...{ selData }} />, size: "xl", estimate: false
-        },
-        {
-            title: "Alternate Energy", children: <InnerAltEnergy {...{ selData }} />, size: "xl", estimate: false
-        },
-        {
-            title: "CO2 Emission", children: <InnerCO2Emmision {...{ selData }} />, size: "lg", estimate: true
-        }
-        ]
-        const final = data.filter((item) => {
-            if (item.title == title) return true
+        const final = kpidata.filter((item) => {
+            if (item.label === title) return true
         })
         return final[0]
     }
 
+    const getFilterData = () => {
+        const filterData = apidata.filter((item) => {
+            return selectedKpi.filter((child) => child.value === item.name).length > 0
+        })
+        setApiData2(filterData)
+    }
 
     const handleGetData = (name, data5, inference, prediction) => {
         switch (name) {
@@ -398,8 +423,68 @@ export const Sustainability = () => {
 
 
     return (
-        <div className="row ms-1">
+        <div>
             <div
+                style={{
+                    display: 'flex',
+                    justifyContent: 'start',
+                    alignItems: 'start',
+                    marginRight: '10px',
+                    marginTop: '5px',
+                    padding: '10px'
+                }}
+            // onMouseEnter={() => setHover(true)}
+            // onMouseLeave={() => setHover(false)}
+            >
+                {/* <button
+            className="btn btn-primary"
+            lineHeight={'24px'}
+            height={'44px'}
+            // startIcon={<image src={upload} />}
+            children={'Upload CSV File'}
+            onClick={() => handleButtonClick()}
+        />{' '}
+        <input
+            type="file"
+            ref={fileInputRef}
+            style={{ display: 'none' }}
+            onChange={handleFileChange}
+            multiple={true}
+            accept="*"
+        /> */}
+                <div style={{ display: "flex", alignItems: "center" }}>
+                    <h2 style={{ fontSize: "14px", fontFamily: "poppins", marginTop: '7px', marginRight: "10px" }}>Industry</h2>
+                    <Select
+                        styles={customStyles}
+                        components={animatedComponents}
+                        onChange={handleChangeOrg}
+                        options={options}
+                    />
+                </div>
+
+                <div style={{ display: "flex", justifyContent: 'center', alignItems: "center", marginLeft: '30px', width: "500px" }}>
+                    <h2 style={{ fontSize: "14px", fontFamily: "poppins", marginTop: '7px', marginRight: "10px" }}>KPI(s)</h2>
+                    <Select
+                        styles={customStyles}
+                        closeMenuOnSelect={false}
+                        components={animatedComponents}
+                        isMulti
+                        onChange={handleChangeKpi}
+                        options={kpidata}
+                    />
+                </div>
+
+                <button
+                    className="btn btn-primary"
+                    lineHeight={'24px'}
+                    height={'44px'}
+                    // startIcon={<image src={upload} />}
+                    children={'Filter'}
+                    onClick={() => getFilterData()}
+                />
+            </div>
+            <div className="row ms-1" style={{ minHeight: "100vh" }}>
+                {/* <div
                 item
                 style={{
                     display: 'flex',
@@ -428,43 +513,44 @@ export const Sustainability = () => {
                     multiple={true}
                     accept="*"
                 />
-            </div>
-            <div className="row gx-1 gy-1 p-2 pt-0">
-                {apidata?.map((item) => {
-                    if (item.name == "kpEnergy.csv") {
-                        console.log(item)
-                        return handleGetData(item.name, item.data, item.inference, item.predictions)
-                    }
-                })}
-                {apidata?.map((item) => {
-                    if (item.name == "kpWaste.csv") {
-                        return handleGetData(item.name, item.data, item.inference, item.predictions)
-                    }
-                })}
-                {apidata?.map((item) => {
-                    if (item.name == "kpPlantation.csv") {
-                        return handleGetData(item.name, item.data, item.inference, item.predictions)
-                    }
-                })}
-                {apidata?.map((item) => {
-                    if (item.name == "kpWater.csv") {
-                        return handleGetData(item.name, item.data, item.inference, item.predictions)
-                    }
-                })}
-                {apidata?.map((item) => {
-                    if (item.name == "kpAltEnergy.csv") {
-                        return handleGetData(item.name, item.data, item.inference, item.predictions)
-                    }
-                })}
+            </div> */}
+                {apidata2.length > 0 && <div className="row gx-1 gy-1 p-2 pt-0">
+                    {apidata2?.map((item) => {
+                        if (item.name == "kpEnergy.csv") {
+                            console.log(item)
+                            return handleGetData(item.name, item.data, item.inference, item.predictions)
+                        }
+                    })}
+                    {apidata2?.map((item) => {
+                        if (item.name == "kpWaste.csv") {
+                            return handleGetData(item.name, item.data, item.inference, item.predictions)
+                        }
+                    })}
+                    {apidata2?.map((item) => {
+                        if (item.name == "kpPlantation.csv") {
+                            return handleGetData(item.name, item.data, item.inference, item.predictions)
+                        }
+                    })}
+                    {apidata2?.map((item) => {
+                        if (item.name == "kpWater.csv") {
+                            return handleGetData(item.name, item.data, item.inference, item.predictions)
+                        }
+                    })}
+                    {apidata2?.map((item) => {
+                        if (item.name == "kpAltEnergy.csv") {
+                            return handleGetData(item.name, item.data, item.inference, item.predictions)
+                        }
+                    })}
 
-                {apidata?.map((item) => {
-                    if (item.name == "kpco2.csv") {
-                        return handleGetData(item.name, item.data, item.inference, item.predictions)
-                    }
-                })}
-                <Popup {...{ showModal, setShowModal, headerTitle: title, children: getCharts()?.children, size: getCharts()?.size, fullscreen: getCharts()?.size == "xl" ? true : false, estimate: getCharts()?.estimate }} />
-            </div>
+                    {apidata2?.map((item) => {
+                        if (item.name == "kpco2.csv") {
+                            return handleGetData(item.name, item.data, item.inference, item.predictions)
+                        }
+                    })}
+                    <Popup {...{ showModal, setShowModal, headerTitle: title, children: getCharts()?.children, size: getCharts()?.size, fullscreen: getCharts()?.size == "xl" ? true : false, estimate: getCharts()?.estimate }} />
+                </div>}
 
+            </div>
         </div>
     )
 }

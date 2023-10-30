@@ -175,3 +175,26 @@ export const plantationData = (data, targetLine = false, value = "", color = "",
     ]
     return finalData
 }
+
+
+export const customStyles = {
+    container: provided => ({
+        ...provided,
+        width: 400,
+        zIndex: 9999999999,
+        // Ensure the dropdown is rendered above other elements
+    }),
+    valueContainer: (provided, state) => ({
+        ...provided,
+        whiteSpace: "nowrap",
+        overflow: "hidden",
+        flexWrap: 'nowrap',
+    }),
+    menuPortal: base => ({
+        ...base,
+        zIndex: 9999999999, // Ensure the dropdown is rendered above other elements
+    }),
+    menu: (base) => ({
+        ...base, zIndex: 9999999999, // Ensure the dropdown is rendered above other elements
+    }),
+};

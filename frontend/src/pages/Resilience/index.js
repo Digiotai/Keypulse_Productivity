@@ -1,7 +1,7 @@
 import { heading, roptions } from './data'
 import { useState, useEffect, useRef } from 'react'
 import { ApexChart } from "../../components/ApexBarChart"
-import { getTitle, getData } from '../../utils'
+import { getTitle, getData, customStyles } from '../../utils'
 import { RxDotFilled } from 'react-icons/rx'
 import cyber from '../../assets/svg/cyber.png'
 import vulner from '../../assets/svg/vulnar.png'
@@ -15,6 +15,8 @@ import ser from '../../assets/svg/service.png'
 import build from '../../assets/svg/build.png'
 import axios from 'axios'
 import { namesResSort, getApiData } from './data'
+import Select from 'react-select';
+import makeAnimated from 'react-select/animated';
 import { Popup } from "../../components/Popup"
 import { InnerResiliance } from './InnerResiliance'
 const ADAPTERS_BASE_URL = process.env.REACT_APP_BASE_URL;
@@ -22,9 +24,25 @@ const ADAPTERS_BASE_URL = process.env.REACT_APP_BASE_URL;
 export const Resilience = () => {
     const [second, setSecond] = useState(false)
     const [first, setFirst] = useState(false)
-    const [title,setTitle] = useState("")
-    const[selData,setSelData] = useState([])
-    const [showModal,setShowModal] = useState(false)
+    const [title, setTitle] = useState("")
+    const [selData, setSelData] = useState([])
+    const [showModal, setShowModal] = useState(false)
+    const animatedComponents = makeAnimated();
+    const [selectedOrg, setSelectedOrg] = useState(null);
+    const [selectedKpi, setSelectedKpi] = useState(null);
+
+    const handleChangeOrg = (selectedOption) => {
+        setSelectedOrg(selectedOption);
+    };
+
+    const handleChangeKpi = (selectedOption) => {
+        setSelectedKpi(selectedOption);
+    };
+    const options = [
+        { value: 'Heavy machinery', label: 'Heavy machinery' },
+        { value: 'Automotive', label: 'Automotive' },
+        { value: 'Paper and pulp', label: 'Paper and pulp' }
+    ]
     const Card = ({ img, text, series, data }) => {
         const [show, setShow] = useState(false)
         const [label, setLabel] = useState("")
@@ -92,6 +110,7 @@ export const Resilience = () => {
 
 
     const [apidata, setApiData] = useState([])
+    const [apidata2, setApiData2] = useState([])
     const fetchData = async () => {
         try {
             await axios.get(`${ADAPTERS_BASE_URL}/resilience/getData`).then((response) => {
@@ -114,6 +133,27 @@ export const Resilience = () => {
             fileInputRef.current.click();
         }
     };
+
+
+    const kpidata = [
+        { label: 'Cyber Security Policy Creation and Distribution', value: 'kpCSP.csv' },
+        { label: 'Risk Management Initiatives', value: 'kpRMI.csv' },
+        { label: 'Cyber Security Training', value: 'kpCST.csv' },
+        { label: 'Vulnerability Management Reviews', value: 'kpVMR.csv' },
+        { label: 'Continuity Supervision Meetings', value: 'kpCSM.csv' },
+        { label: 'Mock BCP Drills', value: 'kpBCP.csv' },
+        { label: 'Incident Management', value: 'kpIM.csv' },
+        { label: 'Continuity of Service and Management (Post Facto)', value: 'kpPF.csv' },
+        { label: 'Configuration and Change Management', value: 'kpCCM.csv' },
+        { label: 'Communications', value: 'kpCOMM.csv' }
+    ]
+
+    const getFilterData = () => {
+        const filterData = apidata.filter((item) => {
+            return selectedKpi.filter((child) => child.value === item.name).length > 0
+        })
+        setApiData2(filterData)
+    }
 
     const handleUpload = async (data) => {
         var formData = new FormData();
@@ -144,16 +184,16 @@ export const Resilience = () => {
     }
 
     let datan = {
-        data1: apidata?.filter((item) => item.name === "kpCSP.csv") || [],
-        data2: apidata?.filter((item) => item.name === "kpRMI.csv") || [],
-        data3: apidata?.filter((item) => item.name === "kpCST.csv") || [],
-        data4: apidata?.filter((item) => item.name === "kpVMR.csv") || [],
-        data5: apidata?.filter((item) => item.name === "kpCSM.csv") || [],
-        data6: apidata?.filter((item) => item.name === "kpBCP.csv") || [],
-        data7: apidata?.filter((item) => item.name === "kpIM.csv") || [],
-        data8: apidata?.filter((item) => item.name === "kpPF.csv") || [],
-        data9: apidata?.filter((item) => item.name === "kpCCM.csv") || [],
-        data10: apidata?.filter((item) => item.name === "kpCOMM.csv") || []
+        data1: apidata2?.filter((item) => item.name === "kpCSP.csv") || [],
+        data2: apidata2?.filter((item) => item.name === "kpRMI.csv") || [],
+        data3: apidata2?.filter((item) => item.name === "kpCST.csv") || [],
+        data4: apidata2?.filter((item) => item.name === "kpVMR.csv") || [],
+        data5: apidata2?.filter((item) => item.name === "kpCSM.csv") || [],
+        data6: apidata2?.filter((item) => item.name === "kpBCP.csv") || [],
+        data7: apidata2?.filter((item) => item.name === "kpIM.csv") || [],
+        data8: apidata2?.filter((item) => item.name === "kpPF.csv") || [],
+        data9: apidata2?.filter((item) => item.name === "kpCCM.csv") || [],
+        data10: apidata2?.filter((item) => item.name === "kpCOMM.csv") || []
     }
 
     let finalData = {
@@ -179,7 +219,7 @@ export const Resilience = () => {
             inference: [datan?.data1[0]?.inference],
             recomondations: ["Adhere to planned activities"],
             predictions: [datan?.data1[0]?.predictions],
-            fullData:datan.data1
+            fullData: datan.data1
         },
         {
             img: risk,
@@ -191,7 +231,7 @@ export const Resilience = () => {
             inference: [datan?.data2[0]?.inference],
             recomondations: ["Make up missed/lost activities"],
             predictions: [datan?.data2[0]?.predictions],
-            fullData:datan.data2
+            fullData: datan.data2
         },
         {
             img: train,
@@ -203,7 +243,7 @@ export const Resilience = () => {
             inference: [datan?.data3[0]?.inference],
             recomondations: ["Adhere to planned activities"],
             predictions: [datan?.data3[0]?.predictions],
-            fullData:datan.data3
+            fullData: datan.data3
         },
         {
             img: vulner,
@@ -215,7 +255,7 @@ export const Resilience = () => {
             inference: [datan?.data4[0]?.inference],
             recomondations: ["Make up missed/lost activities"],
             predictions: [datan?.data4[0]?.predictions],
-            fullData:datan.data4
+            fullData: datan.data4
         },
         {
             img: cont,
@@ -227,7 +267,7 @@ export const Resilience = () => {
             inference: [datan?.data5[0]?.inference],
             recomondations: ["Adhere to planned activities"],
             predictions: [datan?.data5[0]?.predictions],
-            fullData:datan.data5
+            fullData: datan.data5
         },
         ({
             img: build,
@@ -239,7 +279,7 @@ export const Resilience = () => {
             inference: [datan?.data6[0]?.inference],
             recomondations: ["Make up missed/lost activities"],
             predictions: [datan?.data6[0]?.predictions],
-            fullData:datan.data6
+            fullData: datan.data6
         }),
         ({
             img: inci,
@@ -251,7 +291,7 @@ export const Resilience = () => {
             inference: [datan?.data7[0]?.inference],
             recomondations: ["Keep up Good work"],
             predictions: [datan?.data7[0]?.predictions],
-            fullData:datan.data7
+            fullData: datan.data7
         }),
         ({
             img: ser,
@@ -263,7 +303,7 @@ export const Resilience = () => {
             inference: [datan?.data8[0]?.inference],
             recomondations: ["Keep up Good work"],
             predictions: [datan?.data8[0]?.predictions],
-            fullData:datan.data8
+            fullData: datan.data8
         }),
         ({
             img: config,
@@ -275,7 +315,7 @@ export const Resilience = () => {
             inference: [datan?.data9[0]?.inference],
             recomondations: ["Adhere to planned activities"],
             predictions: [datan?.data9[0]?.predictions],
-            fullData:datan.data9
+            fullData: datan.data9
         }),
         ({
             img: com,
@@ -287,13 +327,73 @@ export const Resilience = () => {
             inference: [datan?.data10[0]?.inference],
             recomondations: ["Adhere to planned activities"],
             predictions: [datan?.data10[0]?.predictions],
-            fullData:datan.data10
+            fullData: datan.data10
         })
     ]
 
     return (
-        <div className="p-1 m-1">
+        <div>
             <div
+                style={{
+                    display: 'flex',
+                    justifyContent: 'start',
+                    alignItems: 'start',
+                    marginRight: '10px',
+                    marginTop: '5px',
+                    padding: '10px'
+                }}
+            // onMouseEnter={() => setHover(true)}
+            // onMouseLeave={() => setHover(false)}
+            >
+                {/* <button
+            className="btn btn-primary"
+            lineHeight={'24px'}
+            height={'44px'}
+            // startIcon={<image src={upload} />}
+            children={'Upload CSV File'}
+            onClick={() => handleButtonClick()}
+        />{' '}
+        <input
+            type="file"
+            ref={fileInputRef}
+            style={{ display: 'none' }}
+            onChange={handleFileChange}
+            multiple={true}
+            accept="*"
+        /> */}
+                <div style={{ display: "flex", alignItems: "center" }}>
+                    <h2 style={{ fontSize: "14px", fontFamily: "poppins", marginTop: '7px', marginRight: "10px" }}>Industry</h2>
+                    <Select
+                        styles={customStyles}
+                        components={animatedComponents}
+                        onChange={handleChangeOrg}
+                        options={options}
+                    />
+                </div>
+
+                <div style={{ display: "flex", justifyContent: 'center', alignItems: "center", marginLeft: '30px', width: "500px" }}>
+                    <h2 style={{ fontSize: "14px", fontFamily: "poppins", marginTop: '7px', marginRight: "10px" }}>KPI(s)</h2>
+                    <Select
+                        styles={customStyles}
+                        closeMenuOnSelect={false}
+                        components={animatedComponents}
+                        isMulti
+                        onChange={handleChangeKpi}
+                        options={kpidata}
+                    />
+                </div>
+
+                <button
+                    className="btn btn-primary"
+                    lineHeight={'24px'}
+                    height={'44px'}
+                    // startIcon={<image src={upload} />}
+                    children={'Filter'}
+                    onClick={() => getFilterData()}
+                />
+            </div>
+            <div className="p-1 m-1" style={{ minHeight: "100vh" }}>
+                {/* <div
                 item
                 style={{
                     display: 'flex',
@@ -322,56 +422,58 @@ export const Resilience = () => {
                     multiple={true}
                     accept="*"
                 />
+            </div> */}
+                <div className='row gy-2 gx-3 mt-2' >
+                    {first && heading.map((item, index) => {
+                        return (
+                            <>{index < 2 && <div className="col-lg-6 col-md-6 col-sm-6">
+                                <div style={{ background: '#34b4eb', fontFamily: "Inter" }} className='pt-2 pb-2 text-center text-white'>
+                                    {/* <span className='lightcolor' style={{ position: 'absolute', left: 300 }}>{item.num}</span> */}
+                                    <h3 className='text-center mt-2' style={{ fontSize: '22px' }}>{item.name}</h3>
+                                </div>
+                            </div>}</>
+                        )
+                    })}
+                </div>
+                <div className="row gy-3 gx-3 mt-2">
+                    {data.map((item, index) => {
+                        if ((item.series[0].data.length > 0 && index < 6) && !first) {
+                            setFirst(true)
+                        }
+                        return (
+                            <>{(item.series[0].data.length > 0 && index < 6) && <div className='col-lg-6 col-md-6 col-sm-6 cursor-pointer' style={{ cursor: "pointer" }} onClick={(e) => handlePopup(e, item.name, item.fullData)}>
+                                <Card img={item.img} text={item.name} series={item.series} data={item} />
+                            </div>}</>
+                        )
+                    })}
+                </div>
+                <div className='row gy-2 gx-3 mt-2 flex-wrap'>
+                    {second && heading.map((item, index) => {
+                        return (
+                            <>{index >= 2 && <div className="col-lg-6 col-md-6 col-sm-6">
+                                <div style={{ background: '#34b4eb', fontFamily: "Inter" }} className='pt-2 pb-2 text-center text-white'>
+                                    {/* <span className='lightcolor' style={{ position: 'absolute', left: 300 }}>{item.num}</span> */}
+                                    <h3 className='text-center mt-2' style={{ fontSize: '22px' }}>{item.name}</h3>
+                                </div>
+                            </div>}</>
+                        )
+                    })}
+                </div>
+                <div className="row gy-3 gx-3 mt-2">
+                    {data.map((item, index) => {
+                        if ((item.series[0].data.length > 0 && index > 5) && !second) {
+                            setSecond(true)
+                        }
+                        return (
+                            <>{(item.series[0].data.length > 0 && index > 5) && <div className='col-lg-6 col-md-6 col-sm-6' style={{ cursor: "pointer" }} onClick={(e) => handlePopup(e, item.name, item.fullData)}>
+                                <Card img={item.img} text={item.name} series={item.series} data={item} />
+                            </div>}</>
+                        )
+                    })}
+                </div>
+                <Popup {...{ showModal, setShowModal, headerTitle: title, children: <InnerResiliance {...{ selData }} />, size: "lg", fullscreen: false }} />
             </div>
-            <div className='row gy-2 gx-3 mt-2 flex-wrap'>
-                {first && heading.map((item, index) => {
-                    return (
-                        <>{index < 2 && <div className="col-lg-6 col-md-6 col-sm-6">
-                            <div style={{ background: '#34b4eb', fontFamily: "Inter" }} className='pt-2 pb-2 text-center text-white'>
-                                {/* <span className='lightcolor' style={{ position: 'absolute', left: 300 }}>{item.num}</span> */}
-                                <h3 className='text-center mt-2' style={{ fontSize: '22px' }}>{item.name}</h3>
-                            </div>
-                        </div>}</>
-                    )
-                })}
-            </div>
-            <div className="row gy-3 gx-3 mt-2">
-                {data.map((item, index) => {
-                    if ((item.series[0].data.length > 0 && index < 6) && !first) {
-                        setFirst(true)
-                    }
-                    return (
-                        <>{(item.series[0].data.length > 0 && index < 6) && <div className='col-lg-6 col-md-6 col-sm-6 cursor-pointer' style={{cursor:"pointer"}} onClick={(e) => handlePopup(e, item.name, item.fullData)}>
-                            <Card img={item.img} text={item.name} series={item.series} data={item} />
-                        </div>}</>
-                    )
-                })}
-            </div>
-            <div className='row gy-2 gx-3 mt-2 flex-wrap'>
-                {second && heading.map((item, index) => {
-                    return (
-                        <>{index >= 2 && <div className="col-lg-6 col-md-6 col-sm-6">
-                            <div style={{ background: '#34b4eb', fontFamily: "Inter" }} className='pt-2 pb-2 text-center text-white'>
-                                {/* <span className='lightcolor' style={{ position: 'absolute', left: 300 }}>{item.num}</span> */}
-                                <h3 className='text-center mt-2' style={{ fontSize: '22px' }}>{item.name}</h3>
-                            </div>
-                        </div>}</>
-                    )
-                })}
-            </div>
-            <div className="row gy-3 gx-3 mt-2">
-                {data.map((item, index) => {
-                    if ((item.series[0].data.length > 0 && index > 5) && !second) {
-                        setSecond(true)
-                    }
-                    return (
-                        <>{(item.series[0].data.length > 0 && index > 5) && <div className='col-lg-6 col-md-6 col-sm-6' style={{cursor:"pointer"}} onClick={(e) => handlePopup(e, item.name, item.fullData)}>
-                            <Card img={item.img} text={item.name} series={item.series} data={item} />
-                        </div>}</>
-                    )
-                })}
-            </div>
-            <Popup {...{ showModal, setShowModal, headerTitle: title, children: <InnerResiliance {...{selData}}/>, size: "lg", fullscreen: false}} />
         </div>
+
     )
 }
