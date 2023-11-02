@@ -1,4 +1,3 @@
-import { ApexChart } from "../../components/ApexBarChart"
 import Chart from 'react-apexcharts'
 import uptime from '../../assets/svg/uptime.png'
 import through from '../../assets/svg/output.png'
@@ -7,10 +6,16 @@ import uparrow from '../../assets/svg/upArrow.svg'
 import { useState } from "react"
 import { GetOdometer } from '../../utils'
 import { options } from './data'
-import { series1, options1, series2, options2, series3, options3 } from "../../components/ApexBarChart/data"
+import './style.css'
 export const Productivity = () => {
     const [hover, setHover] = useState(false)
-    var series = [90, 10]
+    const [showAlerts, setShowAlerts] = useState(false)
+    var series = [50, 50]
+
+    const handleAlerts = () => {
+        setShowAlerts(true)
+    }
+
     const options1 = {
         chart: {
             width: 380,
@@ -54,16 +59,16 @@ export const Productivity = () => {
                    until library does not accept array. */
                 switch (opt.seriesIndex) { // seriesIndex gives the position of slice
                     case 0:
-                        return ['On Time', val + '%'];
+                        return ['Alert', val + '%'];
                     case 1:
-                        return ['Late', val + '%'];
+                        return ['Normal', val + '%'];
                     default:
                         return val;
                 }
 
             }
         },
-        labels: ['On Time', 'Late'],
+        labels: ['Alert', 'Normal'],
         tooltip: {
             enabled: true,
             y: {
@@ -94,7 +99,7 @@ export const Productivity = () => {
                 </h5>
                 <img src={image} alt="Girl in a jacket" width={"25%"} className="mb-2" />
                 <h5 style={{ fontFamily: 'Inter', marginTop: '4px', fontSize: '12px', fontWeight: 500, lineHeight: '14px' }}>{value}</h5>
-                {hover && <div className="card" style={{ position: "absolute", padding: "10px", display: "flex", justifyContent: "center", alignItems: "center", marginTop: "20px",width:"200px" }}>
+                {hover && <div className="card" style={{ position: "absolute", padding: "10px", display: "flex", justifyContent: "center", alignItems: "center", marginTop: "20px", width: "200px" }}>
                     <span style={{ fontFamily: 'Inter', marginTop: '4px', fontSize: '12px', lineHeight: '14px', fontWeight: 500, textAlign: "center" }}> {target}</span>
                 </div>}
             </div>
@@ -120,20 +125,20 @@ export const Productivity = () => {
                     {/* <h6 style={{ fontFamily: "poppins", fontWeight: 500 }}>Production Lead Time Distribution</h6> */}
                     <div className="row gx-0">
                         <div className="col ">
-                            <div style={{ border: '1px solid #E6E6E6', padding: 5, display: 'flex', justifyContent: 'start', alignItems: 'center', marginLeft: '3px', padding: '5px',paddingBottom:"0px",paddingRight:"80px" }} onMouseEnter={() => setHover(true)} onMouseLeave={() => setHover(false)}>
+                            <div style={{ border: '1px solid #E6E6E6', padding: 5, display: 'flex', justifyContent: 'start', alignItems: 'center', marginLeft: '3px', padding: '5px', paddingBottom: "0px", paddingRight: "80px" }} onMouseEnter={() => setHover(true)} onMouseLeave={() => setHover(false)}>
                                 <div style={{ display: 'flex', flexDirection: "column", justifyContent: 'space-between', height: '160px' }}>
                                     <h5 style={{ fontFamily: 'Inter', marginTop: '0.5px', fontSize: '14px', lineHeight: '16px', fontWeight: 500 }}>
                                         Utilization
                                     </h5>
                                     <div className="">
-                                        {GetOdometer([[86]], { ...options,labels: ["Utilization"] }, 90)}
+                                        {GetOdometer([[86]], { ...options, labels: ["Utilization"] }, 90)}
                                     </div>
                                     {/* <h5 style={{ fontFamily: 'Inter', marginTop: '4px', fontSize: '20px', fontWeight: 600 }}>86%</h5> */}
                                     <p style={{
                                         fontFamily: 'Inter', marginTop: '4px', fontSize: '12px', fontWeight: 500, lineHeight: '14px'
                                     }}>In last 30 days</p>
                                 </div>
-                                <div style={{ display: 'flex'}}>
+                                <div style={{ display: 'flex' }}>
                                     <span style={{ fontSize: '16px', fontFamily: "poppins", fontWeight: 500 }}>10%</span> <img src={uparrow} alt="Girl in a jacket" width={"20px"} className="mb-2 ms-2" />
                                 </div>
                                 {hover && <div className="card" style={{ position: "absolute", height: "20px", padding: "20px", display: "flex", justifyContent: "center", alignItems: "center", marginTop: "-60px", marginLeft: "80px" }}>
@@ -158,8 +163,8 @@ export const Productivity = () => {
                     {/* <ApexChart series={series3} options={options3}  height={"250px"} /> */}
                 </div>
             </div>
-            <div className="row mt-4 text-center">
-                <div className="col-7">
+            <div className="row mt-4 text-center pe-2">
+                <div className="col-7 pe-1">
                     <h6 style={{ fontFamily: "poppins", fontWeight: 500, fontSize: '18px', fontWeight: 600, display: 'flex', justifyContent: "start" }}>Combined OEE Of Machines</h6>
                     {/* <ApexChart series={series1} options={options1} height={"250px"} width={"100%"} /> */}
                     <div className="d-flex">
@@ -171,11 +176,46 @@ export const Productivity = () => {
                         {ProdRadio(64, "Quality")}
                     </div>
                 </div>
-                <div className="col-5">
-                    <h6 style={{ fontFamily: "poppins", fontSize: '18px', fontWeight: 600, display: 'flex', justifyContent: "center" }}>Delivery</h6>
-                    <div className="mt-4 ms-2">
+                <div className="col-5" style={{ border: '1px solid #E6E6E6', padding: 5, marginTop: "29px", marginRight: '0px' }}>
+                    <h6 style={{ fontFamily: "poppins", fontSize: '18px', fontWeight: 600, display: 'flex', justifyContent: "center" }}>Alerts</h6>
+                    <div className="mt-4" style={{ cursor: "pointer" }} data-bs-toggle="modal" data-bs-target="#staticBackdrop">
                         <Chart options={options1} series={series} type="pie" height={"250px"} width={"100%"} />
                         <span style={{ fontFamily: 'Inter', marginTop: '4px', fontSize: '12px', lineHeight: '14px', fontWeight: 500, textAlign: "center" }}>Upto 5% delivery delay has NO PENALTIES. 5% - 15% delay attracts $10,000 penal charges.</span>
+                    </div>
+                </div>
+            </div>
+            <div class="modal fade" id="staticBackdrop" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+                <div class="modal-dialog modal-lg">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h1 class="modal-title fs-5" id="staticBackdropLabel">Alerts</h1>
+                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                        </div>
+                        <div class="modal-body">
+                            <table>
+                                <tr>
+                                    <th>Machineparameter</th>
+                                    <th>Units</th>
+                                    <th>Status</th>
+                                    <th>Value</th>
+                                    <th>Alertrange</th>
+                                </tr>
+                                <tr>
+                                    <td>Temperature</td>
+                                    <td>°C</td>
+                                    <td>normal</td>
+                                    <td>90</td>
+                                    <td>80-120</td>
+                                </tr>
+                                <tr>
+                                    <td>Temperature</td>
+                                    <td>°C</td>
+                                    <td>alert</td>
+                                    <td>90</td>
+                                    <td>80-120</td>
+                                </tr>
+                            </table>
+                        </div>
                     </div>
                 </div>
             </div>
