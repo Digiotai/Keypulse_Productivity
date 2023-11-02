@@ -194,23 +194,23 @@ export const Productivity = () => {
                         <div class="modal-body">
                             <table>
                                 <tr>
-                                    <th>Machineparameter</th>
+                                    <th>MachineParameter</th>
                                     <th>Units</th>
                                     <th>Status</th>
                                     <th>Value</th>
-                                    <th>Alertrange</th>
+                                    <th>Range</th>
                                 </tr>
                                 <tr>
                                     <td>Temperature</td>
                                     <td>°C</td>
-                                    <td>normal</td>
+                                    <td>Normal</td>
                                     <td>90</td>
                                     <td>80-120</td>
                                 </tr>
                                 <tr>
                                     <td>Temperature</td>
                                     <td>°C</td>
-                                    <td>alert</td>
+                                    <td>Alert</td>
                                     <td>90</td>
                                     <td>80-120</td>
                                 </tr>
