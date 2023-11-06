@@ -5,7 +5,17 @@ from django.http import HttpResponse
 from django.views.decorators.csrf import csrf_exempt
 import shutil
 import json
+import os
 
+import boto3
+
+
+ACCESS_KEY = 'AKIA3NJV54BKHGRE4TN3'
+SECRET_KEY = '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'
+base_kwargs = {
+    'Bucket': "keypulsedata"}
+s3 = boto3.client('s3', aws_access_key_id=ACCESS_KEY,
+                  aws_secret_access_key=SECRET_KEY)
 targetdata = {
     'kpUnitsYTD.csv': 45000, "kpUnitsLost.csv": 35, "kpPlantProd.csv": 75,
     "kpEnergyRobotic Arm": 1100, "kpEnergyRoller Belts": 850, "kpEnergyBoilers": 700, "kpEnergyChillers": 455,
@@ -15,7 +25,6 @@ targetdata = {
     "kpWastewaste": 42
 }
 files = {"RiskManagementInitiatives": "kpRMI"}
-
 
 def copyDefaultData():
     shutil.copytree('defaultData', 'uploads', dirs_exist_ok=True)
@@ -32,6 +41,18 @@ def index(request):
 def deleteData(kpi):
     if os.path.exists(os.path.join("uploads", kpi)):
         shutil.rmtree(os.path.join("uploads", kpi))
+
+def download_data(request):
+    try:
+        print("Downoading Data")
+        results = s3.list_objects_v2(**base_kwargs)
+        for d in results["Contents"]:
+            s3.download_file("keypulsedata", d["Key"], os.path.join("uploads", d['Key']))
+        print("Downoaded Data")
+        return HttpResponse("Data Downloaded")
+    except Exception as e:
+        print(e)
+        return HttpResponse("Failed to downoad")
 
 
 @csrf_exempt
@@ -60,6 +81,10 @@ def uploadFile(request, kpi):
         return HttpResponse(str(e))
 
 
+def get_files(request, kpi):
+    return HttpResponse(",".join(os.listdir(os.path.join('uploads', kpi))))
+
+
 def getData(request, kpi):
     """
     This method is get data from uploaded files.
@@ -85,7 +110,10 @@ def getData(request, kpi):
                         {'name': col, 'data': list(map(int,df.loc[:, col].values)),
                          'label': list(df.loc[:, 'Month'].values)})
                     if col != 'Actual':
-                        pred_text = f'{col} for next three months: '
+                        if df.shape[0] < 12:
+                            pred_text = f'{col} for next {12-df.shape[0]} months: '
+                        else:
+                            pred_text = ''
                         for i in range(df.shape[0], 12):
                             pred_text += f'{predictions.loc[i, "Month"]} - {predictions.loc[i, col]}, '
                         pred_text = pred_text[:-2]
