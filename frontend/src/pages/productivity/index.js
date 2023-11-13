@@ -192,7 +192,7 @@ export const Productivity = () => {
                             <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                         </div>
                         <div class="modal-body">
-                            <table>
+                            <table className='tablepr'>
                                 <tr>
                                     <th>MachineParameter</th>
                                     <th>Units</th>
@@ -204,14 +204,14 @@ export const Productivity = () => {
                                     <td>Temperature</td>
                                     <td>°C</td>
                                     <td>Normal</td>
-                                    <td>90</td>
+                                    <td>140</td>
                                     <td>80-120</td>
                                 </tr>
                                 <tr>
                                     <td>Temperature</td>
                                     <td>°C</td>
                                     <td>Alert</td>
-                                    <td>90</td>
+                                    <td>140</td>
                                     <td>80-120</td>
                                 </tr>
                             </table>

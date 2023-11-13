@@ -1,4 +1,4 @@
-export var options = {
+export var toptions = {
   chart: {
     type: 'bar',
     height: 350

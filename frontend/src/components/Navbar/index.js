@@ -21,6 +21,8 @@ function Navbar() {
       setName("Resilience")
     } else if (location.pathname == '/sustainability') {
       setName("Sustainability")
+    } else if (location.pathname == '/reports' || location.pathname=='/review-report') {
+      setName("Reports")
     } else {
       setName("KProcess")
     }
@@ -62,7 +64,7 @@ function Navbar() {
         }}>
           <span>  Jan - Dec 2023    <AiTwotoneCalendar style={{ marginTop: "-3px" }} /></span>
         </div>
-        {/* <div class="nav-item dropdown d-flex align-items-center mr-2 pr-5" style={{ color: 'black' }}>
+        <div class="nav-item ms-1 dropdown d-flex align-items-center mr-0 pr-0" style={{ color: 'black' }}>
           <a
             className="nav-link dropdown-toggle p-0 m-0 pe-5"
             href="/#"
@@ -74,7 +76,7 @@ function Navbar() {
             style={{ textDecoration: 'none', color: 'black' }}
           >
             <span className="ml-2 fs14 text-dark" title={"Admin"}>
-              {localStorage.getItem("userName")}
+              {localStorage.getItem("userName") || "admin"}
             </span>
             <i class="bi bi-caret-down-fill"></i>
           </a>
@@ -82,7 +84,7 @@ function Navbar() {
             <span class="dropdown-item">Action</span>
             <span class="dropdown-item" onClick={() => handleLogout()}>Logout</span>
           </div>
-        </div> */}
+        </div>
       </nav>
     </>
 
