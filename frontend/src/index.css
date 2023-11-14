@@ -56,3 +56,45 @@ code {
   font-weight: 700;
   font-size: 20px;
 }
+
+@media print {
+  body, html {
+    width: 100%;
+    margin: 0;
+    padding: 0;
+  }
+
+  body * {
+    width: 100%;
+  }
+
+  .non-printable *,
+  .non-printable {
+    display: none;
+  }
+
+  .printonly * {
+    visibility: visible;
+  }
+
+  .printonly {
+    position: absolute;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    margin: 0;
+    padding: 0;
+  }
+}
+
+
+
+
+
+
+
+
+
+/* Adjust any other styles as needed */
+/* ... */

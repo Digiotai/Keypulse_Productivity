@@ -5,6 +5,7 @@ import {LuFileClock} from 'react-icons/lu'
 import {HiUserGroup} from 'react-icons/hi'
 import {VscFileSymlinkDirectory} from 'react-icons/vsc'
 import {FaFileContract} from 'react-icons/fa'
+import {TbReport} from 'react-icons/tb'
 import { Link } from "react-router-dom";
 export default function Sidebar() {
 
@@ -34,6 +35,12 @@ export default function Sidebar() {
             <Link to="/resilience" class="nav-link align-middle px-2 nav-item">
              <FaFileContract size={20}/>
               <span class="ms-1 d-none d-sm-inline link-text px-1">Resilience</span>
+            </Link>
+          </li>
+          <li class="sidebar-list-item pt-4 cursor-pointer">
+            <Link to="/reports" class="nav-link align-middle px-2 nav-item">
+             <TbReport size={20}/>
+              <span class="ms-1 d-none d-sm-inline link-text px-1">Reports</span>
             </Link>
           </li>
         </ul>

@@ -180,7 +180,8 @@ export const plantationData = (data, targetLine = false, value = "", color = "",
 export const customStyles = {
     container: provided => ({
         ...provided,
-        width: 400,
+        minWidth:300,
+        maxWidth: 350,
         // zIndex: 9999999999,
         // Ensure the dropdown is rendered above other elements
     }),
