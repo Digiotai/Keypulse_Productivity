@@ -24,6 +24,7 @@ targetdata = {
     "kpWasteMicelleneous": 180, "kpWasteGeneral": 145, "kpWasterecyclable": 97, "kpWastecritical": 20,
     "kpWastewaste": 42
 }
+
 files = {"RiskManagementInitiatives": "kpRMI"}
 
 def copyDefaultData():
@@ -67,12 +68,12 @@ def uploadFile(request, kpi):
             files = request.FILES.getlist('file')
             if len(files) < 1:
                 return HttpResponse('No files uploaded')
-            if kpi not in request.session.keys():
-                deleteData(kpi)
+            # if kpi not in request.session.keys():
+            #     deleteData(kpi)
             if not os.path.exists(os.path.join('uploads', kpi)):
                 os.makedirs(os.path.join('uploads', kpi))
             for f in files:
-                with default_storage.open(os.path.join('uploads', kpi, f'{f.name}'), 'wb+') as destination:
+                with default_storage.open(os.path.join('uploads', kpi, f'{f.name.split(".")[0]}.csv'), 'wb+') as destination:
                     for chunk in f.chunks():
                         destination.write(chunk)
             request.session[kpi] = True
