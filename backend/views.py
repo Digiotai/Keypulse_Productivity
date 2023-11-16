@@ -44,7 +44,7 @@ def deleteData(kpi):
         shutil.rmtree(os.path.join("uploads", kpi))
 
 
-def download_data(request, kpi, file):
+def download_data(request, kpi):
     try:
         print("Downoading Data")
         downloaded = False
@@ -57,7 +57,9 @@ def download_data(request, kpi, file):
             print("Downloaded Data")
         else:
             print("NO Data to download")
-        return getData(request, kpi, file)
+
+        files = request.POST.get('file')
+        return getData(request, kpi,files)
     except Exception as e:
         print(e)
         return HttpResponse("Failed to downoad")
@@ -105,7 +107,7 @@ def getData(request, kpi, file=None):
             if not file:
                 files = os.listdir(os.path.join('uploads', kpi))
             else:
-                files = [file+'.csv']
+                files = [f+'.csv' for f in file]
             res = []
             inference = ''
             for file in files:
