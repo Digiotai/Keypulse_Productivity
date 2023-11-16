@@ -9,7 +9,6 @@ import os
 
 import boto3
 
-
 ACCESS_KEY = 'AKIA3NJV54BKHGRE4TN3'
 SECRET_KEY = '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'
 base_kwargs = {
@@ -27,6 +26,7 @@ targetdata = {
 
 files = {"RiskManagementInitiatives": "kpRMI"}
 
+
 def copyDefaultData():
     shutil.copytree('defaultData', 'uploads', dirs_exist_ok=True)
 
@@ -43,20 +43,21 @@ def deleteData(kpi):
     if os.path.exists(os.path.join("uploads", kpi)):
         shutil.rmtree(os.path.join("uploads", kpi))
 
-def download_data(request,kpi):
+
+def download_data(request, kpi, file):
     try:
         print("Downoading Data")
-        downloaded=False
+        downloaded = False
         results = s3.list_objects_v2(**base_kwargs)
         for d in results["Contents"]:
             if d["Key"] == 'kpi':
-                downloaded=True
+                downloaded = True
                 s3.download_file("keypulsedata", d["Key"], os.path.join("uploads", d['Key']))
         if downloaded:
             print("Downloaded Data")
         else:
             print("NO Data to download")
-        return getData(request, kpi)
+        return getData(request, kpi, file)
     except Exception as e:
         print(e)
         return HttpResponse("Failed to downoad")
@@ -74,12 +75,13 @@ def uploadFile(request, kpi):
             files = request.FILES.getlist('file')
             if len(files) < 1:
                 return HttpResponse('No files uploaded')
-            # if kpi not in request.session.keys():
-            #     deleteData(kpi)
+            if kpi not in request.session.keys():
+                deleteData(kpi)
             if not os.path.exists(os.path.join('uploads', kpi)):
                 os.makedirs(os.path.join('uploads', kpi))
             for f in files:
-                with default_storage.open(os.path.join('uploads', kpi, f'{f.name.split(".")[0]}.csv'), 'wb+') as destination:
+                with default_storage.open(os.path.join('uploads', kpi, f'{f.name.split(".")[0]}.csv'),
+                                          'wb+') as destination:
                     for chunk in f.chunks():
                         destination.write(chunk)
             request.session[kpi] = True
@@ -92,7 +94,7 @@ def get_files(request, kpi):
     return HttpResponse(",".join(os.listdir(os.path.join('uploads', kpi))))
 
 
-def getData(request, kpi):
+def getData(request, kpi, file=None):
     """
     This method is get data from uploaded files.
     @args: None
@@ -100,25 +102,27 @@ def getData(request, kpi):
     """
     try:
         if request.method == 'GET':
-            files = os.listdir(os.path.join('uploads', kpi))
+            if not file:
+                files = os.listdir(os.path.join('uploads', kpi))
+            else:
+                files = [file+'.csv']
             res = []
             inference = ''
-
             for file in files:
                 df = pd.read_csv(os.path.join('uploads', kpi, file))
                 predictions = pd.read_excel("predictions.xlsx", sheet_name=file[:-4], engine="openpyxl")
                 df.dropna(how='all', inplace=True)
-                df = df.dropna(subset=df.columns[1:],how='all')
-                df.fillna(0,inplace=True)
+                df = df.dropna(subset=df.columns[1:], how='all')
+                df.fillna(0, inplace=True)
                 temp = []
                 pred = []
                 for col in df.columns[1:]:
                     temp.append(
-                        {'name': col, 'data': list(map(int,df.loc[:, col].values)),
+                        {'name': col, 'data': list(map(int, df.loc[:, col].values)),
                          'label': list(df.loc[:, 'Month'].values)})
                     if col != 'Actual':
                         if df.shape[0] < 12:
-                            pred_text = f'{col} for next {12-df.shape[0]} months: '
+                            pred_text = f'{col} for next {12 - df.shape[0]} months: '
                         else:
                             pred_text = ''
                         for i in range(df.shape[0], 12):

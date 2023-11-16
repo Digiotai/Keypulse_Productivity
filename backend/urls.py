@@ -6,5 +6,5 @@ urlpatterns = [
     path('<str:kpi>/FileUpload', views.uploadFile, name='FileUpload'),
     path('<str:kpi>/getData', views.getData, name='getData'),
 path('<str:kpi>/getfiles', views.get_files, name='getfiles'),
-path('<str:kpi>/download/', views.download_data, name='download'),
+path('<str:kpi>/download/<str:file>', views.download_data, name='download'),
 ]
