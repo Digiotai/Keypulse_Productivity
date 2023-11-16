@@ -43,14 +43,20 @@ def deleteData(kpi):
     if os.path.exists(os.path.join("uploads", kpi)):
         shutil.rmtree(os.path.join("uploads", kpi))
 
-def download_data(request):
+def download_data(request,kpi):
     try:
         print("Downoading Data")
+        downloaded=False
         results = s3.list_objects_v2(**base_kwargs)
         for d in results["Contents"]:
-            s3.download_file("keypulsedata", d["Key"], os.path.join("uploads", d['Key']))
-        print("Downoaded Data")
-        return HttpResponse("Data Downloaded")
+            if d["Key"] == 'kpi':
+                downloaded=True
+                s3.download_file("keypulsedata", d["Key"], os.path.join("uploads", d['Key']))
+        if downloaded:
+            print("Downloaded Data")
+        else:
+            print("NO Data to download")
+        return getData(request, kpi)
     except Exception as e:
         print(e)
         return HttpResponse("Failed to downoad")
