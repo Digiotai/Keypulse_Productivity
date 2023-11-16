@@ -39,9 +39,12 @@ def index(request):
     return HttpResponse('Testing')
 
 
-def deleteData(kpi):
-    if os.path.exists(os.path.join("uploads", kpi)):
-        shutil.rmtree(os.path.join("uploads", kpi))
+def deleteData(kpi,files):
+    path = os.path.join("uploads", kpi)
+    if os.path.exists(path):
+        for f in os.listdir(path):
+            if f not in [i.name for i in files]:
+                os.remove(os.path.join(path,f))
 
 
 def download_data(request, kpi, organization, file):
@@ -49,8 +52,9 @@ def download_data(request, kpi, organization, file):
         print("Downoading Data")
         downloaded = False
         results = s3.list_objects_v2(**base_kwargs)
+
         for d in results["Contents"]:
-            if d["Key"] == kpi:
+            if d["Key"].split("/")[0] == kpi:
                 downloaded = True
                 s3.download_file("keypulsedata", d["Key"], os.path.join("uploads", d['Key']))
         if downloaded:
@@ -75,8 +79,8 @@ def uploadFile(request, kpi):
             files = request.FILES.getlist('file')
             if len(files) < 1:
                 return HttpResponse('No files uploaded')
-            if kpi not in request.session.keys():
-                deleteData(kpi)
+            # if kpi not in request.session.keys():
+            deleteData(kpi,files)
             if not os.path.exists(os.path.join('uploads', kpi)):
                 os.makedirs(os.path.join('uploads', kpi))
             for f in files:
@@ -84,7 +88,7 @@ def uploadFile(request, kpi):
                                           'wb+') as destination:
                     for chunk in f.chunks():
                         destination.write(chunk)
-            request.session[kpi] = True
+            # request.session[kpi] = True
             return HttpResponse('File Uploaded')
     except Exception as e:
         return HttpResponse(str(e))
