@@ -105,8 +105,8 @@ def getData(request, kpi, file=None):
             if not file:
                 files = os.listdir(os.path.join('uploads', kpi))
             else:
-                file = file.split("=")[1].split(',')
-                files = [f+'.csv' for f in file]
+                files = file.split("=")[1].split(',')
+
             res = []
             inference = ''
             for file in files:
