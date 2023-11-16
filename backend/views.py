@@ -51,7 +51,7 @@ def download_data(request, kpi, organization, file):
         results = s3.list_objects_v2(**base_kwargs)
         for d in results["Contents"]:
             print(d)
-            if d["Key"] == 'kpi':
+            if d["Key"] == kpi:
                 downloaded = True
                 print("yes")
                 s3.download_file("keypulsedata", d["Key"], os.path.join("uploads", d['Key']))
