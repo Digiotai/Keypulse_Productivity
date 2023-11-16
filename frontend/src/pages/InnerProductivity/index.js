@@ -23,8 +23,6 @@ import { ProductivityThroughput } from "./InnerProductivity/productivity-through
 import { ProductivityOpex } from "./InnerProductivity/productivity-opex"
 import { getLabels } from "../Sustainability/apiData"
 import Select from 'react-select';
-import ReactToPrint from 'react-to-print';
-
 const ADAPTERS_BASE_URL = process.env.REACT_APP_BASE_URL;
 
 export const InnerProductivity = () => {
@@ -40,13 +38,17 @@ export const InnerProductivity = () => {
     const [decHover, setDecHover] = useState(false)
     const [incHover, setIncHover] = useState(false)
     const [apidata, setApiData] = useState([])
-    const [apidata2, setApiData2] = useState([])
     const [showModal, setShowModal] = useState(false)
     const [title, setTitle] = useState("")
     const [selData, setSelData] = useState([])
     const animatedComponents = makeAnimated();
+    const [selectedDS, setSelectedDS] = useState(null);
     const [selectedOrg, setSelectedOrg] = useState(null);
     const [selectedKpi, setSelectedKpi] = useState(null);
+    const [manualData, setManualData] = useState(false)
+    const handleChangeDS = (selectedOption) => {
+        setSelectedDS(selectedOption);
+    };
 
     const handleChangeOrg = (selectedOption) => {
         setSelectedOrg(selectedOption);
@@ -55,6 +57,11 @@ export const InnerProductivity = () => {
     const handleChangeKpi = (selectedOption) => {
         setSelectedKpi(selectedOption);
     };
+    const datasources = [
+        { value: 'Manual', label: 'Manual' },
+        { value: 'IOT', label: 'IOT' },
+        { value: 'Operational Datastore', label: 'Operational Datastore' }
+    ]
     const options = [
         { value: 'Heavy machinery', label: 'Heavy machinery' },
         { value: 'Automotive', label: 'Automotive' },
@@ -73,9 +80,32 @@ export const InnerProductivity = () => {
         }
     }
 
+    const downloadData = async () => {
+        console.log(selectedKpi)
+        const list = selectedKpi.map((item) => item.value)
+        try {
+            await axios.get(`${ADAPTERS_BASE_URL}/productivity/download/organization=${selectedOrg.value}/list=${list.toString()}`).then((response) => {
+                //    const data = JSON.parse(response?.data?.replace(/\bNaN\b/g, "null"));
+                const data = response?.data
+                // console.log(JSON.parse(data))
+                setApiData(data.result);
+            });
+        } catch (err) {
+            console.log(err)
+        }
+    }
+
     useEffect(() => {
-        fetchData()
-    }, [])
+        if (selectedDS?.value === 'IOT') {
+            // downloadData()
+            setManualData(false)
+            setApiData([])
+        } else if (selectedDS?.value === 'Manual') {
+            if (manualData) {
+                fetchData()
+            }
+        }
+    }, [selectedDS, manualData])
 
     const data = [
         {
@@ -130,6 +160,7 @@ export const InnerProductivity = () => {
             await axios.post(`${ADAPTERS_BASE_URL}/productivity/FileUpload`, formData)
                 .then((response) => {
                     fetchData()
+                    setManualData(true)
                 });
         } catch (err) {
             console.log(err)
@@ -192,10 +223,11 @@ export const InnerProductivity = () => {
 
 
     const getFilterData = () => {
-        const filterData = apidata.filter((item) => {
-            return selectedKpi.filter((child) => child.value === item.name).length > 0
-        })
-        setApiData2(filterData)
+        // const filterData = apidata.filter((item) => {
+        //     return selectedKpi.filter((child) => child.value === item.name).length > 0
+        // })
+        // setApiData2(filterData)
+        downloadData()
     }
 
 
@@ -443,43 +475,72 @@ export const InnerProductivity = () => {
                         padding: '10px'
                     }}
                 >
-                    <div className="" style={{ display: "flex", alignItems: "center" }}>
-                        <h2 style={{ fontSize: "14px", fontFamily: "poppins", marginTop: '7px', marginRight: "10px" }}>Industry</h2>
+                    <div className="me-2" style={{ display: "flex", alignItems: "center" }}>
+                        <h2 style={{ fontSize: "14px", fontFamily: "poppins", marginTop: '7px', marginRight: "10px" }}>Data Source</h2>
                         <Select
-                            styles={customStyles}
+                            styles={{
+                                ...customStyles, container: provided => ({
+                                    ...provided,
+                                    minWidth: 200,
+                                    maxWidth: 250,
+                                    // zIndex: 9999999999,
+                                    // Ensure the dropdown is rendered above other elements
+                                }),
+                            }}
                             components={animatedComponents}
-                            onChange={handleChangeOrg}
-                            options={options}
+                            onChange={handleChangeDS}
+                            options={datasources}
                         />
                     </div>
-                    <div className="d-flex">
-                        <div className="" style={{ display: "flex", justifyContent: 'center', alignItems: "center", marginLeft: '30px' }}>
-                            <h2 style={{ fontSize: "14px", fontFamily: "poppins", marginTop: '7px', marginRight: "10px" }}>KPI(s)</h2>
+                    {selectedDS?.value !== 'Manual' && <div style={{ display: 'flex' }}>
+                        <div className="" style={{ display: "flex", alignItems: "center" }}>
+                            <h2 style={{ fontSize: "14px", fontFamily: "poppins", marginTop: '7px', marginRight: "10px" }}>Industry</h2>
                             <Select
-                                styles={customStyles}
-                                closeMenuOnSelect={false}
+                                styles={{
+                                    ...customStyles, container: provided => ({
+                                        ...provided,
+                                        minWidth: 200,
+                                        maxWidth: 250,
+                                        // zIndex: 9999999999,
+                                        // Ensure the dropdown is rendered above other elements
+                                    }),
+                                }}
                                 components={animatedComponents}
-                                isMulti
-                                onChange={handleChangeKpi}
-                                options={kpidata}
+                                onChange={handleChangeOrg}
+                                options={options}
                             />
                         </div>
-                        <button
-                            className=" ms-2 btn btn-primary"
-                            lineHeight={'24px'}
-                            height={'44px'}
-                            // startIcon={<image src={upload} />}
-                            children={'Filter'}
-                            onClick={() => getFilterData()}
-                        />
-                    </div>
+                        <div className="d-flex">
+                            <div className="" style={{ display: "flex", justifyContent: 'center', alignItems: "center", marginLeft: '10px' }}>
+                                <h2 style={{ fontSize: "14px", fontFamily: "poppins", marginTop: '7px', marginRight: "10px" }}>KPI(s)</h2>
+                                <Select
+                                    styles={customStyles}
+                                    closeMenuOnSelect={false}
+                                    components={animatedComponents}
+                                    isMulti
+                                    onChange={handleChangeKpi}
+                                    options={kpidata}
+                                />
+                            </div>
+                            <button
+                                className=" ms-2 btn btn-primary"
+                                lineHeight={'24px'}
+                                height={'44px'}
+                                style={{ fontSize: '12px' }}
+                                // startIcon={<image src={upload} />}
+                                children={'Filter'}
+                                onClick={() => getFilterData()}
+                            />
+                        </div>
+                    </div>}
                 </div>
-                <div className="d-flex">
+                {selectedDS?.value === "Manual" && <div className="d-flex">
                     <div className="p-3 ps-0 ms-2">
                         <button
                             className="btn btn-primary"
                             lineHeight={'24px'}
                             height={'44px'}
+                            style={{ fontSize: '12px' }}
                             // startIcon={<image src={upload} />}
                             children={'Upload CSV File'}
                             onClick={() => handleButtonClick()}
@@ -493,46 +554,46 @@ export const InnerProductivity = () => {
                             accept="*"
                         />
                     </div>
-                </div>
+                </div>}
             </div>
             <div className="row ms-1" style={{ minHeight: "100vh" }}>
-                {apidata2.length > 0 && <div className="row gx-1 gy-1 p-2 pt-0">
-                    {apidata2?.map((item) => {
+                {apidata.length > 0 && <div className="row gx-1 gy-1 p-2 pt-0">
+                    {apidata?.map((item) => {
                         if (item.name == "kpUnitsYTD.csv") {
                             return handleGetData(item.name, item.data, item.inference, item.predictions)
                         }
                     })}
-                    {apidata2?.map((item) => {
+                    {apidata?.map((item) => {
                         if (item.name == "kpUnitsLost.csv") {
                             return handleGetData(item.name, item.data, item.inference, item.predictions)
                         }
                     })}
-                    {apidata2?.map((item) => {
+                    {apidata?.map((item) => {
                         if (item.name == "kpPlantProd.csv") {
                             return handleGetData(item.name, item.data, item.inference, item.predictions)
                         }
                     })}
-                    {apidata2?.map((item) => {
+                    {apidata?.map((item) => {
                         if (item.name == "kpUtilization.csv") {
                             return handleGetData(item.name, item.data)
                         }
                     })}
-                    {apidata2?.map((item) => {
+                    {apidata?.map((item) => {
                         if (item.name == "kpLostCause.csv") {
                             return handleGetData(item.name, item.data)
                         }
                     })}
-                    {apidata2?.map((item) => {
+                    {apidata?.map((item) => {
                         if (item.name == "kpUptime.csv") {
                             return handleGetData(item.name, item.data)
                         }
                     })}
-                    {apidata2?.map((item) => {
+                    {apidata?.map((item) => {
                         if (item.name == "kpThroughput.csv") {
                             return handleGetData(item.name, item.data)
                         }
                     })}
-                    {apidata2?.map((item) => {
+                    {apidata?.map((item) => {
                         if (item.name == "kpOpEx.csv") {
                             return handleGetData(item.name, item.data)
                         }
