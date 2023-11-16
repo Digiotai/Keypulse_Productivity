@@ -58,7 +58,7 @@ def download_data(request, kpi):
         else:
             print("NO Data to download")
 
-        files = request.POST.get('file')
+        files =request.GET.get('list')
         return getData(request, kpi,files)
     except Exception as e:
         print(e)
