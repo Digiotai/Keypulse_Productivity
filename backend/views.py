@@ -49,6 +49,7 @@ def download_data(request, kpi, organization, file):
         print("Downoading Data")
         downloaded = False
         results = s3.list_objects_v2(**base_kwargs)
+        print(results)
         for d in results["Contents"]:
             if d["Key"] == 'kpi':
                 downloaded = True
@@ -106,7 +107,6 @@ def getData(request, kpi, file=None):
                 files = os.listdir(os.path.join('uploads', kpi))
             else:
                 files = file.split("=")[1].split(',')
-
             res = []
             inference = ''
             for file in files:
