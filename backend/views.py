@@ -49,10 +49,11 @@ def download_data(request, kpi, organization, file):
         print("Downoading Data")
         downloaded = False
         results = s3.list_objects_v2(**base_kwargs)
-        print(results)
         for d in results["Contents"]:
+            print(d)
             if d["Key"] == 'kpi':
                 downloaded = True
+                print("yes")
                 s3.download_file("keypulsedata", d["Key"], os.path.join("uploads", d['Key']))
         if downloaded:
             print("Downloaded Data")
