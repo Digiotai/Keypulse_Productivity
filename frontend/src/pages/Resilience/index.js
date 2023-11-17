@@ -30,6 +30,8 @@ export const Resilience = () => {
     const animatedComponents = makeAnimated();
     const [selectedOrg, setSelectedOrg] = useState(null);
     const [selectedKpi, setSelectedKpi] = useState(null);
+    const [manualData, setManualData] = useState(false)
+    const [selectedDS, setSelectedDS] = useState(null);
 
     const handleChangeOrg = (selectedOption) => {
         setSelectedOrg(selectedOption);
@@ -38,6 +40,15 @@ export const Resilience = () => {
     const handleChangeKpi = (selectedOption) => {
         setSelectedKpi(selectedOption);
     };
+    const handleChangeDS = (selectedOption) => {
+        setSelectedDS(selectedOption);
+    };
+
+    const datasources = [
+        { value: 'Manual', label: 'Manual' },
+        { value: 'IOT', label: 'IOT' },
+        { value: 'Operational Datastore', label: 'Operational Datastore' }
+    ]
     const options = [
         { value: 'Heavy machinery', label: 'Heavy machinery' },
         { value: 'Automotive', label: 'Automotive' },
@@ -110,7 +121,7 @@ export const Resilience = () => {
 
 
     const [apidata, setApiData] = useState([])
-    const [apidata2, setApiData2] = useState([])
+    // const [apidata2, setApiData2] = useState([])
     const fetchData = async () => {
         try {
             await axios.get(`${ADAPTERS_BASE_URL}/resilience/getData`).then((response) => {
@@ -120,9 +131,23 @@ export const Resilience = () => {
             console.log(err)
         }
     }
+
     useEffect(() => {
-        fetchData()
-    }, [])
+        if (selectedDS?.value === 'IOT') {
+            // downloadData()
+            setManualData(false)
+            setApiData([])
+            setSecond(false)
+            setFirst(false)
+        } else if (selectedDS?.value === 'Manual') {
+            setApiData([])
+            setSecond(false)
+            setFirst(false)
+            if (manualData) {
+                fetchData()
+            }
+        }
+    }, [selectedDS, manualData])
 
     const fileInputRef = useRef(null); // Explicit type
     const handleFileChange = (event) => {
@@ -133,6 +158,21 @@ export const Resilience = () => {
             fileInputRef.current.click();
         }
     };
+
+    const downloadData = async () => {
+        console.log(selectedKpi)
+        const list = selectedKpi.map((item) => item.value)
+        try {
+            await axios.get(`${ADAPTERS_BASE_URL}/resilience/download/organization=${selectedOrg.value}/list=${list.toString()}`).then((response) => {
+                //    const data = JSON.parse(response?.data?.replace(/\bNaN\b/g, "null"));
+                const data = response?.data
+                // console.log(JSON.parse(data))
+                setApiData(data.result);
+            });
+        } catch (err) {
+            console.log(err)
+        }
+    }
 
 
     const kpidata = [
@@ -149,10 +189,11 @@ export const Resilience = () => {
     ]
 
     const getFilterData = () => {
-        const filterData = apidata.filter((item) => {
-            return selectedKpi.filter((child) => child.value === item.name).length > 0
-        })
-        setApiData2(filterData)
+        // const filterData = apidata.filter((item) => {
+        //     return selectedKpi.filter((child) => child.value === item.name).length > 0
+        // })
+        // setApiData2(filterData)
+        downloadData()
     }
 
     const handleUpload = async (data) => {
@@ -177,6 +218,7 @@ export const Resilience = () => {
             await axios.post(`${ADAPTERS_BASE_URL}/resilience/FileUpload`, formData)
                 .then((response) => {
                     fetchData()
+                    setManualData(true)
                 });
         } catch (err) {
             console.log(err)
@@ -184,16 +226,16 @@ export const Resilience = () => {
     }
 
     let datan = {
-        data1: apidata2?.filter((item) => item.name === "kpCSP.csv") || [],
-        data2: apidata2?.filter((item) => item.name === "kpRMI.csv") || [],
-        data3: apidata2?.filter((item) => item.name === "kpCST.csv") || [],
-        data4: apidata2?.filter((item) => item.name === "kpVMR.csv") || [],
-        data5: apidata2?.filter((item) => item.name === "kpCSM.csv") || [],
-        data6: apidata2?.filter((item) => item.name === "kpBCP.csv") || [],
-        data7: apidata2?.filter((item) => item.name === "kpIM.csv") || [],
-        data8: apidata2?.filter((item) => item.name === "kpPF.csv") || [],
-        data9: apidata2?.filter((item) => item.name === "kpCCM.csv") || [],
-        data10: apidata2?.filter((item) => item.name === "kpCOMM.csv") || []
+        data1: apidata?.filter((item) => item.name === "kpCSP.csv") || [],
+        data2: apidata?.filter((item) => item.name === "kpRMI.csv") || [],
+        data3: apidata?.filter((item) => item.name === "kpCST.csv") || [],
+        data4: apidata?.filter((item) => item.name === "kpVMR.csv") || [],
+        data5: apidata?.filter((item) => item.name === "kpCSM.csv") || [],
+        data6: apidata?.filter((item) => item.name === "kpBCP.csv") || [],
+        data7: apidata?.filter((item) => item.name === "kpIM.csv") || [],
+        data8: apidata?.filter((item) => item.name === "kpPF.csv") || [],
+        data9: apidata?.filter((item) => item.name === "kpCCM.csv") || [],
+        data10: apidata?.filter((item) => item.name === "kpCOMM.csv") || []
     }
 
     let finalData = {
@@ -333,8 +375,8 @@ export const Resilience = () => {
 
     return (
         <div>
-            <div style={{display:"flex",justifyContent:"space-between"}}>
-                <div
+            <div className="d-flex" style={{ display: 'flex', justifyContent: "space-between", width: '100%' }}>
+                <div className=""
                     style={{
                         display: 'flex',
                         justifyContent: 'start',
@@ -343,58 +385,87 @@ export const Resilience = () => {
                         marginTop: '5px',
                         padding: '10px'
                     }}
-                // onMouseEnter={() => setHover(true)}
-                // onMouseLeave={() => setHover(false)}
                 >
-                    <div style={{ display: "flex", alignItems: "center" }}>
-                        <h2 style={{ fontSize: "14px", fontFamily: "poppins", marginTop: '7px', marginRight: "10px" }}>Industry</h2>
+                    <div className="me-2" style={{ display: "flex", alignItems: "center" }}>
+                        <h2 style={{ fontSize: "14px", fontFamily: "poppins", marginTop: '7px', marginRight: "10px" }}>Data Source</h2>
                         <Select
-                            styles={customStyles}
+                            styles={{
+                                ...customStyles, container: provided => ({
+                                    ...provided,
+                                    minWidth: 200,
+                                    maxWidth: 250,
+                                    // zIndex: 9999999999,
+                                    // Ensure the dropdown is rendered above other elements
+                                }),
+                            }}
                             components={animatedComponents}
-                            onChange={handleChangeOrg}
-                            options={options}
+                            onChange={handleChangeDS}
+                            options={datasources}
                         />
                     </div>
-
-                    <div style={{ display: "flex", justifyContent: 'center', alignItems: "center", marginLeft: '30px', width: "500px" }}>
-                        <h2 style={{ fontSize: "14px", fontFamily: "poppins", marginTop: '7px', marginRight: "10px" }}>KPI(s)</h2>
-                        <Select
-                            styles={customStyles}
-                            closeMenuOnSelect={false}
-                            components={animatedComponents}
-                            isMulti
-                            onChange={handleChangeKpi}
-                            options={kpidata}
+                    {selectedDS?.value !== 'Manual' && <div style={{ display: 'flex' }}>
+                        <div className="" style={{ display: "flex", alignItems: "center" }}>
+                            <h2 style={{ fontSize: "14px", fontFamily: "poppins", marginTop: '7px', marginRight: "10px" }}>Industry</h2>
+                            <Select
+                                styles={{
+                                    ...customStyles, container: provided => ({
+                                        ...provided,
+                                        minWidth: 200,
+                                        maxWidth: 250,
+                                        // zIndex: 9999999999,
+                                        // Ensure the dropdown is rendered above other elements
+                                    }),
+                                }}
+                                components={animatedComponents}
+                                onChange={handleChangeOrg}
+                                options={options}
+                            />
+                        </div>
+                        <div className="d-flex">
+                            <div className="" style={{ display: "flex", justifyContent: 'center', alignItems: "center", marginLeft: '10px' }}>
+                                <h2 style={{ fontSize: "14px", fontFamily: "poppins", marginTop: '7px', marginRight: "10px" }}>KPI(s)</h2>
+                                <Select
+                                    styles={customStyles}
+                                    closeMenuOnSelect={false}
+                                    components={animatedComponents}
+                                    isMulti
+                                    onChange={handleChangeKpi}
+                                    options={kpidata}
+                                />
+                            </div>
+                            <button
+                                className=" ms-2 btn btn-primary"
+                                lineHeight={'24px'}
+                                height={'44px'}
+                                style={{ fontSize: '12px' }}
+                                // startIcon={<image src={upload} />}
+                                children={'Filter'}
+                                onClick={() => getFilterData()}
+                            />
+                        </div>
+                    </div>}
+                </div>
+                {selectedDS?.value === "Manual" && <div className="d-flex">
+                    <div className="p-3 ps-0 ms-2">
+                        <button
+                            className="btn btn-primary"
+                            lineHeight={'24px'}
+                            height={'44px'}
+                            style={{ fontSize: '12px' }}
+                            // startIcon={<image src={upload} />}
+                            children={'Upload CSV File'}
+                            onClick={() => handleButtonClick()}
+                        />{' '}
+                        <input
+                            type="file"
+                            ref={fileInputRef}
+                            style={{ display: 'none' }}
+                            onChange={handleFileChange}
+                            multiple={true}
+                            accept="*"
                         />
                     </div>
-
-                    <button
-                        className="btn btn-primary"
-                        lineHeight={'24px'}
-                        height={'44px'}
-                        // startIcon={<image src={upload} />}
-                        children={'Filter'}
-                        onClick={() => getFilterData()}
-                    />
-                </div>
-                <div className='p-2'>
-                    <button
-                        className="btn btn-primary"
-                        lineHeight={'24px'}
-                        height={'44px'}
-                        // startIcon={<image src={upload} />}
-                        children={'Upload CSV File'}
-                        onClick={() => handleButtonClick()}
-                    />{' '}
-                    <input
-                        type="file"
-                        ref={fileInputRef}
-                        style={{ display: 'none' }}
-                        onChange={handleFileChange}
-                        multiple={true}
-                        accept="*"
-                    />
-                </div>
+                </div>}
             </div>
             <div className="p-1 m-1" style={{ minHeight: "100vh" }}>
                 <div className='row gy-2 gx-3 mt-2' >

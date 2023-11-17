@@ -101,6 +101,7 @@ export const InnerProductivity = () => {
             setManualData(false)
             setApiData([])
         } else if (selectedDS?.value === 'Manual') {
+            setApiData([])
             if (manualData) {
                 fetchData()
             }

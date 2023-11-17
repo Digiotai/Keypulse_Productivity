@@ -44,9 +44,14 @@ export const Sustainability = () => {
     const [title, setTitle] = useState("")
     const [selData, setSelData] = useState([])
     const animatedComponents = makeAnimated();
+    const [selectedDS, setSelectedDS] = useState(null);
     const [selectedOrg, setSelectedOrg] = useState(null);
     const [selectedKpi, setSelectedKpi] = useState(null);
+    const [manualData, setManualData] = useState(false)
 
+    const handleChangeDS = (selectedOption) => {
+        setSelectedDS(selectedOption);
+    };
     const handleChangeOrg = (selectedOption) => {
         setSelectedOrg(selectedOption);
     };
@@ -54,6 +59,11 @@ export const Sustainability = () => {
     const handleChangeKpi = (selectedOption) => {
         setSelectedKpi(selectedOption);
     };
+    const datasources = [
+        { value: 'Manual', label: 'Manual' },
+        { value: 'IOT', label: 'IOT' },
+        { value: 'Operational Datastore', label: 'Operational Datastore' }
+    ]
     const options = [
         { value: 'Heavy machinery', label: 'Heavy machinery' },
         { value: 'Automotive', label: 'Automotive' },
@@ -73,9 +83,33 @@ export const Sustainability = () => {
         }
     }
 
+    const downloadData = async () => {
+        console.log(selectedKpi)
+        const list = selectedKpi.map((item) => item.value)
+        try {
+            await axios.get(`${ADAPTERS_BASE_URL}/sustainability/download/organization=${selectedOrg.value}/list=${list.toString()}`).then((response) => {
+                //    const data = JSON.parse(response?.data?.replace(/\bNaN\b/g, "null"));
+                const data = response?.data
+                // console.log(JSON.parse(data))
+                setApiData(data.result);
+            });
+        } catch (err) {
+            console.log(err)
+        }
+    }
+
     useEffect(() => {
-        fetchData()
-    }, [])
+        if (selectedDS?.value === 'IOT') {
+            // downloadData()
+            setManualData(false)
+            setApiData([])
+        } else if (selectedDS?.value === 'Manual') {
+            setApiData([])
+            if (manualData) {
+                fetchData()
+            }
+        }
+    }, [selectedDS, manualData])
 
 
 
@@ -115,6 +149,7 @@ export const Sustainability = () => {
         try {
             await axios.post(`${ADAPTERS_BASE_URL}/sustainability/FileUpload`, formData)
                 .then((response) => {
+                    setManualData(true)
                     fetchData()
                 });
         } catch (err) {
@@ -163,10 +198,11 @@ export const Sustainability = () => {
     }
 
     const getFilterData = () => {
-        const filterData = apidata.filter((item) => {
-            return selectedKpi.filter((child) => child.value === item.name).length > 0
-        })
-        setApiData2(filterData)
+        // const filterData = apidata.filter((item) => {
+        //     return selectedKpi.filter((child) => child.value === item.name).length > 0
+        // })
+        // setApiData2(filterData)
+        downloadData()
     }
 
     const handleGetData = (name, data5, inference, prediction) => {
@@ -424,8 +460,8 @@ export const Sustainability = () => {
 
     return (
         <div>
-            <div style={{display:"flex",justifyContent:"space-between"}}>
-                <div
+            <div className="d-flex" style={{ display: 'flex', justifyContent: "space-between", width: '100%' }}>
+                <div className=""
                     style={{
                         display: 'flex',
                         justifyContent: 'start',
@@ -434,118 +470,118 @@ export const Sustainability = () => {
                         marginTop: '5px',
                         padding: '10px'
                     }}
-                // onMouseEnter={() => setHover(true)}
-                // onMouseLeave={() => setHover(false)}
                 >
-                    <div style={{ display: "flex", alignItems: "center" }}>
-                        <h2 style={{ fontSize: "14px", fontFamily: "poppins", marginTop: '7px', marginRight: "10px" }}>Industry</h2>
+                    <div className="me-2" style={{ display: "flex", alignItems: "center" }}>
+                        <h2 style={{ fontSize: "14px", fontFamily: "poppins", marginTop: '7px', marginRight: "10px" }}>Data Source</h2>
                         <Select
-                            styles={customStyles}
+                            styles={{
+                                ...customStyles, container: provided => ({
+                                    ...provided,
+                                    minWidth: 200,
+                                    maxWidth: 250,
+                                    // zIndex: 9999999999,
+                                    // Ensure the dropdown is rendered above other elements
+                                }),
+                            }}
                             components={animatedComponents}
-                            onChange={handleChangeOrg}
-                            options={options}
+                            onChange={handleChangeDS}
+                            options={datasources}
                         />
                     </div>
-
-                    <div style={{ display: "flex", justifyContent: 'center', alignItems: "center", marginLeft: '30px', width: "500px" }}>
-                        <h2 style={{ fontSize: "14px", fontFamily: "poppins", marginTop: '7px', marginRight: "10px" }}>KPI(s)</h2>
-                        <Select
-                            styles={customStyles}
-                            closeMenuOnSelect={false}
-                            components={animatedComponents}
-                            isMulti
-                            onChange={handleChangeKpi}
-                            options={kpidata}
+                    {selectedDS?.value !== 'Manual' && <div style={{ display: 'flex' }}>
+                        <div className="" style={{ display: "flex", alignItems: "center" }}>
+                            <h2 style={{ fontSize: "14px", fontFamily: "poppins", marginTop: '7px', marginRight: "10px" }}>Industry</h2>
+                            <Select
+                                styles={{
+                                    ...customStyles, container: provided => ({
+                                        ...provided,
+                                        minWidth: 200,
+                                        maxWidth: 250,
+                                        // zIndex: 9999999999,
+                                        // Ensure the dropdown is rendered above other elements
+                                    }),
+                                }}
+                                components={animatedComponents}
+                                onChange={handleChangeOrg}
+                                options={options}
+                            />
+                        </div>
+                        <div className="d-flex">
+                            <div className="" style={{ display: "flex", justifyContent: 'center', alignItems: "center", marginLeft: '10px' }}>
+                                <h2 style={{ fontSize: "14px", fontFamily: "poppins", marginTop: '7px', marginRight: "10px" }}>KPI(s)</h2>
+                                <Select
+                                    styles={customStyles}
+                                    closeMenuOnSelect={false}
+                                    components={animatedComponents}
+                                    isMulti
+                                    onChange={handleChangeKpi}
+                                    options={kpidata}
+                                />
+                            </div>
+                            <button
+                                className=" ms-2 btn btn-primary"
+                                lineHeight={'24px'}
+                                height={'44px'}
+                                style={{ fontSize: '12px' }}
+                                // startIcon={<image src={upload} />}
+                                children={'Filter'}
+                                onClick={() => getFilterData()}
+                            />
+                        </div>
+                    </div>}
+                </div>
+                {selectedDS?.value === "Manual" && <div className="d-flex">
+                    <div className="p-3 ps-0 ms-2">
+                        <button
+                            className="btn btn-primary"
+                            lineHeight={'24px'}
+                            height={'44px'}
+                            style={{ fontSize: '12px' }}
+                            // startIcon={<image src={upload} />}
+                            children={'Upload CSV File'}
+                            onClick={() => handleButtonClick()}
+                        />{' '}
+                        <input
+                            type="file"
+                            ref={fileInputRef}
+                            style={{ display: 'none' }}
+                            onChange={handleFileChange}
+                            multiple={true}
+                            accept="*"
                         />
                     </div>
-                    <button
-                        className="btn btn-primary"
-                        lineHeight={'24px'}
-                        height={'44px'}
-                        // startIcon={<image src={upload} />}
-                        children={'Filter'}
-                        onClick={() => getFilterData()}
-                    />
-                </div>
-                <div className="p-2">
-                    <button
-                        className="btn btn-primary"
-                        lineHeight={'24px'}
-                        height={'44px'}
-                        // startIcon={<image src={upload} />}
-                        children={'Upload CSV File'}
-                        onClick={() => handleButtonClick()}
-                    />{' '}
-                    <input
-                        type="file"
-                        ref={fileInputRef}
-                        style={{ display: 'none' }}
-                        onChange={handleFileChange}
-                        multiple={true}
-                        accept="*"
-                    />
-                </div>
+                </div>}
             </div>
-            <div className="row ms-1" style={{ minHeight: "100vh" }}>
-                {/* <div
-                item
-                style={{
-                    display: 'flex',
-                    // padding: '12px 32px',
-                    justifyContent: 'end',
-                    alignItems: 'center',
-                    // gap: '8px',
-                    alignSelf: 'stretch',
-                    marginRight: '10px',
-                    marginTop: '5px'
-                }}
-            >
-                <button
-                    className="btn btn-primary"
-                    lineHeight={'24px'}
-                    height={'44px'}
-                    // startIcon={<image src={upload} />}
-                    children={'Upload CSV File'}
-                    onClick={() => handleButtonClick()}
-                />{' '}
-                <input
-                    type="file"
-                    ref={fileInputRef}
-                    style={{ display: 'none' }}
-                    onChange={handleFileChange}
-                    multiple={true}
-                    accept="*"
-                />
-            </div> */}
-                {apidata2.length > 0 && <div className="row gx-1 gy-1 p-2 pt-0">
-                    {apidata2?.map((item) => {
+            <div className="row ms-1" style={{ minHeight: "80vh" }}>
+                {apidata.length > 0 && <div className="row gx-1 gy-1 p-2 pt-0">
+                    {apidata?.map((item) => {
                         if (item.name == "kpEnergy.csv") {
                             console.log(item)
                             return handleGetData(item.name, item.data, item.inference, item.predictions)
                         }
                     })}
-                    {apidata2?.map((item) => {
+                    {apidata?.map((item) => {
                         if (item.name == "kpWaste.csv") {
                             return handleGetData(item.name, item.data, item.inference, item.predictions)
                         }
                     })}
-                    {apidata2?.map((item) => {
+                    {apidata?.map((item) => {
                         if (item.name == "kpPlantation.csv") {
                             return handleGetData(item.name, item.data, item.inference, item.predictions)
                         }
                     })}
-                    {apidata2?.map((item) => {
+                    {apidata?.map((item) => {
                         if (item.name == "kpWater.csv") {
                             return handleGetData(item.name, item.data, item.inference, item.predictions)
                         }
                     })}
-                    {apidata2?.map((item) => {
+                    {apidata?.map((item) => {
                         if (item.name == "kpAltEnergy.csv") {
                             return handleGetData(item.name, item.data, item.inference, item.predictions)
                         }
                     })}
 
-                    {apidata2?.map((item) => {
+                    {apidata?.map((item) => {
                         if (item.name == "kpco2.csv") {
                             return handleGetData(item.name, item.data, item.inference, item.predictions)
                         }
