@@ -131,7 +131,7 @@ export const Sustainability = () => {
     const handleUpload = async (data) => {
         var formData = new FormData();
         const finalData = []
-        for (let i = 0; i < data.length; i++) {
+        for (let i = 0; i < data?.length; i++) {
             finalData.push(data[i])
         }
         const uploadData = []
@@ -143,7 +143,7 @@ export const Sustainability = () => {
             })
         });
 
-        for (let i = 0; i < uploadData.length; i++) {
+        for (let i = 0; i < uploadData?.length; i++) {
             formData.append('file', uploadData[i]);
         }
         try {
@@ -553,7 +553,7 @@ export const Sustainability = () => {
                 </div>}
             </div>
             <div className="row ms-1" style={{ minHeight: "80vh" }}>
-                {apidata.length > 0 && <div className="row gx-1 gy-1 p-2 pt-0">
+                {apidata?.length > 0 && <div className="row gx-1 gy-1 p-2 pt-0">
                     {apidata?.map((item) => {
                         if (item.name == "kpEnergy.csv") {
                             console.log(item)
