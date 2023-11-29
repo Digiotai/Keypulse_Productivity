@@ -14,14 +14,14 @@ function App() {
   return (
     <BrowserRouter>
       <Routes>
+        <Route path="/" element={<Login />} />
         <Route path="/" element={<AdminLayout />}>
-          {/* <Route path="/" element={<ResourceManagement />} /> */}
-          <Route path="/" element={<KProcess />} />
-          <Route path='/sustainability' element={<Sustainability/>} />
-          <Route path='/resilience' element={<Resilience/>} />
-          <Route path='/productivity' element={<InnerProductivity/>} />
+          <Route path="/dashboard" element={<KProcess />} />
+          <Route path='/sustainability' element={<Sustainability />} />
+          <Route path='/resilience' element={<Resilience />} />
+          <Route path='/productivity' element={<InnerProductivity />} />
           <Route path='/reports' element={<Reports />} />
-          <Route path='/review-report' element={<HtmlReport />}/>
+          <Route path='/review-report' element={<HtmlReport />} />
         </Route>
         <Route path="/login" element={<Login />} />
         <Route path="/register" element={<Register />} />
