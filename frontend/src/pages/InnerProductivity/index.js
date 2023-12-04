@@ -23,6 +23,7 @@ import { ProductivityThroughput } from "./InnerProductivity/productivity-through
 import { ProductivityOpex } from "./InnerProductivity/productivity-opex"
 import { getLabels } from "../Sustainability/apiData"
 import Select from 'react-select';
+import { ViewData } from "./viewData"
 const ADAPTERS_BASE_URL = process.env.REACT_APP_BASE_URL;
 
 export const InnerProductivity = () => {
@@ -46,6 +47,7 @@ export const InnerProductivity = () => {
     const [selectedOrg, setSelectedOrg] = useState(null);
     const [selectedKpi, setSelectedKpi] = useState(null);
     const [manualData, setManualData] = useState(false)
+    const [viewData,setViewData] = useState(false);
     const handleChangeDS = (selectedOption) => {
         setSelectedDS(selectedOption);
     };
@@ -462,7 +464,6 @@ export const InnerProductivity = () => {
                 </div>
         }
     }
-
     return (
         <div>
             <div className="d-flex" style={{ display: 'flex', justifyContent: "space-between", width: '100%' }}>
@@ -535,8 +536,19 @@ export const InnerProductivity = () => {
                         </div>
                     </div>}
                 </div>
-                {selectedDS?.value === "Manual" && <div className="d-flex">
-                    <div className="p-3 ps-0 ms-2">
+                { <div className="d-flex">
+                    {apidata.length > 0 && <div className="p-3 ps-0 ms-2">
+                        <button
+                            className="btn btn-primary"
+                            lineHeight={'24px'}
+                            height={'44px'}
+                            style={{ fontSize: '12px' }}
+                            // startIcon={<image src={upload} />}
+                            children={'View Data'}
+                            onClick={() => setViewData(true)}
+                        />{' '}
+                    </div>}
+                   {selectedDS?.value === "Manual" &&  <div className="p-3 ps-0 ms-2">
                         <button
                             className="btn btn-primary"
                             lineHeight={'24px'}
@@ -554,7 +566,7 @@ export const InnerProductivity = () => {
                             multiple={true}
                             accept="*"
                         />
-                    </div>
+                    </div>}
                 </div>}
             </div>
             <div className="row ms-1" style={{ minHeight: "100vh" }}>
@@ -600,6 +612,7 @@ export const InnerProductivity = () => {
                         }
                     })}
                     <Popup {...{ showModal, setShowModal, headerTitle: title, children: getCharts()?.children, size: getCharts()?.size, fullscreen: getCharts()?.size == "xl" ? true : false, estimate: getCharts()?.estimate }} />
+                    <Popup {...{ showModal:viewData, setShowModal:setViewData, fixedTitle: "Productivity Data", children: <ViewData viewData={apidata}/>,size:'xl',footer:false }} />
                 </div>}
             </div>
         </div>

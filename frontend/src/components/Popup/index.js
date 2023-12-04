@@ -6,13 +6,15 @@ export const Popup = ({
     children,
     fullscreen,
     size="lg",
-    estimate=false
+    estimate=false,
+    footer=true,
+    fixedTitle
 }) => {
     return (
         <Modal size={size} fullscreen={fullscreen} show={showModal} onHide={() => setShowModal(false)}>
             <Modal.Header closeButton>
                 <Modal.Title>
-                    <h5 style={{ fontFamily: "Poppins", fontSize: "20px" }}>{headerTitle} {estimate? "(Estimated vs Actual)":"(Planned vs Actual)"}</h5>
+                    <h5 style={{ fontFamily: "Poppins", fontSize: "20px" }}>{fixedTitle ? fixedTitle : `${headerTitle} ${estimate ? "(Estimated vs Actual)":"(Planned vs Actual)"}`}</h5>
                 </Modal.Title>
             </Modal.Header>
             <Modal.Body>
@@ -20,9 +22,9 @@ export const Popup = ({
                     {children}
                 </div>
             </Modal.Body>
-            <Modal.Footer>
+         {  footer && <Modal.Footer>
                 <button className='btn btn-primary' onClick={() => setShowModal(false)}>Close</button>
-            </Modal.Footer>
+            </Modal.Footer>}
         </Modal>
     )
 }
