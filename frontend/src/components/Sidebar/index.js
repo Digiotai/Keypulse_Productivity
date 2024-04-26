@@ -1,50 +1,116 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 import React, { useEffect, useState } from "react";
 import "./styles.css";
-import {LuFileClock} from 'react-icons/lu'
-import {HiUserGroup} from 'react-icons/hi'
-import {VscFileSymlinkDirectory} from 'react-icons/vsc'
-import {FaFileContract} from 'react-icons/fa'
-import {TbReport} from 'react-icons/tb'
+import { HiUserGroup } from 'react-icons/hi'
+import { GiDigitalTrace, GiArtificialIntelligence } from 'react-icons/gi'
+import { MdDashboard } from "react-icons/md";
 import { Link } from "react-router-dom";
+import { IoSettingsOutline } from "react-icons/io5";
+import { useLocation } from "react-router-dom";
+import { FaAngleDown, FaAngleRight } from "react-icons/fa6";
+import { IoLocationSharp } from "react-icons/io5";
+import { LuFileClock } from 'react-icons/lu'
+import { VscFileSymlinkDirectory } from 'react-icons/vsc'
+import { BiSolidData } from "react-icons/bi";
+import { BiSolidAnalyse } from "react-icons/bi";
+import { MdOutlineFindInPage } from "react-icons/md";
+import { MdPublishedWithChanges } from "react-icons/md";
+import { TbReportSearch } from "react-icons/tb";
+import { IoHome } from "react-icons/io5";
 export default function Sidebar() {
+  const location = useLocation()
+  const [expand, setExpand] = useState({
+    expand1: false,
+    expand2: false,
+    expand3: false
+  })
+  const finData = [
+    { name: 'Home', icon: IoHome, path: '/welcome', id: 1 },
+    { name: 'Digital Twin', icon: GiDigitalTrace, path: '/digital-twin', id: 1 },
+    {
+      name: 'Business KPI', icon: HiUserGroup, id: 2, children: [
+        { name: 'Process', icon: HiUserGroup, path: '/process' },
+        { name: 'Productivity', icon: LuFileClock, path: '/productivity' },
+        { name: 'Sustainability', icon: VscFileSymlinkDirectory, path: '/sustainability' },
+      ]
+    },
+    {
+      name: 'Gen BI/AI', icon: GiArtificialIntelligence, id: 3, children: [{ name: 'Connect', icon: BiSolidData, path: '/connect', },
+      { name: 'Discover', icon: BiSolidAnalyse, path: '/discover', },
+      { name: 'Predict', icon: MdOutlineFindInPage, path: '/predict' },
+      { name: 'Publish', icon: MdPublishedWithChanges, path: '/deployment' },
+      { name: 'Reports', icon: TbReportSearch, path: '/reports' },
+        // { name: 'Datasets', icon: BsClipboardData, path: '/datasets' },
+      ]
+    },
+    { name: 'Dashboard', icon: MdDashboard, path: '/gen-dashboard', id: 4 },
+    { name: 'Settings', icon: IoSettingsOutline, path: '/settings/team/general', id: 5 },
+  ]
+  const [data, setData] = useState(finData)
 
+  const handleClickExpand = (id) => {
+    if (id === 2) {
+      setExpand({
+        ...expand, expand1: !expand.expand1
+      })
+    } else if (id === 3) {
+      setExpand({
+        ...expand, expand2: !expand.expand2
+      })
+    } else if (id === 5) {
+      setExpand({
+        ...expand, expand3: !expand.expand3
+      })
+    }
+  }
   return (
     <>
-      <div class="shadow sidebar-scroll sticky-top zindex99 mt-3" style={{ overflow: 'auto',width:'220px',zIndex:99999,position:"fixed",left:0,top:60 }}>
-        <ul class="sidebar-list-items" id="menu">
-          <li class="sidebar-list-item pt-4 cursor-pointer">
-            <Link to="/" class="nav-link align-middle px-2 nav-item">
-              <HiUserGroup size={20} style={{marginBottom:'5px'}}/>
-              <span class="ms-1 d-none d-sm-inline link-text text-black px-1">kProcess</span>
-            </Link>
-          </li>
-          <li class="sidebar-list-item pt-4 cursor-pointer">
-            <Link to="/productivity" class="nav-link align-middle px-2 nav-item">
-             <LuFileClock size={20}/>
-              <span class="ms-1 d-none d-sm-inline link-text px-1">Productivity</span>
-            </Link>
-          </li>
-          <li class="sidebar-list-item pt-4 cursor-pointer">
-            <Link to="/sustainability" class="nav-link align-middle px-2 nav-item">
-             <VscFileSymlinkDirectory size={20}/>
-              <span class="ms-1 d-none d-sm-inline link-text px-1">Sustainability</span>
-            </Link>
-          </li>
-          <li class="sidebar-list-item pt-4 cursor-pointer">
-            <Link to="/resilience" class="nav-link align-middle px-2 nav-item">
-             <FaFileContract size={20}/>
-              <span class="ms-1 d-none d-sm-inline link-text px-1">Resilience</span>
-            </Link>
-          </li>
-          <li class="sidebar-list-item pt-4 cursor-pointer">
-            <Link to="/reports" class="nav-link align-middle px-2 nav-item">
-             <TbReport size={20}/>
-              <span class="ms-1 d-none d-sm-inline link-text px-1">Reports</span>
-            </Link>
-          </li>
-        </ul>
-      </div>
+      <div class="shadow sidebar-scroll sticky-top mt-3" style={{ overflow: 'auto', width: '220px', position: "fixed", left: 0, top: -17, background: '#000', zIndex: 10, height: '100vh' }}>
+        <div style={{ padding: '8px', paddingTop: '24px', display: 'flex', alignItems: 'center', gap: '5px' }}>
+          <IoLocationSharp size={30} style={{ color: 'white' }} />
+          <div>
+            <h2 style={{ fontSize: '14px', fontWeight: 500, color: 'white' }}>Digital Twin</h2>
+            <h2 style={{ fontSize: '12px', fontWeight: 400, color: 'white' }}>U.S</h2>
+          </div>
+        </div>
+        <hr style={{ border: '1px solid white', padding: 0, margin: 0, marginTop: '3px' }} />
+        <ul class="sidebar-list-items pt-2" id="menu">
+          {data.map((item) => {
+            let NewIcon = (item.id === 2 && expand.expand1) || (item.id === 3 && expand.expand2) || (item.id === 5 && expand.expand3) ? FaAngleDown : FaAngleRight
+            return (
+              <div>
+                <li class={`sidebar-list-item cursor-pointer p-2 mt-1 ${location.pathname === item.path ? 'backgroundSelected' : ''}`} style={{ display: 'flex', justifyContent: 'space-between' }}>
+                  <Link to={item?.children?.length > 0 ? '#' : item.path} onClick={() => item?.children?.length > 0 ? () => { } : handleClickExpand(item.id)} class="nav-link align-middle px-2 nav-item" >
+                    <div>
+                      <item.icon size={20} style={{ color: location.pathname === item.path ? 'black' : 'white' }} />
+                      <span class="ms-1 d-none d-sm-inline link-text px-1" style={{ color: location.pathname === item.path ? 'black' : 'white' }}>{item.name}</span>
+                    </div>
+                  </Link>
+                  {item?.children?.length > 0 && <NewIcon size={20} style={{ color: 'white', cursor: 'pointer' }} onClick={() => handleClickExpand(item.id)} />}
+                </li>
+                {
+                  ((item.id === 2 && expand.expand1) || (item.id === 3 && expand.expand2) || (item.id === 5 && expand.expand3)) && <>
+                    <ul class="sidebar-list-items ps-4" id="menu">
+                      {item?.children?.map((item) => {
+                        return (
+                          <li class={`sidebar-list-item cursor-pointer p-2 mt-1 ${location.pathname === item.path ? 'backgroundSelected' : ''}`} style={{ display: 'flex', justifyContent: 'space-between' }}>
+                            <Link to={item.path} class="nav-link align-middle px-2 nav-item" >
+                              <div>
+                                <item.icon size={20} style={{ color: location.pathname === item.path ? 'black' : 'white' }} />
+                                <span class="ms-1 d-none d-sm-inline link-text px-1" style={{ color: location.pathname === item.path ? 'black' : 'white' }}>{item.name}</span>
+                              </div>
+                            </Link>
+                          </li>
+                        )
+                      })}
+                    </ul>
+                  </>
+                }
+              </div>
+            )
+          })}
+        </ul >
+      </div >
     </>
   );
 }

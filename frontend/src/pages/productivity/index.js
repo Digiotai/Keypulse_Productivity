@@ -119,7 +119,7 @@ export const Productivity = () => {
         )
     }
     return (
-        <div className="container">
+        <div className="">
             <div className="row">
                 <div className="col-12">
                     {/* <h6 style={{ fontFamily: "poppins", fontWeight: 500 }}>Production Lead Time Distribution</h6> */}

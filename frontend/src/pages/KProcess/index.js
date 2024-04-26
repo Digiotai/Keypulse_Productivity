@@ -29,16 +29,16 @@ export const KProcess = () => {
         )
     }
     return (
-        <div style={{}}>
+        <div style={{}} className="">
             <div className="row p-0 m-0 mb-0 mt-0 gy-1 gx-0 ms-1 mb-2" style={{ border: '0px solid black' }}>
-                <div className="col-6 card gradient-color">
+                <div className="col-6 card gradient-color pe-2 pb-2 ps-1">
                     <div>
                         <h5 style={{ fontFamily: "poppins", fontWeight: 550, display: 'flex', justifyContent: "center", marginBottom: '10px', marginTop: '1px', fontSize: '22px', lineHeight: "22px", cursor: "pointer" }} onClick={() => navigate('/productivity')}>Productivity</h5>
                         <Productivity />
                     </div>
                 </div>
                 <div className="col-6 gy-1 gx-0 p-0" style={{ borderLeft: '0px solid black' }}>
-                    <div style={{ paddingBottom: '10px', height: '410px', marginBottom: '0px', padding: '10px' }} className="mt-0 card gradient-color ms-1">
+                    <div style={{ paddingBottom: '10px', height: '410px', marginBottom: '0px', padding: '10px',width:'100%' }} className="mt-0 card gradient-color ms-1">
                         <h5 style={{ fontFamily: "poppins", fontWeight: 550, display: 'flex', justifyContent: "center", fontSize: '22px', lineHeight: "22px", cursor: "pointer" }} onClick={() => navigate('/sustainability')}>Sustainability</h5>
                         <div style={{ display: "flex", justifyContent: "space-around" }}>
                             <Sustainability name="CO2 Emission" image={co2} value={"15.23 KG/Ton"} target={"Target: 14 KG/Ton"} />
@@ -52,7 +52,7 @@ export const KProcess = () => {
                         </div>
                     </div>
 
-                    <div className="mt-2 card gradient-color ms-1">
+                    {/* <div className="mt-2 card gradient-color ms-1">
                         <h5 style={{ fontFamily: "poppins", fontWeight: 550, display: 'flex', justifyContent: "center", fontSize: '22px', lineHeight: "22px", cursor: "pointer", marginTop: '5px' }} onClick={() => navigate('/resilience')}>Resilience</h5>
                         <div className="ps-5 pt-1" style={{ display: "flex", justifyContent: "center", alignItems: "center" }}>
                             {GetOdometer([34], { ...options, labels: ["Risk Review"] }, "150px", "Risk Review : 34%")}
@@ -70,7 +70,7 @@ export const KProcess = () => {
                             }, '150px', 'Revival time in the 50% - 75% quantile likely impact production by 10%, hence revenues by 3%')}
                             {GetOdometer([80], { ...options, labels: ["Cyber Security"] },'150px',"Cyber Security : 80%")}
                         </div>
-                    </div>
+                    </div> */}
                 </div>
             </div>
         </div>

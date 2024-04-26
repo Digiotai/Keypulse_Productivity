@@ -125,7 +125,8 @@ export const options3 = {
             colors: [
                 "#faa93e",
                 "#427ae3"
-            ],        },
+            ],
+        },
         offsetY: -20,
         formatter: function (val, opt) {
             const goals =
@@ -144,7 +145,7 @@ export const options3 = {
 
 
 
-export const plantationData = (data, targetLine = false, value = "", color = "",name="Planned") => {
+export const plantationData = (data, targetLine = false, value = "", color = "", name = "Planned") => {
     const getData = (data) => {
         const finalData = data[0].data.map((item, index) => {
             return {
@@ -162,7 +163,7 @@ export const plantationData = (data, targetLine = false, value = "", color = "",
             name: name,
             data: months.map((item => {
                 return targetLine ? {
-                    x: item ,y: value, color: color
+                    x: item, y: value, color: color
                 } : {
                     x: item, y: max
                 }
@@ -180,7 +181,7 @@ export const plantationData = (data, targetLine = false, value = "", color = "",
 export const customStyles = {
     container: provided => ({
         ...provided,
-        minWidth:250,
+        minWidth: 250,
         maxWidth: 300,
         // zIndex: 9999999999,
         // Ensure the dropdown is rendered above other elements
@@ -198,4 +199,23 @@ export const customStyles = {
     menu: (base) => ({
         ...base, zIndex: 999, // Ensure the dropdown is rendered above other elements
     }),
+};
+
+
+export const newSamplerowsCols = (headers) => {
+    return headers.map((item) => {
+        return  {
+                id: item,
+                columnLabel: 'Created On',
+                minWidth: 100,
+                rowSpan: true,
+                render: (row) => {
+                    return (
+                        <p>
+                            {row[item]}
+                        </p>
+                    );
+                },
+            }
+    });
 };

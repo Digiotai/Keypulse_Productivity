@@ -23,7 +23,6 @@ import { ProductivityThroughput } from "./InnerProductivity/productivity-through
 import { ProductivityOpex } from "./InnerProductivity/productivity-opex"
 import { getLabels } from "../Sustainability/apiData"
 import Select from 'react-select';
-import { Unity, useUnityContext } from "react-unity-webgl";
 import { ViewData } from "./viewData"
 const ADAPTERS_BASE_URL = process.env.REACT_APP_BASE_URL;
 
@@ -48,17 +47,10 @@ export const InnerProductivity = () => {
     const [selectedOrg, setSelectedOrg] = useState(null);
     const [selectedKpi, setSelectedKpi] = useState(null);
     const [manualData, setManualData] = useState(false)
-    const [viewData, setViewData] = useState(false);
+    const [viewData,setViewData] = useState(false);
     const handleChangeDS = (selectedOption) => {
         setSelectedDS(selectedOption);
     };
-
-    const { unityProvider } = useUnityContext({
-        loaderUrl: "Build/build.loader.js",
-        dataUrl: "Build/build.data",
-        frameworkUrl: "Build/build.framework.js",
-        codeUrl: "Build/build.wasm",
-    });
 
     const handleChangeOrg = (selectedOption) => {
         setSelectedOrg(selectedOption);
@@ -544,7 +536,7 @@ export const InnerProductivity = () => {
                         </div>
                     </div>}
                 </div>
-                {<div className="d-flex">
+                { <div className="d-flex">
                     {apidata.length > 0 && <div className="p-3 ps-0 ms-2">
                         <button
                             className="btn btn-primary"
@@ -556,7 +548,7 @@ export const InnerProductivity = () => {
                             onClick={() => setViewData(true)}
                         />{' '}
                     </div>}
-                    {selectedDS?.value === "Manual" && <div className="p-3 ps-0 ms-2">
+                   {selectedDS?.value === "Manual" &&  <div className="p-3 ps-0 ms-2">
                         <button
                             className="btn btn-primary"
                             lineHeight={'24px'}
@@ -577,7 +569,7 @@ export const InnerProductivity = () => {
                     </div>}
                 </div>}
             </div>
-            {/* <div className="row ms-1" style={{ minHeight: "100vh" }}>
+            <div className="row ms-1" style={{ minHeight: "100vh" }}>
                 {apidata.length > 0 && <div className="row gx-1 gy-1 p-2 pt-0">
                     {apidata?.map((item) => {
                         if (item.name == "kpUnitsYTD.csv") {
@@ -620,11 +612,8 @@ export const InnerProductivity = () => {
                         }
                     })}
                     <Popup {...{ showModal, setShowModal, headerTitle: title, children: getCharts()?.children, size: getCharts()?.size, fullscreen: getCharts()?.size == "xl" ? true : false, estimate: getCharts()?.estimate }} />
-                    <Popup {...{ showModal: viewData, setShowModal: setViewData, fixedTitle: "Productivity Data", children: <ViewData viewData={apidata} />, size: 'xl', footer: false }} />
+                    <Popup {...{ showModal:viewData, setShowModal:setViewData, fixedTitle: "Productivity Data", children: <ViewData viewData={apidata}/>,size:'xl',footer:false }} />
                 </div>}
-            </div> */}
-            <div>
-                <Unity unityProvider={unityProvider} style={{ width: '500px', height: '500px' }} />
             </div>
         </div>
     )

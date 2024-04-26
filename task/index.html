@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Mountain Page</title>
+    <style>
+        body {
+            margin: 0;
+            padding: 0;
+            font-family: Arial, sans-serif;
+        }
+
+        .body {
+            background-image: url('./mountain2.jpg');
+            /* Add your mountain background image */
+            background-size: cover;
+            color: white;
+            text-align: center;
+            padding: 0px;
+            height: 100vh;
+        }
+
+        .header h1 {
+            font-size: 3em;
+        }
+
+        .description {
+            background-color: lightblue;
+            padding: 20px;
+            text-align: center;
+        }
+
+        .image-inner {
+            display: flex;
+            padding: 20px;
+            background-color: rgba(173, 216, 230, 0.5);
+            justify-content: center;
+            gap: 10px
+        }
+
+        .image-inner img {
+            width: 200px;
+            height: auto;
+        }
+
+        .image-container100 {
+            height: 100vh;
+            display: flex;
+            flex-direction: column;
+            justify-content: flex-end;
+        }
+
+        .numberStyle {
+            font-size: 50px;
+            line-height: 30px;
+            color: grey
+        }
+
+        .headingStyle {
+            font-size: 30px;
+            line-height: 70px;
+            color: grey
+        }
+
+        .desxription {
+            width: 50%;
+            /* padding-top: 53px; */
+            color: black;
+            font-size: 13px;
+            justify-content: start;
+            text-align: start;
+            margin-left: 30%;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="body">
+        <div style="position: absolute;width: 100%;">
+            <div style="height: 56px;">
+                <div style="display: flex;margin-left: 26%;">
+                    <h1 class="numberStyle">01</h1>
+                    <h1 class="headingStyle">History</h1>
+                </div>
+            </div>
+            <div style="">
+                <p class="desxription">Mountains have played a significant role in shaping the Earth's landscape and
+                    have captured human
+                    fascination for centuries. They offer breathtaking views, diverse ecosystems, and challenges for
+                    adventurers.</p>
+            </div>
+        </div>
+
+        <div class="image-container100">
+            <div class="image-inner">
+                <img src="mountain3.jpg" alt="Mountain 1">
+                <img src="mountain2.jpg" alt="Mountain 2">
+                <img src="mountain3.jpg" alt="Mountain 3">
+                <img src="mountain2.jpg" alt="Mountain 4">
+            </div>
+        </div>
+    </div>
+</body>
+
+</html>

@@ -19,7 +19,7 @@ export const Login = () => {
   const Login = (event) => {
     if (email === 'info@keypulse.net' && password === 'Keypulse@123') {
       setLoading(true)
-      navigate('/dashboard')
+      navigate('/digital-twin')
     }
     // event.preventDefault()
     // axios

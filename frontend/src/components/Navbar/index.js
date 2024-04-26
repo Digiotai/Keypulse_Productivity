@@ -23,22 +23,32 @@ function Navbar() {
       setName("Sustainability")
     } else if (location.pathname == '/reports' || location.pathname=='/review-report') {
       setName("Reports")
-    } else {
-      setName("KProcess")
+    }
+    else if (location.pathname == '/digital-twin') {
+      setName("Digital Twin")
+    } 
+    else if (location.pathname == '/business-intelligence' || location.pathname=='/discover') {
+      setName("Business Intelligence")
+    }
+    if (location.pathname == '/process') {
+      setName("Business KPI")
+    } 
+     else {
+      setName("Process")
     }
   }, [location.pathname])
 
 
   return (
     <>
-      <nav class="navbar navbar-expand-lg  navbar-light bg-white shadow-sm sticky-top bg-white-fixed">
+      <nav class="navbar navbar-expand-lg  navbar-light bg-white shadow-sm sticky-top bg-white-fixed" style={{zIndex:10,marginLeft:'220px'}}>
         <div class="collapse navbar-collapse" style={{ marginLeft: '0px' }} id="navbarNav">
-          <img
+          {/* <img
             src={Logo}
             style={{ width: '160px' }}
             id="logo_RL"
-          />
-          {name == "KProcess" && <div style={{
+          /> */}
+          {/* {name == "KProcess" && <div style={{
             marginLeft: '80px',
             marginTop: '10px',
             fontWeight: 700,
@@ -46,7 +56,7 @@ function Navbar() {
             color:"#427ae3"
           }}>
             Dashboard
-          </div>}
+          </div>} */}
           <div style={{
             marginLeft: name == "KProcess" ? '30%':'80px',
             marginTop: '10px',

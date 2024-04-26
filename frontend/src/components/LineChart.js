@@ -91,6 +91,5 @@ export const data = {
 };
 
 export function LineChart(props) {
-  console.log(props)
   return <Line options={props.options ? props.options : options} data={props.data?props.data:data} height={props.height}/>;
 }

@@ -81,3 +81,11 @@
   color: black !important;
   font-family: Poppins;
 }
+
+.backgroundSelected{
+  background-color: #fff;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  border-radius: 0px;
+}
