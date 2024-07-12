@@ -99,6 +99,11 @@ code {
 
 
 
+.image{
+  width:400px !important;
+  height: 400px !important;
+  display: block !important;
+}
 
 
 /* Adjust any other styles as needed */

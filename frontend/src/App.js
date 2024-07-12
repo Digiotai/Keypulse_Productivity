@@ -18,7 +18,6 @@ import "./pages/BusinessIntelligence/components/styles/navbar.scss"
 import "./pages/BusinessIntelligence/components/styles/endpopup.scss"
 import { DataSource } from './pages/BusinessIntelligence/components/components/DataSource';
 import { Datasets } from './pages/BusinessIntelligence/components/datasets';
-import PredictData from './pages/BusinessIntelligence/components/components/PredictData';
 import DeploymentData from './pages/BusinessIntelligence/components/deployments';
 import { AdminLayout2 } from './layout/layout2';
 import { GeneralTeam } from './pages/BusinessIntelligence/components/settings/components/team/general';
@@ -41,6 +40,9 @@ import { KPILayout } from './layout/kpiLayout';
 import Connect from './pages/BusinessIntelligence/components/components/connect';
 import MiddleContent from './pages/entryPage';
 import NewDeploymentData from './pages/BusinessIntelligence/components/deployments/newDeployment';
+import { PredictionAndForecast } from './pages/BusinessIntelligence/components/components/prediction';
+import GenAi from './pages/genAi';
+import ForecastData from './pages/BusinessIntelligence/components/components/prediction/Forecast';
 function App() {
   return (
     <BrowserRouter>
@@ -61,9 +63,11 @@ function App() {
           <Route path='/sustainability' element={<Sustainability />} />
           <Route path='/resilience' element={<Resilience />} />
           <Route path='/productivity' element={<InnerProductivity />} />
+          <Route path='/gen-ai' element={<GenAi />} />
           <Route path='/connect' Component={Connect} />
           <Route path='/discover' Component={DisplayData} />
-          <Route path='/predict' Component={PredictData} />
+          <Route path='/predict' Component={PredictionAndForecast} />
+          <Route path='/forecast' Component={ForecastData} />
           <Route path='/deployment' Component={DeploymentData} />
           <Route path='/reports' Component={ReportsGenBI} />
           <Route path='/data-source' element={<DataSource />} />

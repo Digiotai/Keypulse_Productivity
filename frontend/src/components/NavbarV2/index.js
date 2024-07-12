@@ -16,7 +16,7 @@ function NavbarV2() {
       <nav class="navbar navbar-expand-lg  navbar-light bg-white shadow-sm sticky-top" style={{
         position:'fixed',
         top:0,
-        left:220,
+        left:0,
         right:0
       }}>
         <div class="collapse navbar-collapse" style={{ marginLeft: '0px' }} id="navbarNav">

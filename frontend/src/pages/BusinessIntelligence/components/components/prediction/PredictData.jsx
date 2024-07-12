@@ -1,16 +1,14 @@
 import React, { useEffect, useState } from 'react'
-import { useLocation, useNavigate } from 'react-router-dom'
-import BarGraph from './BarGraph'
-import Navbar from './Navbar'
-import { useDataAPI } from '../contexts/GetDataApi'
-import '../styles/predictData.scss'
-import regression from '../../../../assets/svg/regression.svg'
-import topFactors from '../../../../assets/svg/topFactor.svg'
-import segments from '../../../../assets/svg/segmentation.svg'
-import sampleRows from '../../../../assets/svg/sampleRows.svg'
+import BarGraph from '../BarGraph'
+import Navbar from '../Navbar'
+import { useDataAPI } from '../../contexts/GetDataApi'
+import '../../styles/predictData.scss'
+import regression from '../../../../../assets/svg/regression.svg'
+import topFactors from '../../../../../assets/svg/topFactor.svg'
+import sampleRows from '../../../../../assets/svg/sampleRows.svg'
 import axios from 'axios'
-import { transformData } from '../datasets'
-import { newSamplerowsCols } from '../../../../utils'
+import { transformData } from '../../datasets'
+import { newSamplerowsCols } from '../../../../../utils'
 const PredictData = () => {
 
     const [data, setData] = useState([])
@@ -26,7 +24,7 @@ const PredictData = () => {
             Importances: []
         }
     })
-    // const [file, setFile] = useState(null)
+    
     const name=localStorage.getItem("filename")
     const [selectedField, setSelectedField] = useState()
     let db=(name==="retail sales data.csv" ?'retail_sales_data' :'Credit_Card_Fraud') 
@@ -193,30 +191,6 @@ const PredictData = () => {
                                 </div>
                             </div>
                         </div>
-                        {/* <div>
-                            <div className='rightHeaderText'><img src={segments} alt='imag' /> Segments</div>
-                            <h2 className='rightDesctext'>   Sets of similar records in your dataset grouped by outcome of interest  </h2>
-                            <div className='regressioncard' style={{ width: '100%' }}>
-                                <div className='regressionCardInnerContainer'>
-                                    <table className='datasetTable'>
-                                        <thead className='datasetHeader'>
-                                            <tr>
-                                                <th>Key Similarities</th>
-                                                <th>Rate vs. Baseline / Average Delta</th>
-                                            </tr>
-                                        </thead>
-                                        <tbody className='datasetBody'>
-                                            {segmentsdata.map(dataset => (
-                                                <tr key={dataset.key}>
-                                                    <td>{dataset.key}</td>
-                                                    <td>{dataset.sim}</td>
-                                                </tr>
-                                            ))}
-                                        </tbody>
-                                    </table>
-                                </div>
-                            </div>
-                        </div> */}
                         <div>
                             <div className='rightHeaderText'><img src={sampleRows} alt='imag' /> Sample Rows</div>
                             <h2 className='rightDesctext'>  Sample rows of your data sorted by predicted value of the outcome of interest. Drag the slider to inspect rows at different values.  </h2>

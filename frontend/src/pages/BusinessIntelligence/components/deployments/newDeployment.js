@@ -88,7 +88,7 @@ const NewDeploymentData = () => {
             }
         );
         if (response) {
-            setResult([...result, response?.data?.result])
+            setResult([response?.data?.result])
         }
     }
     useEffect(() => {
@@ -103,9 +103,9 @@ const NewDeploymentData = () => {
                     <h2 style={{ font: '400 14px "Inter", sans-serif', color: 'hsl(240, 10.3%, 38%)' }}>{totData.description}</h2>
                     <div className='deployScreenContainer row' style={{ width: '100%', gap: '0px', margin: '0px' }}>
                         <div className='deployScreenContainer row' style={{ width: '100%', gap: '0px', margin: '0px' }}>
-                            {Object.keys(selectedField)?.map((item) => (
+                            {selectedField?.map((item) => (
                                 <div className='col-6' style={{ padding: '0px', margin: '0px' }}>
-                                    <CommonField key={item} name={item} value={selectedField[item]} selData={selData} setSelData={setSelData} />
+                                    <CommonField key={item} name={item} value={null} selData={selData} setSelData={setSelData} />
                                 </div>
                             ))}
                         </div>
@@ -114,13 +114,15 @@ const NewDeploymentData = () => {
                     <div className='exportButtonDeploy'><LuUpload />  Upload CSV, XLSX or XLS</div>
                 </div>
             </div>
-            <div style={{ display: 'flex',flexDirection:'column', justifyContent: 'start', alignItems: 'start', width: '100%', paddingLeft: '17%' }}>
-{     result.length>0 &&           <h2 style={{ fontSize: '28px', fontWeight: 600, marginTop: '10px', textDecoration: 'underline' }}> Prediction's:</h2>
-}                <div style={{ display: 'flex', flexDirection: 'column' }}>
+            <div style={{ display: 'flex', flexDirection: 'column', justifyContent: 'start', alignItems: 'start', width: '100%', paddingLeft: '17%' }}>
+                {result.length > 0 &&
+                    <h2 style={{ fontSize: '28px', fontWeight: 600, marginTop: '10px', textDecoration: 'underline' }}> Prediction:</h2>
+                }
+                <div style={{ display: 'flex', flexDirection: 'column' }}>
                     {result.map((item, index) => {
                         return (
                             <div >
-                                <h2 style={{ fontSize: '22px', fontWeight: 400, marginTop: '10px' }}> Prediction {index + 1}: {predictItem} - {item}</h2>
+                                <h2 style={{ fontSize: '22px', fontWeight: 400, marginTop: '10px' }}>{predictItem} - {parseFloat(item).toFixed(2)}</h2>
                             </div>
                         )
                     })}

@@ -35,13 +35,18 @@ export default function Sidebar() {
       ]
     },
     {
-      name: 'Gen BI/AI', icon: GiArtificialIntelligence, id: 3, children: [{ name: 'Connect', icon: BiSolidData, path: '/connect', },
-      { name: 'Discover', icon: BiSolidAnalyse, path: '/discover', },
-      { name: 'Predict', icon: MdOutlineFindInPage, path: '/predict' },
-      { name: 'Publish', icon: MdPublishedWithChanges, path: '/deployment' },
-      { name: 'Reports', icon: TbReportSearch, path: '/reports' },
+      name: 'Gen BI', icon: GiArtificialIntelligence, id: 3, children: [
+        { name: 'Connect', icon: BiSolidData, path: '/connect', },
+        { name: 'Discover', icon: BiSolidAnalyse, path: '/discover', },
+        { name: 'Forecast', icon: MdOutlineFindInPage, path: '/forecast' },
+        { name: 'Predict', icon: MdOutlineFindInPage, path: '/deployment' },
+        // { name: 'Publish', icon: MdPublishedWithChanges, path: '/deployment' },
+        { name: 'Reports', icon: TbReportSearch, path: '/reports' },
         // { name: 'Datasets', icon: BsClipboardData, path: '/datasets' },
       ]
+    },
+    {
+      name: 'Gen AI', icon: GiArtificialIntelligence, id: 3.2,path:'/gen-ai'
     },
     { name: 'Dashboard', icon: MdDashboard, path: '/gen-dashboard', id: 4 },
     { name: 'Settings', icon: IoSettingsOutline, path: '/settings/team/general', id: 5 },
@@ -65,7 +70,7 @@ export default function Sidebar() {
   }
   return (
     <>
-      <div class="shadow sidebar-scroll sticky-top mt-3" style={{ overflow: 'auto', width: '220px', position: "fixed", left: 0, top: -17, background: '#000', zIndex: 10, height: '100vh' }}>
+      <div class="shadow sidebar-scroll sticky-top mt-3" style={{ overflow: 'auto', width: '220px', position: "fixed", left: 0, top: 60, background: '#000', zIndex: 10, height: '92vh' }}>
         <div style={{ padding: '8px', paddingTop: '24px', display: 'flex', alignItems: 'center', gap: '5px' }}>
           <IoLocationSharp size={30} style={{ color: 'white' }} />
           <div>

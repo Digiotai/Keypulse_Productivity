@@ -44,7 +44,7 @@ const DeploymentData = () => {
         // } else {
         //     setSelectedField([ item])
         // }
-        
+
         setHeaders(displayContent.headers.filter((item, index) => item !== child))
         setSelectedField([child])
     }
@@ -67,13 +67,26 @@ const DeploymentData = () => {
         displayContent,
     } = useDataAPI()
 
+    const getLeftData = async () => {
+        const name=localStorage.getItem("filename")
+        let db=(name==="retail sales data.csv" ?'retail_sales_data' :'Credit_Card_Fraud') 
+    
+        const response = await axios.post(`http://ec2-3-132-248-171.us-east-2.compute.amazonaws.com:7500/predict/${db}`, {});
+        if (response.status === 200) {
+            setLeftData(response?.data?.columns)
+            setSelectedField([response?.data?.columns[0]])
+        }
+    }
+
+
+    useEffect(() => {
+        getLeftData()
+    }, [])
 
     useEffect(() => {
         setLoading(true)
-        setLeftData(displayContent.headers)
-        setHeaders(displayContent.headers.filter((item, index) => index !== 0))
-        setSelectedField([displayContent.headers[0]])
         setData(displayContent.data)
+        setHeaders(displayContent?.headers.filter((item, index) => index !== 0))
         setFilename(localStorage.getItem("filename"))
         setTimeout(() => {
             setLoading(false)

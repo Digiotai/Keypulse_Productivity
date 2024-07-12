@@ -41,13 +41,13 @@ function Navbar() {
 
   return (
     <>
-      <nav class="navbar navbar-expand-lg  navbar-light bg-white shadow-sm sticky-top bg-white-fixed" style={{zIndex:10,marginLeft:'220px'}}>
+      <nav class="navbar navbar-expand-lg  navbar-light bg-white shadow-sm sticky-top bg-white-fixed" style={{zIndex:10,marginLeft:'0px'}}>
         <div class="collapse navbar-collapse" style={{ marginLeft: '0px' }} id="navbarNav">
-          {/* <img
+          <img
             src={Logo}
             style={{ width: '160px' }}
             id="logo_RL"
-          /> */}
+          />
           {/* {name == "KProcess" && <div style={{
             marginLeft: '80px',
             marginTop: '10px',
