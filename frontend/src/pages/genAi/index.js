@@ -13,6 +13,7 @@ import SampleQuestion from "./components/questions";
 import AnswersAccordion from "./components/answers";
 import { Tabs, Tab, InputAdornment } from '@mui/material';
 import { IoMdRefresh, IoMdSend } from 'react-icons/io';
+import { akkiourl } from "../../utils/const";
 const GenAi = () => {
 
     const [search, setSearch] = useState('')
@@ -76,7 +77,7 @@ const GenAi = () => {
         setLoading(true)
         setStartChart(true)
         try {
-            await axios.post(`http://3.132.248.171:3500/upload`, formData)
+            await axios.post(`${akkiourl}/upload`, formData)
                 .then((response) => {
                     setLoading(false)
                     setResponse(response)
@@ -113,7 +114,7 @@ const GenAi = () => {
     }
     const regenerateTextQuestions = async () => {
         try {
-            await axios.get(`http://3.132.248.171:3500/regenerate`)
+            await axios.get(`${akkiourl}/regenerate`)
                 .then((response) => {
                     const questions = response?.data?.questions.split('\n')
                         .filter(desc => desc.trim() !== '')
@@ -131,7 +132,7 @@ const GenAi = () => {
 
     const regenerateGraphQuestions = async () => {
         try {
-            await axios.get(`http://3.132.248.171:3500/regenerate_chart`)
+            await axios.get(`${akkiourl}/regenerate_chart`)
                 .then((response) => {
                     const questions = response?.data?.questions.split('\n')
                         .filter(desc => desc.trim() !== '')
@@ -152,7 +153,7 @@ const GenAi = () => {
         formData.append('query', question);
 
         try {
-            const res = await axios.post(`http://3.132.248.171:3500/genresponse`, formData);
+            const res = await axios.post(`${akkiourl}/genresponse`, formData);
             const ans = data.map((item) => {
                 if (item.question == question) {
                     return {

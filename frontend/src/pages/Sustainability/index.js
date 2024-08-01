@@ -16,8 +16,8 @@ import { InnerCO2Emmision } from "./innerSustainability/co2emmision"
 import { InnerPlantation } from "./innerSustainability/plantation"
 import Select from 'react-select';
 import makeAnimated from 'react-select/animated';
+import { keypulseurl } from "../../utils/const"
 
-const ADAPTERS_BASE_URL = process.env.REACT_APP_BASE_URL;
 
 export const Sustainability = () => {
     const [show, setShow] = useState(false)
@@ -71,7 +71,7 @@ export const Sustainability = () => {
     ]
     const fetchData = async () => {
         try {
-            await axios.get(`${ADAPTERS_BASE_URL}/sustainability/getData`).then((response) => {
+            await axios.get(`${keypulseurl}/sustainability/getData`).then((response) => {
                 // console.log(response.data)
                 // const data = JSON.parse(response?.data)
                 // const data = response?.data
@@ -87,7 +87,7 @@ export const Sustainability = () => {
         console.log(selectedKpi)
         const list = selectedKpi.map((item) => item.value)
         try {
-            await axios.get(`${ADAPTERS_BASE_URL}/sustainability/download/organization=${selectedOrg.value}/list=${list.toString()}`).then((response) => {
+            await axios.get(`${keypulseurl}/sustainability/download/organization=${selectedOrg.value}/list=${list.toString()}`).then((response) => {
                 //    const data = JSON.parse(response?.data?.replace(/\bNaN\b/g, "null"));
                 const data = response?.data
                 // console.log(JSON.parse(data))
@@ -147,7 +147,7 @@ export const Sustainability = () => {
             formData.append('file', uploadData[i]);
         }
         try {
-            await axios.post(`${ADAPTERS_BASE_URL}/sustainability/FileUpload`, formData)
+            await axios.post(`${keypulseurl}/sustainability/FileUpload`, formData)
                 .then((response) => {
                     setManualData(true)
                     fetchData()

@@ -24,7 +24,7 @@ import { ProductivityOpex } from "./InnerProductivity/productivity-opex"
 import { getLabels } from "../Sustainability/apiData"
 import Select from 'react-select';
 import { ViewData } from "./viewData"
-const ADAPTERS_BASE_URL = process.env.REACT_APP_BASE_URL;
+import { keypulseurl } from "../../utils/const"
 
 export const InnerProductivity = () => {
     const [show, setShow] = useState(false)
@@ -71,7 +71,7 @@ export const InnerProductivity = () => {
     ]
     const fetchData = async () => {
         try {
-            await axios.get(`${ADAPTERS_BASE_URL}/productivity/getData`).then((response) => {
+            await axios.get(`${keypulseurl}/productivity/getData`).then((response) => {
                 //    const data = JSON.parse(response?.data?.replace(/\bNaN\b/g, "null"));
                 const data = response?.data
                 // console.log(JSON.parse(data))
@@ -86,7 +86,7 @@ export const InnerProductivity = () => {
         console.log(selectedKpi)
         const list = selectedKpi.map((item) => item.value)
         try {
-            await axios.get(`${ADAPTERS_BASE_URL}/productivity/download/organization=${selectedOrg.value}/list=${list.toString()}`).then((response) => {
+            await axios.get(`${keypulseurl}/productivity/download/organization=${selectedOrg.value}/list=${list.toString()}`).then((response) => {
                 //    const data = JSON.parse(response?.data?.replace(/\bNaN\b/g, "null"));
                 const data = response?.data
                 // console.log(JSON.parse(data))
@@ -160,7 +160,7 @@ export const InnerProductivity = () => {
             formData.append('file', uploadData[i]);
         }
         try {
-            await axios.post(`${ADAPTERS_BASE_URL}/productivity/FileUpload`, formData)
+            await axios.post(`${keypulseurl}/productivity/FileUpload`, formData)
                 .then((response) => {
                     fetchData()
                     setManualData(true)
@@ -172,7 +172,7 @@ export const InnerProductivity = () => {
 
     const handleReports = async () => {
         try {
-            await axios.get(`${ADAPTERS_BASE_URL}/download`)
+            await axios.get(`${keypulseurl}/download`)
                 .then((response) => {
                     console.log(response)
                 });

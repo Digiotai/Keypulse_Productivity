@@ -9,6 +9,7 @@ import axios from 'axios'
 import { transformData } from '../../datasets'
 import { DetailedLineGraph } from './lineGraph'
 import moment from 'moment'
+import { akkiourl } from '../../../../../utils/const'
 const ForecastData = () => {
 
     const [data, setData] = useState([])
@@ -44,7 +45,7 @@ const ForecastData = () => {
     }
 
     const handleGetDataFinalData = async (id) => {
-        const response = await axios.post(`http://3.132.248.171:7500/forecast/${selectedField}`);
+        const response = await axios.post(`${akkiourl}/forecast/${selectedField}`);
         if (response.status === 200) {
             const data = response?.data?.result
             const finActualData = data?.Actual

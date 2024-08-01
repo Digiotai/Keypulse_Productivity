@@ -9,6 +9,7 @@ import sampleRows from '../../../../../assets/svg/sampleRows.svg'
 import axios from 'axios'
 import { transformData } from '../../datasets'
 import { newSamplerowsCols } from '../../../../../utils'
+import { akkiourl } from '../../../../../utils/const'
 const PredictData = () => {
 
     const [data, setData] = useState([])
@@ -58,7 +59,7 @@ const PredictData = () => {
     }
 
     const handleGetData = async () => {
-        const response = await axios.get(`http://3.132.248.171:7500/predict/${db}`);
+        const response = await axios.get(`http://${akkiourl}/predict/${db}`);
         if (response.status === 200) {
             const data = response.data?.columns
             setHeaders(data)
@@ -67,7 +68,7 @@ const PredictData = () => {
     }
 
     const handleGetDataFinalData = async (id) => {
-        const response = await axios.get(`http://3.132.248.171:7500/predict/${db}/${id.replace(' ','_')}`);
+        const response = await axios.get(`${akkiourl}/predict/${db}/${id.replace(' ','_')}`);
         if (response.status === 200) {
             const data = response?.data?.data
             const finSampleData = transformData(JSON.parse(data?.sample_rows)).slice(0, 15)
