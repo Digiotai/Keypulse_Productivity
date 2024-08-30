@@ -124,14 +124,14 @@ const PostgreSql = (props) => {
                         </div>
                     </div>
                 </div>}
-                {secondScreen && <div className="cardnew">
+                {!secondScreen && <div className="cardnew">
                     <div className="card-content">
                         <h2>Connection Details</h2>
                         <h5>Step 2/2</h5>
                         <div className="input-group">
                             <label htmlFor="connection-name">Table Name</label>
                             <select id="connection-name" onChange={handleChange} name='tableName' value={details.tableName} >
-                                {data.map(option => (
+                                {data?.map(option => (
                                     <option key={option.label} style={{
                                         padding: '8px',
                                         fontSize: '16px',

@@ -50,11 +50,6 @@ function App() {
         <Route path="/" element={<Login />} />
         <Route path="/new-deployment" element={<NewDeploymentData />} />
         <Route path="/" element={<AdminLayout />}>
-          {/* <Route path="/dashboard" element={<KProcess />} />
-          <Route path='/sustainability' element={<Sustainability />} />
-          <Route path='/resilience' element={<Resilience />} />
-          <Route path='/productivity' element={<InnerProductivity />} /> */}
-          {/* <Route path='/reports' element={<Reports />} /> */}
           <Route path='/welcome' Component={MiddleContent} />
           <Route path='/gen-dashboard' Component={DashboardReports} />
           <Route path='/review-report' element={<HtmlReport />} />
@@ -88,16 +83,6 @@ function App() {
           <Route path='/settings/account/legal' element={<Legal />} />
           <Route path='/settings/account/general' element={<GeneralAccount />} />
         </Route>
-        {/* <Route path="/" element={<ZenBiLayout />}>
-          <Route path='/connect' Component={Connect} />
-          <Route path='/discover' Component={DisplayData} />
-          <Route path='/predict' Component={PredictData} />
-          <Route path='/deployment' Component={DeploymentData} />
-          <Route path='/reports' Component={ReportsGenBI} />
-          <Route path='/data-source' element={<DataSource />} />
-          <Route path='/business-intelligence' element={<BusinessIntelligence />} />
-          <Route path='/datasets' element={<Datasets />} />
-        </Route> */}
         <Route path="/terms" element={<TermsConst />} />
         <Route path="/legal" element={<LegalConst />} />
         <Route path="/login" element={<Login />} />

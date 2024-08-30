@@ -5,6 +5,7 @@ import '../styles/deployment.scss'
 import { LuUpload } from "react-icons/lu";
 import axios from 'axios';
 import { useNavigate } from 'react-router-dom'
+import { akkiourl } from '../../../../utils/const';
 const DeploymentData = () => {
     const selData = [
         { label: 'Yes', value: 'Yes' },
@@ -71,7 +72,7 @@ const DeploymentData = () => {
         const name=localStorage.getItem("filename")
         let db=(name==="retail sales data.csv" ?'retail_sales_data' :'Credit_Card_Fraud') 
     
-        const response = await axios.post(`http://ec2-3-132-248-171.us-east-2.compute.amazonaws.com:7500/predict/${db}`, {});
+        const response = await axios.post(`${akkiourl}/predict/${db}`, {});
         if (response.status === 200) {
             setLeftData(response?.data?.columns)
             setSelectedField([response?.data?.columns[0]])
@@ -145,7 +146,7 @@ const DeploymentData = () => {
     }
 
     const handleDeploy = async () => {
-        const response = await axios.post(`http://ec2-3-132-248-171.us-east-2.compute.amazonaws.com:7500/generatedeployment/${db}/${[selectedField[0]]}`, {});
+        const response = await axios.post(`${akkiourl}/generatedeployment/${db}/${[selectedField[0]]}`, {});
         if (response.status === 200) {
             setDeployed(true)
             localStorage.setItem('predictItem', selectedField[0])

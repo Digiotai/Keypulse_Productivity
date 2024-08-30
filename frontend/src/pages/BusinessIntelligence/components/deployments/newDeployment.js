@@ -4,6 +4,7 @@ import { useDataAPI } from '../contexts/GetDataApi'
 import '../styles/deployment.scss'
 import { LuUpload } from "react-icons/lu";
 import axios from 'axios';
+import { akkiourl } from '../../../../utils/const';
 
 export const CommonField = ({ name, value, setSelData, selData }) => {
     const handleChange = (name, value) => {
@@ -66,7 +67,7 @@ const NewDeploymentData = () => {
 
     const handleData = async () => {
         const url = localStorage.getItem('url')
-        const response = await axios.post(`http://ec2-3-132-248-171.us-east-2.compute.amazonaws.com:7500/deployments/${url}`, {});
+        const response = await axios.post(`${akkiourl}/deployments/${url}`, {});
         if (response.status === 200) {
             setSelectedField(response?.data?.columns)
         }
@@ -79,7 +80,7 @@ const NewDeploymentData = () => {
         Object.entries(selData).forEach(([key, value]) => formData.append(key, value))
 
         const response = await axios.post(
-            `http://ec2-3-132-248-171.us-east-2.compute.amazonaws.com:7500/deployments/${url}/predict`,
+            `${akkiourl}/deployments/${url}/predict`,
             formData,
             {
                 headers: {
