@@ -2,15 +2,11 @@ import React from 'react';
 import styles from '../styles/SampleDataTable.module.css';
 
 const SampleDataTable = ({ data }) => {
-  const parsedData = JSON.parse(data);
+  // Assume `data` is an array of objects, so we need to map through it
+  const parsedData = Array.isArray(data) ? data : [data]; // Ensure data is an array
 
-  const columns = Object.keys(parsedData);
-  const rows = Object.keys(parsedData[columns[0]]).map(rowIndex =>
-    columns.reduce((acc, col) => {
-      acc[col] = parsedData[col][rowIndex];
-      return acc;
-    }, {})
-  ).slice(0, 10); // Display only the first 10 records
+  // Extract column headers from the keys of the first object in the array
+  const columns = parsedData.length > 0 ? Object.keys(parsedData[0]) : [];
 
   return (
     <div className={styles.container}>
@@ -18,15 +14,15 @@ const SampleDataTable = ({ data }) => {
       <table className={styles.table}>
         <thead>
           <tr>
-            {columns.map(col => (
+            {columns.map((col) => (
               <th key={col} className={styles.headerCell}>{col}</th>
             ))}
           </tr>
         </thead>
         <tbody>
-          {rows.map((row, index) => (
+          {parsedData.map((row, index) => (
             <tr key={index} className={styles.row}>
-              {columns.map(col => (
+              {columns.map((col) => (
                 <td key={col} className={styles.cell}>{row[col]}</td>
               ))}
             </tr>

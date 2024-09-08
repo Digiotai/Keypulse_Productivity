@@ -1,5 +1,5 @@
 import { useLocation } from "react-router-dom";
-import { ProductivityThroughput } from "../InnerProductivity/InnerProductivity/productivity-throughput";
+// import { ProductivityThroughput } from "../InnerProductivity/InnerProductivity/productivity-throughput";
 import ReactToPrint from 'react-to-print';
 import { useRef } from "react"
 import { getData } from '../../utils'
@@ -33,7 +33,7 @@ export const HtmlReport = () => {
                 </div>
                 <div className="container mt-3 monthlydata">
                     <h5 className="page-header">Monthly Data</h5>
-                    <ProductivityThroughput selData={state?.data?.data} report={true} />
+                    {/* <ProductivityThroughput selData={state?.data?.data} report={true} /> */}
                 </div>
                 <div className="container mt-3">
                     <h5 className="page-header">Inferences</h5>

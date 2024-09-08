@@ -4,7 +4,7 @@ import { CircularProgress } from '@mui/material';
 
 const AnswersAccordion = ({ question, answer, loading,type }) => {
   const [isOpen, setIsOpen] = useState(false);
-  const imageUrl = `data:image/png;base64,${answer}`;
+  const imageUrl = answer;
   return (
     <div className={styles.accordionItem}>
       <div className={styles.accordionHeader} onClick={() => setIsOpen(!isOpen)}>

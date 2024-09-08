@@ -49,7 +49,7 @@ export default function GenBiSidebar() {
     return (
         <>
             <div class="shadow sidebar-scroll sticky-top mt-3" style={{ overflow: 'auto', width: '220px', position: "fixed", left: 0, top: -20, background: '#fff', zIndex: 10, height: '100vh' }}>
-                <button className="btn btn-primary m-3" style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', gap: '5px' }} onClick={() => navigate('/digital-twin')}><IoMdArrowRoundBack />Back</button>
+                <button className="btn btn-primary m-3" style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', gap: '5px' }} onClick={() => navigate('/welcome')}><IoMdArrowRoundBack />Back</button>
                 {data.map((item) => {
                     return (
                         <ul class="sidebar-list-items" id="menu" style={{ padding: '10px', paddingLeft: '20px' }}>

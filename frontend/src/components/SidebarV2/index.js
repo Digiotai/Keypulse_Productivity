@@ -40,7 +40,7 @@ export default function Sidebar() {
   return (
     <>
       <div class="shadow sidebar-scroll sticky-top mt-3" style={{ overflow: 'auto', width: '220px', position: "fixed", left: 0, top: -20, background: '#000', zIndex: 10, height: '100vh' }}>
-        <button className="btn btn-primary m-3" style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', gap: '5px' }} onClick={() => navigate('/digital-twin')}><IoMdArrowRoundBack />Back</button>
+        <button className="btn btn-primary m-3" style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', gap: '5px' }} onClick={() => navigate('/welcome')}><IoMdArrowRoundBack />Back</button>
         <hr style={{ border: '1px solid white', padding: 0, margin: 0, marginTop: '3px' }} />
         {data.map((item) => {
           return (

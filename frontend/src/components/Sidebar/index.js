@@ -1,20 +1,16 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 import React, { useEffect, useState } from "react";
 import "./styles.css";
-import { HiUserGroup } from 'react-icons/hi'
-import { GiDigitalTrace, GiArtificialIntelligence } from 'react-icons/gi'
+import { GiArtificialIntelligence } from 'react-icons/gi'
 import { MdDashboard } from "react-icons/md";
 import { Link } from "react-router-dom";
 import { IoSettingsOutline } from "react-icons/io5";
 import { useLocation } from "react-router-dom";
 import { FaAngleDown, FaAngleRight } from "react-icons/fa6";
 import { IoLocationSharp } from "react-icons/io5";
-import { LuFileClock } from 'react-icons/lu'
-import { VscFileSymlinkDirectory } from 'react-icons/vsc'
 import { BiSolidData } from "react-icons/bi";
 import { BiSolidAnalyse } from "react-icons/bi";
 import { MdOutlineFindInPage } from "react-icons/md";
-import { MdPublishedWithChanges } from "react-icons/md";
 import { TbReportSearch } from "react-icons/tb";
 import { IoHome } from "react-icons/io5";
 export default function Sidebar() {
@@ -26,23 +22,13 @@ export default function Sidebar() {
   })
   const finData = [
     { name: 'Home', icon: IoHome, path: '/welcome', id: 1 },
-    { name: 'Digital Twin', icon: GiDigitalTrace, path: '/digital-twin', id: 1 },
-    {
-      name: 'Business KPI', icon: HiUserGroup, id: 2, children: [
-        { name: 'Process', icon: HiUserGroup, path: '/process' },
-        { name: 'Productivity', icon: LuFileClock, path: '/productivity' },
-        { name: 'Sustainability', icon: VscFileSymlinkDirectory, path: '/sustainability' },
-      ]
-    },
     {
       name: 'Gen BI', icon: GiArtificialIntelligence, id: 3, children: [
         { name: 'Connect', icon: BiSolidData, path: '/connect', },
         { name: 'Discover', icon: BiSolidAnalyse, path: '/discover', },
         { name: 'Forecast', icon: MdOutlineFindInPage, path: '/forecast' },
-        { name: 'Predict', icon: MdOutlineFindInPage, path: '/deployment' },
-        // { name: 'Publish', icon: MdPublishedWithChanges, path: '/deployment' },
+        // { name: 'Predict', icon: MdOutlineFindInPage, path: '/deployment' },
         { name: 'Reports', icon: TbReportSearch, path: '/reports' },
-        // { name: 'Datasets', icon: BsClipboardData, path: '/datasets' },
       ]
     },
     {

@@ -1,19 +1,16 @@
 import React, { useEffect, useState } from 'react'
-import BarGraph from '../BarGraph'
 import Navbar from '../Navbar'
 import { useDataAPI } from '../../contexts/GetDataApi'
 import '../../styles/predictData.scss'
-import regression from '../../../../../assets/svg/regression.svg'
 import topFactors from '../../../../../assets/svg/topFactor.svg'
 import axios from 'axios'
-import { transformData } from '../../datasets'
 import { DetailedLineGraph } from './lineGraph'
 import moment from 'moment'
 import { akkiourl } from '../../../../../utils/const'
 const ForecastData = () => {
 
     const [data, setData] = useState([])
-    const [headers, setHeaders] = useState([])
+    const [headers, setHeaders] = useState(['Sales','Electronics Sales', 'Home Sales', 'Clothes Sales'])
     const [loading, setLoading] = useState(false)
     const [filename, setFilename] = useState("")
     const [totData, setTotData] = useState({
@@ -24,24 +21,10 @@ const ForecastData = () => {
         data4: []
     })
     // const [file, setFile] = useState(null)
-    const name = localStorage.getItem("filename")
     const [selectedField, setSelectedField] = useState("Sales")
 
     const handleSelect = (item) => {
         setSelectedField(item)
-    }
-
-    function excelSerialDateToJSDate(serial) {
-        const date = new Date(serial);
-
-        // Extract the various components of the date
-        const year = date.getFullYear();
-        const month = date.getMonth() + 1; // Months are zero-indexed
-        const day = date.getDate();
-
-        // Format the date and time
-        const formattedDate = `${year}-${month < 10 ? '0' + month : month}-${day < 10 ? '0' + day : day}`;
-        return formattedDate;
     }
 
     const handleGetDataFinalData = async (id) => {
@@ -113,7 +96,8 @@ const ForecastData = () => {
 
     useEffect(() => {
         setLoading(true)
-        setHeaders(displayContent.headers)
+        // console.log(displayContent)
+        // setHeaders(displayContent.headers)
         setData(displayContent.data)
         setFilename(localStorage.getItem("filename"))
         setTimeout(() => {
@@ -121,6 +105,7 @@ const ForecastData = () => {
         }, 2000)
 
     }, [displayContent])
+    console.log(headers,'hj')
     return (
         <div style={{ height: '85vh', overflow: 'hidden' }}>
             <Navbar />
@@ -175,7 +160,7 @@ const ForecastData = () => {
                             <div className='rightHeaderText'><img src={topFactors} alt='imag' /> Forecast</div>
                             <h2 className='rightDesctext'> The predictions of the model, compared to the historical data and extrapolated forward.                            </h2>
                             <div className='regressioncard' style={{ width: '96%' }}>
-                                <div className='regressionCardInnerContainer' style={{ minHeight: '400px' }}>
+                                <div className='regressionCardInnerContainer' style={{ minHeight: '400px',width:'100%' }}>
                                     <DetailedLineGraph {...{ labelsNew: totData.lables, data: totData.data3, data2: totData.data4 }} />
                                 </div>
                             </div>

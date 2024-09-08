@@ -60,7 +60,9 @@ const GenAi = () => {
     const [file, setFile] = useState(null)
     const [startChart, setStartChart] = useState(false)
     const [loading, setLoading] = useState(false)
+    const [currentTab, setCurrentTab] = useState(0);
     const [quesLoading, setQuesLoading] = useState(false)
+    const [imageSrc, setImageSrc] = useState(null)
     const [allQuestions, setAllQuestions] = useState({
         textQuestions: [],
         graphQuestions: []
@@ -83,14 +85,14 @@ const GenAi = () => {
                     setResponse(response)
                     // const columnDescriptions = response?.data?.col_desc;
                     // const sampleData = response?.data["sample data"]
-                    setColumnDesc(response?.data?.col_desc)
-                    setSampleData(response?.data["sample data"])
+                    setColumnDesc(response?.data?.column_description)
+                    setSampleData(response?.data?.first_10_rows)
                     const textQuestions = response?.data?.text_questions
                         .split('\n')
                         .filter(desc => desc.trim() !== '')
                     // Remove the first item
 
-                    const graphQuestions = response?.data?.chart_questions
+                    const graphQuestions = response?.data?.plotting_questions
                         .split('\n')
                         .filter(desc => desc.trim() !== '')
                     // Remove the first item
@@ -114,7 +116,9 @@ const GenAi = () => {
     }
     const regenerateTextQuestions = async () => {
         try {
-            await axios.get(`${akkiourl}/regenerate`)
+            var formData = new FormData();
+            formData.append('tablename', 'retail sales data');
+            await axios.post(`${akkiourl}/regenerate`,formData)
                 .then((response) => {
                     const questions = response?.data?.questions.split('\n')
                         .filter(desc => desc.trim() !== '')
@@ -132,7 +136,9 @@ const GenAi = () => {
 
     const regenerateGraphQuestions = async () => {
         try {
-            await axios.get(`${akkiourl}/regenerate_chart`)
+            var formData = new FormData();
+            formData.append('tablename', 'retail sales data');
+            await axios.post(`${akkiourl}/regenerate_chart`,formData)
                 .then((response) => {
                     const questions = response?.data?.questions.split('\n')
                         .filter(desc => desc.trim() !== '')
@@ -151,15 +157,21 @@ const GenAi = () => {
     const handleGetAnswer = async (question, data) => {
         var formData = new FormData();
         formData.append('query', question);
+        formData.append('tablename', 'retail sales data');
 
         try {
-            const res = await axios.post(`${akkiourl}/genresponse`, formData);
+            const res = await axios.post(
+                `${akkiourl}/${currentTab === 1 ? 'getResult' : 'genresponse'}`,
+                formData,
+                { responseType:currentTab === 1 ? 'blob':'' }
+            );
+            const imageUrl =currentTab === 1 ? URL.createObjectURL(res.data) :'';
             const ans = data.map((item) => {
                 if (item.question == question) {
                     return {
                         ...item,
-                        view: res?.data?.graph ? "Graph" : "Text",
-                        answer: res?.data?.graph ? res?.data?.graph : res?.data?.answer,
+                        view: currentTab === 1 ? "Graph" : "Text",
+                        answer: currentTab === 1 ? imageUrl : res?.data?.answer,
                         loading: false
                     }
                 } else return item;
@@ -187,7 +199,6 @@ const GenAi = () => {
         setAnswers(data);
         handleGetAnswer(question, data)
     };
-    const [currentTab, setCurrentTab] = useState(0);
 
     const handleTabChange = (event, newValue) => {
         setQuestions(newValue == 0 ? allQuestions?.textQuestions : allQuestions?.graphQuestions)
@@ -203,6 +214,7 @@ const GenAi = () => {
                     background: '#FFF',
                     width: "100%"
                 }}>
+                    {imageSrc && <img src={imageSrc} alt="Generated Image" style={{ width: '100%', height: 'auto' }} />}
 
                     <Grid sx={{
                         padding: '20px 10px 10px 10px',
