@@ -1,5 +1,4 @@
 import { useState } from 'react'
-import BarChartComponent from '../components/BarGraph'
 import { ApexChart } from '../../../../components/ApexBarChart';
 import { AddChartPopup } from './addChartPopup';
 
