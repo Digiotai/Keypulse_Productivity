@@ -14,26 +14,23 @@ function Navbar() {
     navigate('/login')
   }
   let location = useLocation();
+  console.log(name)
   useEffect(() => {
+    console.log(location.pathname == '/gen-ai')
     if (location.pathname == '/productivity') {
       setName("Productivity")
-    } else if (location.pathname == '/resilience') {
-      setName("Resilience")
-    } else if (location.pathname == '/sustainability') {
-      setName("Sustainability")
-    } else if (location.pathname == '/reports' || location.pathname=='/review-report') {
+    } else if (location.pathname === '/gen-ai') {
+      setName("Generative AI")
+    } else if (location.pathname == '/reports' || location.pathname == '/review-report') {
       setName("Reports")
     }
-    else if (location.pathname == '/digital-twin') {
-      setName("Digital Twin")
-    } 
-    else if (location.pathname == '/business-intelligence' || location.pathname=='/discover') {
+    else if (location.pathname == '/business-intelligence' || location.pathname == '/discover') {
       setName("Business Intelligence")
     }
-    if (location.pathname == '/process') {
+    else if (location.pathname == '/process') {
       setName("Business KPI")
-    } 
-     else {
+    }
+    else {
       setName("Process")
     }
   }, [location.pathname])
@@ -41,7 +38,7 @@ function Navbar() {
 
   return (
     <>
-      <nav class="navbar navbar-expand-lg  navbar-light bg-white shadow-sm sticky-top bg-white-fixed" style={{zIndex:10,marginLeft:'0px'}}>
+      <nav class="navbar navbar-expand-lg  navbar-light bg-white shadow-sm sticky-top bg-white-fixed" style={{ zIndex: 10, marginLeft: '0px' }}>
         <div class="collapse navbar-collapse" style={{ marginLeft: '0px' }} id="navbarNav">
           <img
             src={Logo}
@@ -58,7 +55,7 @@ function Navbar() {
             Dashboard
           </div>} */}
           <div style={{
-            marginLeft: name == "KProcess" ? '30%':'80px',
+            marginLeft: name == "KProcess" ? '30%' : '80px',
             marginTop: '10px',
             fontWeight: 700,
             fontSize: '23px'
@@ -67,13 +64,13 @@ function Navbar() {
           </div>
 
         </div>
-        <div className="card me-2" style={{
+        {/* <div className="card me-2" style={{
           fontFamily: "poppins", fontSize: "12px", alignItems: "center",
           display: 'flex',
           padding: "4px"
         }}>
           <span>  Jan - Dec 2023    <AiTwotoneCalendar style={{ marginTop: "-3px" }} /></span>
-        </div>
+        </div> */}
         <div class="nav-item ms-1 dropdown d-flex align-items-center mr-0 pr-0" style={{ color: 'black' }}>
           <a
             className="nav-link dropdown-toggle p-0 m-0 pe-5"
